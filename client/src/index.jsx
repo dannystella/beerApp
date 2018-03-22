@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-// import AnyComponent from './components/filename.jsx'
+import 'materialize-css';
+import AppBar from 'material-ui/AppBar';
+import Navigation from './navBar.jsx';
+import Main from './body.jsx';
+import FooterBottom from './footer.jsx';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -12,7 +17,19 @@ class App extends React.Component {
   }
 
   render () {
-  	return (<div>Hello World</div>)
+  	return (<div>  
+      <div >
+        <header>
+        <Navigation/>
+          </header>
+        <main>
+        <Main/>
+        <footer>
+        <FooterBottom/>
+          </footer>
+        </main>
+      </div>
+    </div>)
   }
 }
 
