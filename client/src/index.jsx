@@ -18,7 +18,6 @@ class App extends React.Component {
 
   render () {
   	return (<div>  
-      <div >
         <header>
         <Navigation/>
           </header>
@@ -28,7 +27,6 @@ class App extends React.Component {
         <FooterBottom/>
           </footer>
         </main>
-      </div>
     </div>)
   }
 }

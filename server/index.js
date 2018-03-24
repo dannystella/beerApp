@@ -5,7 +5,7 @@ var app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
 // app.use(bodyParser.json())
-
+//yo
 // Due to express, when you load the page, it doesnt make a get request to '/', it simply serves up the dist folder
 app.post('/', function(req, res) {
   

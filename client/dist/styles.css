@@ -1,0 +1,40 @@
+.main {
+    margin: auto
+}
+
+.item {
+    list-style: none;
+    margin: 0 2px;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+/* 
+navbar > NavBar > NavItem {
+    color: #aaa;
+    background-color:#FF0;
+    display: block;
+    line-height: 2em;
+    padding: 0.5em 0.5em;
+    text-decoration: none;
+} */
+
+nav-wrapper form, nav .nav-wrapper form input{
+    height: 100%;
+}
+input[type="search"] {
+    height: 64px !important; /* or height of nav */
+  }
+.navbar {
+    display:flex; flex-direction:row;
+
+}
+.search{
+ display: inline-block; 
+ max-height: 10px;
+ margin:auto;
+}
+
+ul {
+    size: 10px
+}
