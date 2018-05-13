@@ -1,34 +1,67 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import $ from 'jquery';
-import 'materialize-css';
-import AppBar from 'material-ui/AppBar';
-import Navigation from './navBar.jsx';
-import Main from './body.jsx';
-import FooterBottom from './footer.jsx';
+import _ from "lodash";
+import React, { Component } from "react";
+import { render } from "react-dom";
+import NavBar from './components/navbar.jsx';
+import Main from './components/Home.jsx';
+import Beers from './components/beers.jsx';
+import Trends from './components/trends.jsx';
+import Login from './components/login.jsx';
+import BeerForm from './components/addbeerform.jsx';
+import BeerDetail from './components/beerDetail.jsx';
+import {
+  Route,
+  NavLink,
+  HashRouter,
+  Switch
+} from "react-router-dom";
+import promise from 'redux-promise';
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './reducers';
+
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore)
 
 
-class App extends React.Component {
-  constructor(props) {
-  	super(props)
-  	this.state = {
+export default class App extends React.Component {
+  constructor(props){
+      super(props);
 
-  	}
-  }
 
-  render () {
-  	return (<div>  
-        <header>
-        <Navigation/>
-          </header>
-        <main>
-        <Main/>
-        <footer>
-        <FooterBottom/>
-          </footer>
-        </main>
-    </div>)
-  }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+
+render(){
+  return(
+    <HashRouter>
+      <div>
+        <NavBar>
+          <Switch>
+          <Route path="/Beers/:id" component = {BeerDetail}
+        
+          />
+          <Route path="/Beers" render={() => (
+            <Beers/>   
+          )} />
+          <Route path="/Trends" render={() => (
+            <Trends/>   
+          )} />
+          <Route path="/Login" render={() => (
+            <Login/>   
+          )} />
+          <Route path="/addBeer" render={() => (
+            <BeerForm handleForm = {this.handleForm}/> 
+          )} />
+          <Route path="/" render={() => (
+            <Main/>   
+          )} />          
+          </Switch>
+        </NavBar>
+      </div>
+    </HashRouter>
+    );
+  }
+}
+render(<Provider store={createStoreWithMiddleware(reducers)}>
+<App />
+</Provider>, document.getElementById("app"));

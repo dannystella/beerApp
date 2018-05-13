@@ -1,7 +1,10 @@
 .main {
     margin: auto
 }
-
+.ui.segment{
+    padding: 0px;
+    background-color: black;
+}
 .item {
     list-style: none;
     margin: 0 2px;
@@ -9,32 +12,134 @@
     display: flex;
     justify-content: space-around;
 }
-/* 
-navbar > NavBar > NavItem {
-    color: #aaa;
-    background-color:#FF0;
-    display: block;
-    line-height: 2em;
-    padding: 0.5em 0.5em;
-    text-decoration: none;
-} */
+
+.navbar{
+
+}
 
 nav-wrapper form, nav .nav-wrapper form input{
     height: 100%;
 }
-input[type="search"] {
-    height: 64px !important; /* or height of nav */
-  }
-.navbar {
-    display:flex; flex-direction:row;
 
+.navbar {
+    display: inline-block;
+    
+    
 }
 .search{
- display: inline-block; 
- max-height: 10px;
- margin:auto;
+ float: bottom;
+ width: 20px;
+ background-color: white;
+ color:white;
 }
 
 ul {
     size: 10px
 }
+
+.navHeader {
+    padding-left: 20px
+}
+
+navImage{
+    float: left
+}
+
+.navHeaderMobile{
+    position:relative;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    color: yellow;
+    z-index: 4;
+}
+
+.yo{
+  padding-left: 20px
+}
+.oy{
+    padding-right: 15px;
+    padding-top: 5px;
+    height: 10px
+}
+
+.sidebar {
+    transition-duration: 0s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1.5px 5px 0 rgba(0, 0, 0, 0.19) !important;
+
+}
+
+.navbarDesktop{
+    height: 60px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1.5px 5px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.navbarMobile {
+   height: 50px;
+   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1.5px 5px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.chart{
+    height: 600px;
+    width: 600px;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+.center{
+    font-family: 'Raleway', sans-serif;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card{
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 0.8rem;
+}
+
+.card > form{
+    display: flex;
+    flex-direction: column;
+}
+
+.card h1{
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.form-item{
+    font-family: 'Raleway', sans-serif;
+    padding: 5px;
+    margin-bottom: 2rem;
+    height: 30px;
+    width: 16rem;
+    border: 1px solid grey;
+}
+
+.form-submit{
+    font-family: 'Raleway', sans-serif;
+    height: 35px;
+    color: #fff;
+    background-color: #1abc9c;
+    border: none;
+    letter-spacing: 0.2rem;
+    transition: 0.3s opacity ease;
+    cursor: pointer;
+}
+.form-submit:hover{
+   opacity: 0.6;
+}
+
+.burger:hover{
+    background-color:#1b1c1d !important;
+  }
+
+ form a {
+     margin-left: 5px
+ }
