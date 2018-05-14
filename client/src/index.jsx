@@ -20,8 +20,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore)
-
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 export default class App extends React.Component {
   constructor(props){
@@ -63,5 +62,5 @@ render(){
   }
 }
 render(<Provider store={createStoreWithMiddleware(reducers)}>
-<App />
+  <App />
 </Provider>, document.getElementById("app"));

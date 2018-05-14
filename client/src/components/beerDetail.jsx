@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchBeer } from '../actions';
-
+import { Link } from 'react-router-dom';
+import { Image } from 'semantic-ui-react';
 
 class BeerDetail extends React.Component{
   constructor(props){
@@ -23,12 +24,14 @@ class BeerDetail extends React.Component{
     }
     return (
       <div>
+        <Link to = "/Beers" className ="btn btn-primary">Back to Beers</Link>
         <h3>{beer.beername}</h3>
         <h3>{beer.breweryname}</h3>
         <h3>{beer.type}</h3>
         <h3>{beer.abv}</h3>
         <h3>{beer.rank}</h3>
         <h3>{beer.description}</h3>
+        <Image src={beer.imageUrl} fluid />
       </div>
     );
   }

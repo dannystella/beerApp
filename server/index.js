@@ -32,6 +32,14 @@ app.get('/beers/:id', function(req, res) {
   })
 
 })
+
+app.delete('/beers/:id', function(req, res) {
+  helpers.beerHelpers.delete(req.params.id)
+  .then((data) => {
+      console.log(data);
+  })
+
+})
 app.listen(3000, function() {
   console.log('listening on port 3000!');
 });

@@ -65,12 +65,16 @@ helpers.beerHelpers.save = (schema) => {
     });
 }
 
+helpers.beerHelpers.delete = (id) => {
+return Beer.findOneAndRemove({_id: id}).exec();
+}
+
 helpers.beerHelpers.grabAll = () => {
     return Beer.find({}).exec();
 }
 
 helpers.beerHelpers.grabOne = (id) => {
-    return Beer.find({rank: id}).exec();
+    return Beer.find({_id: id}).exec();
 }
 
 helpers.breweryHelpers.save = (schema) => {

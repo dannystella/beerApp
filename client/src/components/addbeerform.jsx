@@ -78,6 +78,11 @@ class BeerForm extends React.Component {
           component={this.renderField}
           />
           <Field
+          label= "ImageUrl"
+          name = "imageUrl"
+          component={this.renderField}
+          />
+          <Field
           label= "Description"
           name = "description"
           component={this.renderField}

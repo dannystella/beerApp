@@ -57,13 +57,13 @@ renderArticle(article){
        {this.state.articles.map((article, i) => {
          if(i === 0) {
            return (
-             <div>
+             <div key= {i}>
 
                </div>
            )
          } else {
           return (
-            <div>
+            <div key= {i}>
             
             <Article key={i} article = {article} />
             
