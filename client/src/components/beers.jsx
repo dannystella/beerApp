@@ -3,13 +3,33 @@ import { Grid, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchBeers, deleteBeer } from '../actions';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 class Beers extends React.Component {
 constructor(props) {
     super(props);
-    this.onDeleteClick = this.onDeleteClick.bind(this);
+
+
+    this.state = {
+        beers: ''
     }
+      this.onDeleteClick = this.onDeleteClick.bind(this);
+      this.sortByRank = this.sortByRank.bind(this);
+      this.sortByAbv = this.sortByAbv.bind(this);
+      this.sortByType = this.sortByType.bind(this);
+      this.sortByBrewery = this.sortByBrewery.bind(this);
+      this.sortByBeerName = this.sortByBeerName.bind(this);
+
+    }
+
+    
     componentDidMount() {
-      this.props.fetchBeers();
+      this.props.fetchBeers().then(() => {
+        let newBeers = this.props.beers.slice();
+        this.setState({
+          beers: newBeers
+        }, console.log(this.state.beers)) ;
+      })
+
     }
 
     onDeleteClick(id) {
@@ -18,10 +38,86 @@ constructor(props) {
       });    
     }
 
+    sortByRank() {
+        let newBeers = this.state.beers.slice();
+        newBeers = newBeers.sort(function(a, b) {
+            return a.rank - b.rank
+        })
+        this.setState({
+            beers: newBeers
+        }, () => {console.log("here", this.state.beers)});
+    }
+
+    sortByBeerName() {
+        let newBeers = this.state.beers.slice();
+        newBeers = newBeers.sort(function(a, b) {
+            if(a.beername > b.beername) return 1;
+            if(a.beername < b.beername) return -1;
+            return 0;
+        })
+        this.setState({
+            beers: newBeers
+        }, () => {console.log("here", this.state.beers)});
+    }
+
+    sortByAbv() {
+        let newBeers = this.state.beers.slice();
+        newBeers = newBeers.sort(function(a, b) {
+            return a.abv - b.abv
+        })
+        this.setState({
+            beers: newBeers
+        }, () => {console.log("here", this.state.beers)});
+    }
+
+    sortByType() {
+        let newBeers = this.state.beers.slice();
+        newBeers = _.groupBy(newBeers, 'type');
+        var ordered = {};
+        Object.keys(newBeers).sort().forEach(function(key) {
+            ordered[key] = newBeers[key];
+        });
+        let byType = [];
+        for(var item in ordered) {
+            byType.push(newBeers[item]);
+        }
+        console.log("here", byType);
+        byType = _.flattenDeep(byType);
+        this.setState({
+            beers: byType
+        }, () => {console.log("here", this.state.beers)});
+    }
+
+    sortByBrewery() {
+        let newBeers = this.state.beers.slice();
+        newBeers = _.groupBy(newBeers, 'breweryname');
+        var ordered = {};
+        Object.keys(newBeers).sort().forEach(function(key) {
+            ordered[key] = newBeers[key];
+        });
+        let byBrewery = [];
+        for(var item in ordered) {
+            byBrewery.push(newBeers[item]);
+        }
+        console.log("here", byBrewery);
+        byBrewery = _.flattenDeep(byBrewery);
+        this.setState({
+            beers: byBrewery
+        }, () => {console.log("here", this.state.beers)});
+    }
+
+
     renderBeer() {
-      if(this.props.beers.length > 0){
-          console.log(this.props.beers)
-        return this.props.beers.map((beer, i) => 
+      let sortedBeers;
+      if(this.state.beers) {
+          
+      }  
+      if(this.props.beers.length > 0) {
+        let sortedBeers;
+        if(this.state.beers) {
+            sortedBeers = this.state.beers;
+        }   else sortedBeers = this.props.beers;
+        return sortedBeers.map((beer, i) => 
             <Grid.Row container = 'true' key = {i} columns = {5}>
             <Grid.Column width={4}>
 
@@ -61,19 +157,29 @@ constructor(props) {
                 <Grid stackable celled container >
                 <Grid.Row columns = {5}>
                 <Grid.Column width={4}>
-                <h5>Beer Name</h5>
+                <h5 onClick = {((e)=> {
+                this.sortByBeerName();
+            })}>Beer Name</h5>
                 </Grid.Column>
                 <Grid.Column width={2}>
-                <h5>Brewery</h5>
+                <h5 onClick = {((e)=> {
+                this.sortByBrewery();
+            })}>Brewery</h5>
                 </Grid.Column>
                 <Grid.Column width={2}>
-                <h5>Type</h5>
+                <h5 onClick = {((e)=> {
+                this.sortByType();
+            })}>Type</h5>
                 </Grid.Column>
                 <Grid.Column width={2}>
-                <h5>ABV</h5>
+                <h5 onClick = {((e)=> {
+                this.sortByAbv();
+            })}>ABV</h5>
                 </Grid.Column>
                 <Grid.Column width={1}>
-                <h5>Rank</h5>
+                <h5 onClick = {((e)=> {
+                this.sortByRank();
+            })}>Rank</h5>
                 </Grid.Column>
                 </Grid.Row>
                 {this.renderBeer()}
