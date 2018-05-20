@@ -8,6 +8,7 @@ import Trends from './components/trends.jsx';
 import Login from './components/login.jsx';
 import BeerForm from './components/addbeerform.jsx';
 import BeerDetail from './components/beerDetail.jsx';
+import BeersContainer from './containers/BeersContainer';
 import {
   Route,
   NavLink,
@@ -30,17 +31,17 @@ export default class App extends React.Component {
 }
 
 
-render(){
+render() {
+  console.log(BeersContainer);
   return(
     <HashRouter>
       <div>
         <NavBar>
           <Switch>
           <Route path="/Beers/:id" component = {BeerDetail}
-        
           />
           <Route path="/Beers" render={() => (
-            <Beers/>   
+            <BeersContainer/>   
           )} />
           <Route path="/Trends" render={() => (
             <Trends/>   

@@ -6,10 +6,6 @@ export const FETCH_BEER = 'fetch_beer';
 export const DELETE_BEER = 'delete_beer';
 export function fetchBeers() {
   const request = axios.get('/beers')
-  // .then((res) => {
-  //   console.log(res);
-  //   return res;
-  // });
 
   return {
     type: FETCH_BEERS,
@@ -53,3 +49,4 @@ export function deleteBeer(id, callback) {
     payload: id
   }
 }
+

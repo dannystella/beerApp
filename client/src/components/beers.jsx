@@ -1,35 +1,26 @@
 import React from 'react';
 import { Grid, Image } from 'semantic-ui-react';
-import { connect } from 'react-redux';
-import { fetchBeers, deleteBeer } from '../actions';
+// import { connect } from 'react-redux';
+// import { fetchBeers, deleteBeer, sortByRank } from '../actions';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import { isArray } from 'util';
+
+
 class Beers extends React.Component {
 constructor(props) {
     super(props);
 
 
     this.state = {
-        beers: ''
+        beersTrigger: ''
     }
       this.onDeleteClick = this.onDeleteClick.bind(this);
-      this.sortByRank = this.sortByRank.bind(this);
-      this.sortByAbv = this.sortByAbv.bind(this);
-      this.sortByType = this.sortByType.bind(this);
-      this.sortByBrewery = this.sortByBrewery.bind(this);
-      this.sortByBeerName = this.sortByBeerName.bind(this);
 
     }
 
     
     componentDidMount() {
-      this.props.fetchBeers().then(() => {
-        let newBeers = this.props.beers.slice();
-        this.setState({
-          beers: newBeers
-        }, console.log(this.state.beers)) ;
-      })
-
+      this.props.fetchBeers();
     }
 
     onDeleteClick(id) {
@@ -38,89 +29,14 @@ constructor(props) {
       });    
     }
 
-    sortByRank() {
-        let newBeers = this.state.beers.slice();
-        newBeers = newBeers.sort(function(a, b) {
-            return a.rank - b.rank
-        })
-        this.setState({
-            beers: newBeers
-        }, () => {console.log("here", this.state.beers)});
-    }
-
-    sortByBeerName() {
-        let newBeers = this.state.beers.slice();
-        newBeers = newBeers.sort(function(a, b) {
-            if(a.beername > b.beername) return 1;
-            if(a.beername < b.beername) return -1;
-            return 0;
-        })
-        this.setState({
-            beers: newBeers
-        }, () => {console.log("here", this.state.beers)});
-    }
-
-    sortByAbv() {
-        let newBeers = this.state.beers.slice();
-        newBeers = newBeers.sort(function(a, b) {
-            return a.abv - b.abv
-        })
-        this.setState({
-            beers: newBeers
-        }, () => {console.log("here", this.state.beers)});
-    }
-
-    sortByType() {
-        let newBeers = this.state.beers.slice();
-        newBeers = _.groupBy(newBeers, 'type');
-        var ordered = {};
-        Object.keys(newBeers).sort().forEach(function(key) {
-            ordered[key] = newBeers[key];
-        });
-        let byType = [];
-        for(var item in ordered) {
-            byType.push(newBeers[item]);
-        }
-        console.log("here", byType);
-        byType = _.flattenDeep(byType);
-        this.setState({
-            beers: byType
-        }, () => {console.log("here", this.state.beers)});
-    }
-
-    sortByBrewery() {
-        let newBeers = this.state.beers.slice();
-        newBeers = _.groupBy(newBeers, 'breweryname');
-        var ordered = {};
-        Object.keys(newBeers).sort().forEach(function(key) {
-            ordered[key] = newBeers[key];
-        });
-        let byBrewery = [];
-        for(var item in ordered) {
-            byBrewery.push(newBeers[item]);
-        }
-        console.log("here", byBrewery);
-        byBrewery = _.flattenDeep(byBrewery);
-        this.setState({
-            beers: byBrewery
-        }, () => {console.log("here", this.state.beers)});
-    }
-
+  
 
     renderBeer() {
-      let sortedBeers;
-      if(this.state.beers) {
-          
-      }  
-      if(this.props.beers.length > 0) {
-        let sortedBeers;
-        if(this.state.beers) {
-            sortedBeers = this.state.beers;
-        }   else sortedBeers = this.props.beers;
-        return sortedBeers.map((beer, i) => 
+      if(this.props.beers && this.props.beers.length > 0 && isArray(this.props.beers)) {
+        console.log("beers", this.props.beers);
+        return this.props.beers.map((beer, i) => 
             <Grid.Row container = 'true' key = {i} columns = {5}>
             <Grid.Column width={4}>
-
             <h5><Link to = {`/Beers/${beer._id}`}>{beer.beername}</Link></h5>
             </Grid.Column>
             <Grid.Column width={2}>
@@ -151,35 +67,39 @@ constructor(props) {
     }
 
     render() {
-              console.log(this.props.beers);
+            //   console.log(this.props.beers);
         return (
             <div >   
                 <Grid stackable celled container >
                 <Grid.Row columns = {5}>
                 <Grid.Column width={4}>
                 <h5 onClick = {((e)=> {
-                this.sortByBeerName();
+                this.props.sortByBeerName(this.props.beers);
             })}>Beer Name</h5>
                 </Grid.Column>
                 <Grid.Column width={2}>
                 <h5 onClick = {((e)=> {
-                this.sortByBrewery();
+                this.props.sortByBrewery(this.props.beers);
             })}>Brewery</h5>
                 </Grid.Column>
                 <Grid.Column width={2}>
                 <h5 onClick = {((e)=> {
-                this.sortByType();
+                this.props.sortByType(this.props.beers);
             })}>Type</h5>
                 </Grid.Column>
                 <Grid.Column width={2}>
                 <h5 onClick = {((e)=> {
-                this.sortByAbv();
+                this.props.sortByAbv(this.props.beers);
             })}>ABV</h5>
                 </Grid.Column>
                 <Grid.Column width={1}>
                 <h5 onClick = {((e)=> {
-                this.sortByRank();
+                    // console.log(this.props.sortByRank)
+                this.props.sortByRank(this.props.beers);
             })}>Rank</h5>
+                </Grid.Column>
+                <Grid.Column width={1}>
+                <h5>Delete Beer</h5>
                 </Grid.Column>
                 </Grid.Row>
                 {this.renderBeer()}
@@ -189,8 +109,5 @@ constructor(props) {
     }
 }
 
-function mapStateToProps(state) {
-    return {beers: state.beers};
-}
 
-export default connect(mapStateToProps, { fetchBeers, deleteBeer })(Beers);
+export default Beers;
