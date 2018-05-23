@@ -58,7 +58,7 @@ navImage{
   padding-left: 20px
 }
 .oy{
-    padding-right: 15px;
+    /* padding-right: 20px; */
     padding-top: 5px;
     height: 10px
 }
@@ -71,6 +71,7 @@ navImage{
 
 .navbarDesktop{
     height: 60px;
+    /* margin-left: 30px; */
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1.5px 5px 0 rgba(0, 0, 0, 0.19) !important;
 }
 
@@ -133,13 +134,18 @@ navImage{
     cursor: pointer;
 }
 .form-submit:hover{
-   opacity: 0.6;
+  opacity: 0.6;
 }
 
 .burger:hover{
-    background-color:#1b1c1d !important;
-  }
+  background-color:#1b1c1d !important;
+}
 
- form a {
-     margin-left: 5px
- }
+form a {
+    margin-left: 5px
+}
+
+.navItems {
+    padding:15px;
+    /* margin-right:40px */
+}

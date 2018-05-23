@@ -3,17 +3,20 @@ import { FETCH_BEERS, FETCH_BEER, DELETE_BEER } from '../actions';
 import { BY_RANK, BY_BEERNAME, BY_ABV, BY_TYPE, BY_BREWERY  } from '../actions/sortBeers';
 
 export default function(state = {}, action) {
+  console.log(state)
   switch(action.type) {
     case DELETE_BEER:
       return _.reject(state, beer => beer._id === action.payload);
     case FETCH_BEER:
       return {...state, [action.payload.data[0]._id]: action.payload.data[0]};
     case FETCH_BEERS: 
-      return action.payload.data;
+      return action.payload.data.sort(function(a, b) {
+        return a.rank - b.rank
+      })
     case BY_RANK:  
-    return state.slice().sort(function(a, b) {
-      return a.rank - b.rank
-    })
+      return state.slice().sort(function(a, b) {
+        return a.rank - b.rank
+      })
     case BY_BEERNAME:
       return state.slice().sort(function(a, b) {
           if(a.beername > b.beername) return 1;

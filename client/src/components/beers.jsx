@@ -20,7 +20,11 @@ constructor(props) {
 
     
     componentDidMount() {
-      this.props.fetchBeers();
+        console.log("on mount", !isArray(this.props.beers))
+        if(!this.props.beers || !isArray(this.props.beers)) {
+            this.props.fetchBeers();            
+        }
+
     }
 
     onDeleteClick(id) {

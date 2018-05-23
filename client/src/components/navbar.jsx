@@ -13,6 +13,7 @@ import {
   Sidebar,
   Responsive,
   Segment,
+  Grid
 } from "semantic-ui-react";
 import Dinosaur from './dinosaur (1).png'
 const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems, visible}) => (
@@ -70,30 +71,34 @@ const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems,
 );
 
 const NavBarDesktop = ({ leftItems, rightItems }) => (
-  <Menu fixed="top" inverted borderless ={true} className = "navbarDesktop">
+  <Grid celled container>
+  <Grid.Row columns = {1}>
+ <Menu widths= "3" fixed="top" inverted borderless ={true} className = "navbarDesktop">
     <Menu.Item >
     <Image size="mini" className= "navIcon" src={Dinosaur} />
       <Menu.Header className = "navHeader" >Beerasieur</Menu.Header>      
     </Menu.Item>
 <Menu.Menu className = "yo">
-    <Menu.Item >
-    <NavLink to="/">Home</NavLink> 
+    <Menu.Item className = "navItems" >
+    <NavLink className = "navItems" to="/">Home</NavLink> 
     </Menu.Item >
-    <Menu.Item >
-    <NavLink to="/Beers">Beers</NavLink> 
+    <Menu.Item className = "navItems" >
+    <NavLink className = "navItems" to="/Beers">Beers</NavLink> 
+    </Menu.Item>
+    <Menu.Item className = "navItems" >
+    <NavLink className = "navItems" to="/Trends">Trends</NavLink> 
     </Menu.Item >
-    <Menu.Item >
-    <NavLink to="/Trends">Trends</NavLink> 
-    </Menu.Item >
-    <Menu.Item >
-    <NavLink to="/Login">Login</NavLink> 
+    <Menu.Item  >
+    <NavLink className = "navItems" to="/Login">Login</NavLink> 
     </Menu.Item >
     </Menu.Menu>
-    <Menu.Menu className= "oy" position="right">
+    <Menu.Menu  className= "oy" position="right">
       {/* {_.map(rightItems, item => <Menu.Item  {...item} />)} */}
       <input type = "text" className = "search" placeholder ="search..."/>
     </Menu.Menu>
   </Menu>
+  </Grid.Row>
+  </Grid>
 );
 
 const NavBarChildren = ({ children }) => (

@@ -18,13 +18,19 @@ import {
 import promise from 'redux-promise';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+import { Grid } from 'semantic-ui-react';
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(promise))
+)
 
 export default class App extends React.Component {
-  constructor(props){
+  constructor(props) {
       super(props);
 
 
@@ -32,7 +38,6 @@ export default class App extends React.Component {
 
 
 render() {
-  console.log(BeersContainer);
   return(
     <HashRouter>
       <div>
@@ -62,6 +67,6 @@ render() {
     );
   }
 }
-render(<Provider store={createStoreWithMiddleware(reducers)}>
-  <App />
+render(<Provider store={store}>
+  <App/>
 </Provider>, document.getElementById("app"));
