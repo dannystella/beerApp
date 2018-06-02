@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchBeer } from '../actions';
+import { fetchBeer } from '../modules/beers/actions';
 import { Link } from 'react-router-dom';
 import { Image } from 'semantic-ui-react';
 

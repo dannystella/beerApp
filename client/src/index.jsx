@@ -10,12 +10,12 @@ import {
 } from "react-router-dom";
 import NavBar from './components/navbar.jsx';
 import Main from './pages/Home.jsx';
-import Beers from './pages/beers.jsx';
-import Trends from './pages/trends.jsx';
-import Login from './pages/login.jsx';
-import BeerForm from './pages/addbeerform.jsx';
-import BeerDetail from './pages/beerDetail.jsx';
-import BeersContainer from './containers/BeersContainer';
+import Beers from './pages/Beers.jsx';
+import Trends from './pages/Trends.jsx';
+import Login from './pages/Login.jsx';
+import BeerForm from './pages/Addbeerform.jsx';
+import BeerDetail from './pages/BeerDetail.jsx';
+import BeersContainer from './modules/beers/state/BeersContainer';
 
 import { Provider } from 'react-redux';
 import store from './store';

@@ -1,4 +1,4 @@
-import Beers from '../pages/beers.jsx';
+import Beers from '../../../pages/beers.jsx';
 import{ bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchBeers, deleteBeer } from '../actions';

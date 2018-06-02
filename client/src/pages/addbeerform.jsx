@@ -4,7 +4,7 @@ import axios from  'axios';
 import { Field, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect, dispatch } from 'react-redux';
-import { createBeer } from '../actions';
+import { createBeer } from '../modules/beers/actions';
 class BeerForm extends React.Component {
     constructor(props){
         super(props);
