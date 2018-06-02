@@ -1,33 +1,25 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { render } from "react-dom";
-import NavBar from './components/navbar.jsx';
-import Main from './components/Home.jsx';
-import Beers from './components/beers.jsx';
-import Trends from './components/trends.jsx';
-import Login from './components/login.jsx';
-import BeerForm from './components/addbeerform.jsx';
-import BeerDetail from './components/beerDetail.jsx';
-import BeersContainer from './containers/BeersContainer';
+import { Grid } from 'semantic-ui-react';
 import {
   Route,
   NavLink,
   HashRouter,
   Switch
 } from "react-router-dom";
-import promise from 'redux-promise';
+import NavBar from './components/navbar.jsx';
+import Main from './pages/Home.jsx';
+import Beers from './pages/beers.jsx';
+import Trends from './pages/trends.jsx';
+import Login from './pages/login.jsx';
+import BeerForm from './pages/addbeerform.jsx';
+import BeerDetail from './pages/beerDetail.jsx';
+import BeersContainer from './containers/BeersContainer';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from './reducers';
+import store from './store';
 
-import { Grid } from 'semantic-ui-react';
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-  reducers,
-  composeEnhancers(applyMiddleware(promise))
-)
 
 export default class App extends React.Component {
   constructor(props) {
