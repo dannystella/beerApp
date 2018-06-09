@@ -3,7 +3,6 @@ import { FETCH_BEERS, FETCH_BEER, DELETE_BEER } from '../actions';
 import { BY_RANK, BY_BEERNAME, BY_ABV, BY_TYPE, BY_BREWERY  } from '../actions/sortBeers';
 
 export default function(state = {}, action) {
-  console.log(state)
   switch(action.type) {
     case DELETE_BEER:
       return _.reject(state, beer => beer._id === action.payload);

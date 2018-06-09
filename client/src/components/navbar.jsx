@@ -13,7 +13,8 @@ import {
   Sidebar,
   Responsive,
   Segment,
-  Grid
+  Grid,
+  Input
 } from "semantic-ui-react";
 import Dinosaur from './dinosaur (1).png'
 const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems, visible}) => (
@@ -73,6 +74,7 @@ const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems,
 const NavBarDesktop = ({ leftItems, rightItems }) => (
   <Grid celled container>
   <Grid.Row columns = {1}>
+  <Grid.Column width={16}>
  <Menu widths= "3" fixed="top" inverted borderless ={true} className = "navbarDesktop">
     <Menu.Item >
     <Image size="mini" className= "navIcon" src={Dinosaur} />
@@ -92,11 +94,13 @@ const NavBarDesktop = ({ leftItems, rightItems }) => (
     <NavLink className = "navItems" to="/Login">Login</NavLink> 
     </Menu.Item >
     </Menu.Menu>
-    <Menu.Menu  className= "oy" position="right">
-      {/* {_.map(rightItems, item => <Menu.Item  {...item} />)} */}
-      <input type = "text" className = "search" placeholder ="search..."/>
+    <Menu.Menu  className= "oy" position="left"> 
+      <Menu.Item className = 'search'>
+
+      </Menu.Item>
     </Menu.Menu>
   </Menu>
+  </Grid.Column >
   </Grid.Row>
   </Grid>
 );

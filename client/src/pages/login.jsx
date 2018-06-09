@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import Signup from './signupSignin/signup.jsx';
+
 // import decode from 'jwt-simple'
 
 
@@ -12,11 +14,25 @@ class Login extends Component {
             password: ''
         }
 
-
+        this.onPost = this.onPost.bind(this);
         // this.handleUsername = this.handleUsername.bind(this);
         // this.handlePassword = this.handlePassword.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    onPost() {
+      let user = {
+        email: 'test',
+        username: 'test',
+        password: 'test',
+        summary: 'test',
+        comments: ["test"]
+      }
+      axios.post('/users/signup', user).then((res) => {
+          console.log(res);
+      })
+    }
+
 
 //     handleSubmit(e) {
 //         e.preventDefault();
@@ -54,7 +70,8 @@ class Login extends Component {
     render() {
         return (
             <div className="center">
-                <div className="card">
+              <Signup/>
+                {/* <div className="card">
                     <h1>Login</h1>
                     <form
                     //  onSubmit = {this.handleSubmit}
@@ -80,6 +97,7 @@ class Login extends Component {
                         />
                     </form>
                 </div>
+                <button onClick = {this.onPost}>Click</button> */}
             </div>
         );
     }

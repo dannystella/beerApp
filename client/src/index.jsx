@@ -14,8 +14,10 @@ import Beers from './pages/Beers.jsx';
 import Trends from './pages/Trends.jsx';
 import Login from './pages/Login.jsx';
 import BeerForm from './pages/Addbeerform.jsx';
-import BeerDetail from './pages/BeerDetail.jsx';
+import BeerDetail from './pages/Beers/BeerDetail.jsx';
+import ArticleDetail from './pages/Home/ArticleDetail.jsx';
 import BeersContainer from './modules/beers/state/BeersContainer';
+import ArticlesContainer from './modules/articles/state/ArticlesContainer';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -33,10 +35,13 @@ render() {
   return(
     <HashRouter>
       <div>
+        <Grid celled container>
         <NavBar>
           <Switch>
           <Route path="/Beers/:id" component = {BeerDetail}
           />
+          <Route path="/Articles/:id" component = {ArticleDetail}
+          />          
           <Route path="/Beers" render={() => (
             <BeersContainer/>   
           )} />
@@ -50,10 +55,11 @@ render() {
             <BeerForm handleForm = {this.handleForm}/> 
           )} />
           <Route path="/" render={() => (
-            <Main/>   
+            <ArticlesContainer/>   
           )} />          
           </Switch>
         </NavBar>
+        </Grid>
       </div>
     </HashRouter>
     );
