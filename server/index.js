@@ -17,7 +17,7 @@ const userRoute = require('./routes/userRoute');
 mongoose.connect(`mongodb://${dbUser}:${dbPassword}@ds253889.mlab.com:53889/beeroiseur`);
 
 app.use(express.static(__dirname + '/../client/dist'));
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

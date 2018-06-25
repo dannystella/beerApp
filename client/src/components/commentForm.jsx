@@ -4,36 +4,43 @@ import axios from  'axios';
 import { Field, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect, dispatch } from 'react-redux';
-import { createComment } from '../modules/users/actions';
-
-
+import * as actions from '../modules/users/actions';
+import authMiddleware from './authMiddleware.jsx';
 
 class CommentForm extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-          info : {
-            currentUser: '',
-            comment: '',
-            upvotes: '',
-
-          }
+          rerender: false,
+          initialvalue: '',
+          edit: false
         }
         this.renderField = this.renderField.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        // this.afterSubmit = this.afterSubmit.bind(this);
+    }
+
+    componentDidMount() {
+      // if(this.props.comment !== undefined) {
+      //   this.props.initialize({ text: this.props.comment.text })}
+    } 
+
+    componentWillMount() {
+
+    }
+    componentWillReceiveProps(props) {
+      console.log(props.comment);
     }
 
     renderField(field) {
       const { meta: {touched, error } } = field;
-  
       const className = `form-group ${touched && error ? 'has-danger' : ''}`
       return (
         <div className = {className}>
         <label>{field.label}</label>
           <input
-          className= "form-control"
+            className= "form-control"
             type = "text"
+            value = "value"
             {...field.input}
           />
           <div className = "text-danger">
@@ -42,57 +49,87 @@ class CommentForm extends React.Component {
         </div>
       )
     } 
+  
   onSubmit(values) {
-    this.props.createBeer(values);
-
+    console.log(" does form have comment", this.props.comment);
+    values.username = this.props.userinfo.username;
+    if(!this.props.comment) {
+      console.log("add");
+      this.props.createComment(values, this.props.reFetch, this.props.id, this.props.trigger);
+    } else if (this.props.comment) {
+      console.log("update", this.props.comment._id);
+      this.props.updateComment(this.props.reFetch, this.props.comment, values, this.props.id, this.props.trigger);
+      this.props.makeCommentNull();
+    }
   }
 
    render() {
+    const userinfo = (this.props.userinfo);
+    const username = userinfo.username
      const { handleSubmit } = this.props;
-
-       return(  
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
-          <Field
-          label= "currentUser"
-          name = "currentuser"
-          component={this.renderField}
-          />
-          <Field
-          label= "comment"
-          name = "comment"
-          component={this.renderField}
-          />
-          <button type = "submit" className = "btn btn-primary">Submit</button>
-          <Link to="/Beers"  className = "btn btn-secondary">Go Back</Link>
-        </form>
+       return (  
+         <div>
+          <form 
+          onSubmit={handleSubmit(this.onSubmit.bind(this))} 
+          >
+          <h3>{username}</h3>
+            <Field
+            label= "text"
+            name = "text"
+            value="comment"
+            component={this.renderField}
+            />
+            <button type = "submit" className = "btn btn-primary">Submit</button>
+          </form>
+        </div>
     )
    } 
-
 }
 
 
 function validate(values) {
   const errors = {};
-
   if(!values.comment) {
-    errors.comment = "Enter a Beer name"
+    errors.comment = "Enter a comment"
   }
-
-
-
   return errors;
-
-
 }
 
 const afterSubmit = (result, dispatch) =>
-  dispatch(reset('newBeerForm'));
+  dispatch(reset('commentForm'));
 
-export default reduxForm({
+
+
+
+// const InitializeFromStateForm = connect(
+//     state => ({
+//       initialValues: state.initialvalue // pull initial values from account reducer
+//     }),
+    
+//     actions, // bind account loading action creator
+// )(CommentForm)
+  
+const mapStateToProps = (state, ownProps) => {
+  let comment = '';
+  if(ownProps.comment) {
+    comment = ownProps.comment.text;
+    console.log(comment, "important");
+
+  }
+  return {
+    initialValues: {
+      text: comment, 
+    }
+  }
+}
+
+CommentForm = reduxForm({
   validate,
   form: 'commentForm',
   enableReinitialize: true,
   onSubmitSuccess: afterSubmit,
-})(
-  connect(null, { createComment})(CommentForm)
-);
+})(CommentForm)
+
+export default connect(mapStateToProps, actions)(CommentForm);
+
+

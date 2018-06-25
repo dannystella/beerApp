@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
 router.get('/:id', function(req, res) {
   helpers.beerHelpers.grabOne(req.params.id)
   .then((beer) => {
-      console.log(beer);
+      // console.log(beer);
     res.send(beer);
   })
 
@@ -25,7 +25,7 @@ router.get('/:id', function(req, res) {
 router.delete('/:id', function(req, res) {
   helpers.beerHelpers.delete(req.params.id)
   .then((data) => {
-      console.log(data);
+      // console.log(data);
   })
 })
 

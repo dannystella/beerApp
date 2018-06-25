@@ -1,5 +1,5 @@
 // import { reducer as formReducer } from 'redux-form';
-import { AUTH_USER, AUTH_ERROR } from '../actions';
+import { AUTH_USER, AUTH_ERROR, CREATE_COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../actions';
 
 const INITIAL_STATE = {
   authenticated: '',
@@ -9,9 +9,16 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER: 
-      return {...state, authenticated: action.payload}
+      return {...state, authenticated: action.payload.token, userinfo: action.payload.user}
       case AUTH_ERROR:
       return {...state, errorMessage: action.payload}
+      case CREATE_COMMENT:
+      console.log("new comment" , action.payload);
+      return {...state, createdComment: action.payload}
+      case DELETE_COMMENT:
+      return {...state, deletedComment: action.payload}
+      case UPDATE_COMMENT:
+      return {...state, updatedComment: action.payload}
     default: 
       return state;
   }

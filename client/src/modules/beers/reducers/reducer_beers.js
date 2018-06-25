@@ -7,6 +7,7 @@ export default function(state = {}, action) {
     case DELETE_BEER:
       return _.reject(state, beer => beer._id === action.payload);
     case FETCH_BEER:
+    console.log("the fetch")
       return {...state, [action.payload.data[0]._id]: action.payload.data[0]};
     case FETCH_BEERS: 
       return action.payload.data.sort(function(a, b) {

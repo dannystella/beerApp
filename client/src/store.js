@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   beers: BeerReducer,
   articles: ArticleReducer,
   form: formReducer,
-  userAuth: UserReducer
+  userAuth: UserReducer,
 });
 
 
@@ -22,6 +22,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   rootReducer,
+  {
+    userAuth: {authenticated: localStorage.getItem('token'), userinfo: localStorage.getItem('user')}
+  },
   composeEnhancers(applyMiddleware(promise, reduxThunk))
 )
 

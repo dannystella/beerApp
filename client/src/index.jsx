@@ -18,7 +18,8 @@ import BeerDetail from './pages/Beers/BeerDetail.jsx';
 import ArticleDetail from './pages/Home/ArticleDetail.jsx';
 import BeersContainer from './modules/beers/state/BeersContainer';
 import ArticlesContainer from './modules/articles/state/ArticlesContainer';
-
+import Signout from './pages/signupSignin/signout.jsx';
+import Signin from './pages/signupSignin/signin.jsx';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -42,6 +43,12 @@ render() {
           />
           <Route path="/Articles/:id" component = {ArticleDetail}
           />          
+          <Route path="/signout" render={() => (
+            <Signout/>   
+          )} />          
+          <Route path="/signin" render={() => (
+            <Signin/>   
+          )} />          
           <Route path="/Beers" render={() => (
             <BeersContainer/>   
           )} />

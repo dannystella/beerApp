@@ -6,7 +6,12 @@ var articleSchema = mongoose.Schema({
   title: String,
   caption: String,
   content: String,
-  comments: []
+  comments: [
+    {
+      user: String,
+      text: String
+    }
+  ]
 })
 
 let Article = mongoose.model('Article', articleSchema); 

@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
-// const signin = require('./userController/authController').signin;
-// const signup = require('./userController/authController').signup;
+
 let User = require('../models/userModel');
 
 let userHelpers = {};
@@ -33,7 +32,6 @@ userHelpers.save = (schema) => {
   return User.create(schema)
   .then((user) => {
     return user;
-
   })
 }
 

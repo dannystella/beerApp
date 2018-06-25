@@ -3,7 +3,7 @@ import{ bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchBeers, deleteBeer } from '../actions';
 import { sortByRank, sortByBeerName, sortByAbv, sortByType, sortByBrewery } from '../actions/sortBeers';
-
+import { createComment } from '../../users/actions';
 
 
 const mapStateToProps = (state, props) => {
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
       sortByBeerName,
       sortByAbv,
       sortByType,
-      sortByBrewery
+      sortByBrewery,
   }, dispatch)
 }
 

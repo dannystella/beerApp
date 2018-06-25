@@ -11,7 +11,7 @@ function tokenForUser(user) {
 
 exports.signin = function(req, res, next) {
   console.log("auth", req.user)
-  res.send({token: tokenForUser(req.user)})
+  res.send({token: tokenForUser(req.user), user: req.user})
 }
 
 exports.signup = function(req, res, next) {
@@ -45,7 +45,7 @@ exports.signup = function(req, res, next) {
         comments: comments
       })
         .then((user) => {
-          res.send({token: tokenForUser(user)})
+          res.send({token: tokenForUser(user), user: user})
         });
       })
     })

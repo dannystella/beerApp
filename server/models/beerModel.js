@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Comment = require('./commentModel');
 
 var beerSchema = mongoose.Schema({
   beername: String,
@@ -8,12 +9,7 @@ var beerSchema = mongoose.Schema({
   abv: Number,
   rank: Number,
   imageUrl: String,
-  comments: [
-      {
-          user: String,
-          text: String
-      }
-  ]
+  comments: [{text: String, username: String}]
 });
 
 let Beer = mongoose.model('Beer', beerSchema);

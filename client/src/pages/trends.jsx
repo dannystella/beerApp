@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Sparklines, SparklinesLine, SparklinesReferenceLine } from "react-sparklines"
+import authMiddleware from '../components/authMiddleware.jsx';
+import { withRouter } from 'react-router';
 
 
-export default class Trends extends Component{
+class Trends extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -22,3 +24,5 @@ export default class Trends extends Component{
     )
   }
 }
+
+export default withRouter(authMiddleware(Trends));

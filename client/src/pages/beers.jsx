@@ -4,12 +4,11 @@ import { Grid, Image } from 'semantic-ui-react';
 // import { fetchBeers, deleteBeer, sortByRank } from '../actions';
 import { Link } from 'react-router-dom';
 import { isArray } from 'util';
-
+import LoaderIcon from '../components/loader.jsx';
 
 class Beers extends React.Component {
 constructor(props) {
     super(props);
-
 
     this.state = {
         beersTrigger: ''
@@ -37,7 +36,6 @@ constructor(props) {
 
     renderBeer() {
       if(this.props.beers && this.props.beers.length > 0 && isArray(this.props.beers)) {
-        console.log("beers", this.props.beers);
         return this.props.beers.map((beer, i) => 
             <Grid.Row container = 'true' key = {i} columns = {5}>
             <Grid.Column width={4}>
@@ -67,11 +65,12 @@ constructor(props) {
             </Grid.Column>
             </Grid.Row>
             )
+        } else {
+            return <div><LoaderIcon/></div>
         }
     }
 
     render() {
-            //   console.log(this.props.beers);
         return (
             <div >   
                 <Grid stackable celled container >

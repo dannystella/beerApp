@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import {
   Route,
   NavLink,
@@ -71,7 +72,7 @@ const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems,
   </div>
 );
 
-const NavBarDesktop = ({ leftItems, rightItems }) => (
+const NavBarDesktop = (props) => (
   <Grid celled container>
   <Grid.Row columns = {1}>
   <Grid.Column width={16}>
@@ -90,13 +91,21 @@ const NavBarDesktop = ({ leftItems, rightItems }) => (
     <Menu.Item className = "navItems" >
     <NavLink className = "navItems" to="/Trends">Trends</NavLink> 
     </Menu.Item >
-    <Menu.Item  >
-    <NavLink className = "navItems" to="/Login">Login</NavLink> 
-    </Menu.Item >
+    {/* <Menu.Item>
+    <NavLink className = "navItems" to="/signin">Signin</NavLink> 
+    </Menu.Item > */}
+        {/* {console.log(props.userAuth.auth)} */}
+    {props.userAuth.auth ? (<Menu.Item  >
+          <NavLink className = "navItems" to="/signout">Signout</NavLink> 
+        </Menu.Item >) :
+        (<Menu.Item  >
+          <NavLink className = "navItems" to="/Login">Login</NavLink> 
+        </Menu.Item >)
+        } 
     </Menu.Menu>
+
     <Menu.Menu  className= "oy" position="left"> 
       <Menu.Item className = 'search'>
-
       </Menu.Item>
     </Menu.Menu>
   </Menu>
@@ -109,7 +118,7 @@ const NavBarChildren = ({ children }) => (
   <Container style={{ marginTop: "5em" }}>{children}</Container>
 );
 
-export default class NavBar extends Component {
+class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,9 +126,24 @@ export default class NavBar extends Component {
     };
     this.handlePusher = this.handlePusher.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.renderLinks = this.renderLinks.bind(this);
   }
 
-
+  renderLinks() {
+    if(this.props.authenticated) {
+      return (
+        <Menu.Item  >
+          <NavLink className = "navItems" to="/signout">Signout</NavLink> 
+        </Menu.Item >
+      )
+        } else {
+          return (
+            <Menu.Item  >
+              <NavLink className = "navItems" to="/Login">Login</NavLink> 
+            </Menu.Item >
+          )
+    }
+  }
   handlePusher() {
     const { visible } = this.state;
   
@@ -148,7 +172,7 @@ export default class NavBar extends Component {
           </NavBarMobile>
         </Responsive>
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <NavBarDesktop onToggle = {(e) => {
+          <NavBarDesktop userAuth = {this.props} onToggle = {(e) => {
             if(this.state.visible){
               this.handleToggle();
             }
@@ -159,6 +183,15 @@ export default class NavBar extends Component {
     );
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return { 
+    auth: state.userAuth.authenticated,
+    ...ownProps
+   };
+}
+
+export default connect(mapStateToProps, null, null, {pure: false})(NavBar);
 
 const leftItems = [
   { as: "a", content: "Home", key: "Home" },

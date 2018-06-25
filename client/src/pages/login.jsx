@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Signup from './signupSignin/signup.jsx';
-
-// import decode from 'jwt-simple'
+import Signin from './signupSignin/signin.jsx';
 
 
 class Login extends Component {
@@ -10,97 +9,39 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            username: '',
-            password: ''
+            trigger: false
         }
-
-        this.onPost = this.onPost.bind(this);
-        // this.handleUsername = this.handleUsername.bind(this);
-        // this.handlePassword = this.handlePassword.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    onPost() {
-      let user = {
-        email: 'test',
-        username: 'test',
-        password: 'test',
-        summary: 'test',
-        comments: ["test"]
-      }
-      axios.post('/users/signup', user).then((res) => {
-          console.log(res);
-      })
-    }
-
-
-//     handleSubmit(e) {
-//         e.preventDefault();
         
-//         var username = this.state.username.trim();
-// 		var password = this.state.password.trim();
-//         var data = {username: username, password: password}
+        this.onClick = this.onClick.bind(this);
+    }
 
-//         if (!username || !password) {
-//           return;
-//         }
+    onClick() {
+      const flag = !this.state.trigger;
+      this.setState({
+        trigger: flag
+      }, () => {console.log(this.state.trigger)})
+    }
 
-//         axios.post('/goals/login', data)
-//         .then((data) => {
-//             this.props.setToken(data.data);
-//         }).catch((err) => {
-//             console.log(err);
-//         })
 
-//         console.log('form submitted!');
-
-//         return;
-// }
-// handleUsername(e) {
-//   this.setState({
-//     username: e.target.value
-//   })
-// }
-
-// handlePassword(e) {
-//   this.setState({
-//     password: e.target.value
-//   })
-// }
     render() {
         return (
             <div className="center">
-              <Signup/>
-                {/* <div className="card">
-                    <h1>Login</h1>
-                    <form
-                    //  onSubmit = {this.handleSubmit}
-                     >
-                        <input
-                            className="form-item"
-                            placeholder="Username"
-                            name="username"
-                            type="text"
-                            // onChange={this.handleUsername}
-                        />
-                        <input
-                            className="form-item"
-                            placeholder="Password"
-                            name="password"
-                            type="password"
-                            // onChange={this.handlePassword}
-                        />
-                        <input
-                            className="form-submit"
-                            value="SUBMIT"
-                            type="submit"
-                        />
-                    </form>
-                </div>
-                <button onClick = {this.onPost}>Click</button> */}
+                {this.state.trigger ? (
+                <div>
+                    <h1>Sign Up</h1>
+                    <Signup/>
+                    <button onClick = {this.onClick}>Already have an account? Sign in!</button>   
+                </div>         
+                ) : (
+                <div>
+                    <h1>Sign In</h1>
+                    <Signin />
+                    <button onClick = {this.onClick}>No Account? Sign up</button>
+                </div>)}
             </div>
         );
     }
 }
+
 
 export default Login;
