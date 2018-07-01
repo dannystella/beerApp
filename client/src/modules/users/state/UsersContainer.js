@@ -5,7 +5,7 @@ import { signin, signup, signout, createComment, deleteComment, updateComment } 
 import BeerDetail from '../../../pages/beers/BeerDetail.jsx';
 
 const mapStateToProps = (state, props) => {
-  console.log(props, "user props");
+  // console.log(props, "user props");
   if(typeof state.userAuth.userinfo === 'string') {
     state.userAuth.userinfo = JSON.parse(state.userAuth.userinfo);
   }

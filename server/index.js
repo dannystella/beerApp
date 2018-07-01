@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const dataBaseCreds = require('./creds.js');
 const dbUser = dataBaseCreds.dbUser;
 const dbPassword = dataBaseCreds.dbPassword;
-
 const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');

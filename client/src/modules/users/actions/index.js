@@ -15,11 +15,11 @@ export const createComment = (values, callback, id, trigger) => async(dispatch) 
   commentObj.id = id;
   commentObj.trigger = trigger;
   let token = localStorage.getItem('token')
-
   const request = axios.post('/users/addcomments', commentObj, {
     headers: { Authorization: token }
   })
   .then((res) => {
+    console.log("user new comment", res);
     if(callback) {
       callback();
     }
@@ -37,6 +37,7 @@ export const createComment = (values, callback, id, trigger) => async(dispatch) 
 }
 
 export const deleteComment = (callback, commentId, beerId, trigger) => async(dispatch) => {
+  console.log( callback, commentId, beerId, trigger )
   try {
   const params = {}
   params.beerId = beerId;

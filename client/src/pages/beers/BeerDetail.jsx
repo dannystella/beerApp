@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchBeer } from '../../modules/beers/actions';
+import { deleteComment } from '../../modules/users/actions';
 import { Link } from 'react-router-dom';
 import { Image, Grid} from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
@@ -9,7 +10,7 @@ import UsersContainer from '../../modules/users/state/UsersContainer.js';
 
 
 class BeerDetail extends React.Component{
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       trigger: 'beer',
@@ -54,18 +55,33 @@ class BeerDetail extends React.Component{
   }
 
   renderComments() {
-    let beerId = this.props.match.params
+    let beerId = this.props.match.params;
+    // console.log(this.props.userInfo, "user props");
     if(this.props.beer.comments && this.props.beer.comments.length > 0) {
       return (
         this.props.beer.comments.map((comment, i ) => {
+          // console.log("comment", comment);
+          if (comment.username === this.props.userInfo.username) {
+            return (
+                <div key = {comment.text}>
+                  <Comment key = {i} comment = {comment} beerId = {beerId} reFetch = {this.reFetch} />
+                  <div>
+                  <button onClick = {((e) => {
+                    this.props.deleteComment(this.reFetch, comment._id, beerId, "comment");
+                  })}>Delete</button>              
+                  <button onClick = {((e) => {
+                    this.updateCommentForm(comment);
+                  })}>Edit</button>
+                  </div>
+                </div>  
+            )
+        } else {
           return (
             <div key = {comment.text}>
-              <Comment key = {i} comment = {comment} beerId = {beerId} reFetch = {this.reFetch}  />
-              <button onClick = {((e) => {
-                this.updateCommentForm(comment);
-              })}>Edit</button>
-            </div>  
+              <Comment key = {i} comment = {comment} beerId = {beerId} reFetch = {this.reFetch} />
+            </div>
           )
+        }
         })
       )
     }
@@ -108,13 +124,13 @@ class BeerDetail extends React.Component{
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log(state)
+  // console.log("map state", state);
   return {
     beer: state.beers[ownProps.match.params.id],
-    // comments: state.beers[ownProps.match.params.id].comments,
+    userInfo: state.userAuth.userinfo,
     userAuth: state.userAuth.authenticated
   }
 }
 
 
-export default connect(mapStateToProps, { fetchBeer })(BeerDetail);
+export default connect(mapStateToProps, { fetchBeer, deleteComment })(BeerDetail);

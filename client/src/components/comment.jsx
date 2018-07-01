@@ -4,6 +4,14 @@ import { Grid, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as actions from '../modules/users/actions';
 
+
+const deleteButton = (props) => {
+console.log(props);
+  return (<button onClick = {((e) => {
+    props.deleteComment(props.reFetch, props.comment._id, props.beerId, "comment");
+  })}>Delete</button>)
+}
+
 const Comment = (props) => (
   <div>
     <Grid.Row>
@@ -13,9 +21,11 @@ const Comment = (props) => (
       {/* <button onClick = {((e) => {
         props.updateComment(props.reFetch, props.comment._id, props.beerId, "comment");
       })}>Edit</button> */}
-      <button onClick = {((e) => {
+      
+      {/* <button onClick = {((e) => {
         props.deleteComment(props.reFetch, props.comment._id, props.beerId, "comment");
-      })}>Delete</button>
+      })}>Delete</button> */}
+      {/* {deleteButton()} */}
     </Grid.Row>
   </div>  
 );

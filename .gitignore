@@ -1,4 +1,4 @@
 server/creds.js
 server/controllers.js
 server/config.js
-./node_modules
+node_modules

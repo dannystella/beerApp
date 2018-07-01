@@ -27,8 +27,9 @@ class CommentForm extends React.Component {
     componentWillMount() {
 
     }
+
     componentWillReceiveProps(props) {
-      console.log(props.comment);
+      // console.log(props.comment);
     }
 
     renderField(field) {
@@ -51,7 +52,8 @@ class CommentForm extends React.Component {
     } 
   
   onSubmit(values) {
-    console.log(" does form have comment", this.props.comment);
+    // console.log(" does form have comment", this.props.comment);
+    values.userid = this.props.userinfo._id;
     values.username = this.props.userinfo.username;
     if(!this.props.comment) {
       console.log("add");
@@ -86,7 +88,6 @@ class CommentForm extends React.Component {
    } 
 }
 
-
 function validate(values) {
   const errors = {};
   if(!values.comment) {
@@ -98,23 +99,11 @@ function validate(values) {
 const afterSubmit = (result, dispatch) =>
   dispatch(reset('commentForm'));
 
-
-
-
-// const InitializeFromStateForm = connect(
-//     state => ({
-//       initialValues: state.initialvalue // pull initial values from account reducer
-//     }),
-    
-//     actions, // bind account loading action creator
-// )(CommentForm)
-  
 const mapStateToProps = (state, ownProps) => {
   let comment = '';
   if(ownProps.comment) {
     comment = ownProps.comment.text;
-    console.log(comment, "important");
-
+    // console.log(comment, "important");
   }
   return {
     initialValues: {
@@ -128,8 +117,6 @@ CommentForm = reduxForm({
   form: 'commentForm',
   enableReinitialize: true,
   onSubmitSuccess: afterSubmit,
-})(CommentForm)
+})(CommentForm);
 
 export default connect(mapStateToProps, actions)(CommentForm);
-
-
