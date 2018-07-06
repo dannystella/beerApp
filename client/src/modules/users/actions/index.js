@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+export const FETCH_FEED = 'fetch_feed';
 export const CREATE_COMMENT= 'create_comment';
 export const DELETE_COMMENT = 'delete_comment';
 export const UPDATE_COMMENT = 'update_comment';
@@ -7,6 +8,19 @@ export const UPDATE_COMMENT = 'update_comment';
 export const AUTH_USER = 'auth_user';
 export const AUTH_ERROR = 'auth_error';
 
+export function fetchFeed(userinfo) {
+  if(typeof userinfo === 'string') {
+    userinfo = JSON.parse(userinfo);
+  }
+
+  let username = userinfo.username;
+  console.log(username);
+    const request = axios.get('/users/getfeed', {headers: {username: username}})
+    return {
+      type: FETCH_FEED,
+      payload: request
+  }
+}
 
 export const createComment = (values, callback, id, trigger) => async(dispatch) => {
   try {
@@ -36,14 +50,17 @@ export const createComment = (values, callback, id, trigger) => async(dispatch) 
   }
 }
 
-export const deleteComment = (callback, commentId, beerId, trigger) => async(dispatch) => {
-  console.log( callback, commentId, beerId, trigger )
+export const deleteComment = (callback, commentInfo, beerId, trigger, userinfo) => async(dispatch) => {
+  console.log(commentInfo)
   try {
   const params = {}
   params.beerId = beerId;
   params.trigger = trigger;
+  params.userinfo = userinfo;
+  params.commentId = commentInfo._id;
   let token = localStorage.getItem('token')
-  const request = axios.delete(`/users/deletecomments/${commentId}`, {
+  console.log(commentInfo.streamData.id)
+  const request = axios.delete(`/users/deletecomments/${commentInfo.streamData.id}`, {
     data: { Authorization: token, params: params }
   })
   .then((res) => {
@@ -60,12 +77,13 @@ export const deleteComment = (callback, commentId, beerId, trigger) => async(dis
   })
   }
   catch(e) {
-    console.log("error in delete comment");
+    console.log(e);
   }
 }
 
 export const updateComment = (callback, comment, newComment, beerId, trigger) => async (dispatch) => {
   try {
+  console.log(comment, "hit here")
   const params = {}
   params.beerId = beerId;
   params.trigger = trigger;

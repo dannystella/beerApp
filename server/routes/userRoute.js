@@ -11,8 +11,6 @@ var stream = require('getstream');
 // instantiate a new client (server side)
 var client = stream.connect(config.STREAM_KEY, config.STREAM_SECRET, config.STREAM_APP_ID);
 
-
-
 const requireAuth = passport.authenticate('jwt', {session: false});
 const requireSignin = passport.authenticate('local', {session: false});
 
@@ -25,24 +23,102 @@ router.post('/signup', authorization.signup);
 
 //POST route for adding user comment
 router.post('/addcomments', requireAuth, function(req, res) {
+  console.log("req", req.body);
+  let commentObj = req.body;
   let username = req.body.values.username;
   let text = req.body.values.text;
+  let now = new Date();
   let userFeed = client.feed('user', username );
-  helpers.commentHelpers.save(req.body).then(() => {
-    res.send(200);
-  })
   userFeed.addActivity({
     actor: username,
-    tweet: text,
-    verb: 'tweet',
-    object: 1
+    verb: 'comment',
+    object: 1,
+    time: now.toISOString(),
+    comment: text,
+    foreign_id : 'comment:1',
   }).then((data) => {
-    console.log(data);
+    commentObj.streamData = data;
+    helpers.commentHelpers.save(commentObj).then(() => {
+      res.sendStatus(200);
+    })
   })
-
 })
 
-//POST route for user feed
+//DELETE route for user comments
+router.delete('/deletecomments/:id', function(req, res) {
+  let username = req.body.params.userinfo.username;
+  let userFeed = client.feed('user', username );
+  userFeed.removeActivity(req.params.id)
+  .then((data) => {
+    console.log(data);
+  })
+  let commentObj = {};
+  commentObj.beerId = req.body.params;
+  commentObj.commentId = req.body.params.commentId;
+  // res.sendStatus(200);
+  helpers.beerHelpers.deleteComment(commentObj)
+  .then(() => {
+    res.sendStatus(200);
+  })
+})
+
+//PUT route for updating user comments
+router.put('/updatecomments/:id', function(req, res) {
+  let username = req.body.data.params.comment.username;
+  let userFeed = client.feed('user', username );
+  let newText = req.body.data.params.newComment.text;
+  let streamData = req.body.data.params.comment.streamData;
+  let now = new Date();
+  streamData.comment = newText;
+  // streamData.time = now.toISOString();
+  // streamData.foreign_id = 'comment:1';
+  console.log("<<<<<<<<<<<<<<<<<<<<<",streamData, ">>>>>>>>>>>>>>>>>>>>>>>");
+  client.updateActivities([streamData])
+  .then((data) => {
+    console.log("data is here" , data, "data is here");
+  })
+  let commentObj = {};
+  commentObj.beerId = req.body.data.params;
+  commentObj.commentId = req.params.id;
+  helpers.beerHelpers.updateComment(commentObj)
+  .then(() => {
+    console.log("hit resend")
+    res.sendStatus(200);
+  })
+})
+
+//POST route for adding user beers
+router.post('/addbeers', requireAuth, function(req, res) {
+  let username = req.body.values.username;
+  let beer = req.body.beer;
+  let userFeed = client.feed('user', username );
+  // helpers.commentHelpers.save(req.body).then(() => {
+  //   res.send(200);
+  // })
+  userFeed.addActivity({
+    actor: username,
+    beer: beer,
+    verb: 'addbeer',
+    object: 1
+  }).then((data) => {
+    res.send(data);
+  })
+})
+
+//DELETE route for deleting user beers
+router.delete('/deletebeer/:id', requireAuth, function(req, res) {
+  let username = req.body.values.username;
+  let userFeed = client.feed('user', username );
+  // helpers.commentHelpers.save(req.body).then(() => {
+  //   res.send(200);
+  // })
+  userFeed.removeActivity(req.params.id)
+  .then((data) => {
+    res.send(data);
+  })
+})
+
+//POST route for following otheruser feed
 router.post('/followuser', function(req, res) {
   let username = req.body.values.username;
   let otherUser = req.body.values.otherUsername;
@@ -54,58 +130,26 @@ router.post('/followuser', function(req, res) {
   })
 })
 
-
-
-//GET router for userfeed
-router.get('/getfeed', function(req, res) {
-  // let username = req.body.values.username;
-  let username = req.headers.username;
-  // let otherUser = req.body.values.otherUsername;
-  // let text = req.body.values.text;
+//POST route for unfollowing otheruser feed
+router.delete('/unfollowuser', function(req, res) {
+  let username = req.body.values.username;
+  let otherUser = req.body.values.otherUsername;
   let userFeed = client.feed('user', username );
-  userFeed.get({'limit': 30})
+  userFeed.unfollow('user', otherUser, keep_history=true)
   .then((data) => {
     console.log(data);
     res.send(data);
   })
 })
 
-
-// router.get('/aggregatedfeed', function(req, res) {
-//   let username = req.body.values.username;
-//   let otherUser = req.body.values.otherUsername;
-//   let text = req.body.values.text;
-//   let userFeed = client.feed('user', username );
-// })
-
-//GET route for update feed
-// router.get('/updatedfeed', function(req, res) {
-//   let username = req.body.values.username;
-//   let otherUser = req.body.values.otherUsername;
-//   let text = req.body.values.text;
-//   let userFeed = client.feed('user', username );
-
-//   let promise = userFeed.subscri
-// })
-
-router.delete('/deletecomments/:id', function(req, res) {
-  let commentObj = {};
-  commentObj.beerId = req.body.params;
-  commentObj.commentId = req.params.id;
-  helpers.beerHelpers.deleteComment(commentObj)
-  .then(() => {
-    res.sendStatus(200);
-  })
-})
-
-router.put('/updatecomments/:id', function(req, res) {
-  let commentObj = {};
-  commentObj.beerId = req.body.data.params;
-  commentObj.commentId = req.params.id;
-  helpers.beerHelpers.updateComment(commentObj)
-  .then(() => {
-    console.log("hit resend")
-    res.sendStatus(200);
+//GET router for userfeed
+router.get('/getfeed', function(req, res) {
+  let username = req.headers.username;
+  let userFeed = client.feed('user', username );
+  userFeed.get({'limit': 100})
+  .then((data) => {
+    // console.log(data);
+    res.send(data);
   })
 })
 

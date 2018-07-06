@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import GridColumn, { Grid, Image } from 'semantic-ui-react';
 import Article from './home/Article.jsx';
 import { Link } from 'react-router-dom';
+import UserFeed from './home/feed.jsx';
+
 
 export default class Main extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ export default class Main extends Component {
     console.log("mount", this.props.articles)
     if(!this.props.artices || !Array.isArray(this.props.articles)) {
         this.props.fetchArticles().then((data) => {
-          console.log("articles", this.props.articles)      
+          // console.log("articles", this.props.articles)      
         })     
          
     }
@@ -42,11 +44,12 @@ export default class Main extends Component {
   render() {
     let articleOne;
     if(this.props.articles && Array.isArray(this.props.articles)) {
-      console.log(this.props.articles)
+      // console.log(this.props.articles)
     return (
      <div>
      <Grid celled container>
-       <Grid.Row columns = {1}>
+     <UserFeed/>
+       {/* <Grid.Row columns = {1}>
        <Grid.Column width={16}>
        <Link to = {`/Articles/${this.props.articles[0]._id}`}>
        <Image src = {this.props.articles[0].image.source} size = {this.props.articles[0].image.size}/>
@@ -109,7 +112,7 @@ export default class Main extends Component {
           );
          }
 
-       })}
+       })} */}
        </Grid>  
       </div>   
 

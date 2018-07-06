@@ -28,9 +28,8 @@ beerHelpers.grabOne = (id) => {
 }
 
 beerHelpers.addComment = (id, comment) => {
-    console.log(comment)
     return Beer.find({_id: id}).exec().then((beer) => {
-        // console.log("beeeers", beer)
+        console.log(comment, "in beer")
         beer[0].comments.push(comment);
         return beer[0].save();
     })
@@ -42,11 +41,11 @@ beerHelpers.deleteComment = (commentObj) => {
     // commentHelpers.delete(commentId);
     return Beer.find({_id: beerId}).exec().then((beer) => {
         for(var i = 0; i < beer[0].comments.length; i++) {
-            console.log((beer[0].comments[i]._id.toString() === commentId ))
+            // console.log((beer[0].comments[i]._id.toString() === commentId ))
 
             if(beer[0].comments[i]._id.toString() === (commentId)) {
               beer[0].comments.splice(i, 1);
-              console.log("real hit", beer[0].comments)
+            //   console.log("real hit", beer[0].comments)
               return beer[0].save();
             }
         }
@@ -58,13 +57,13 @@ beerHelpers.updateComment = (commentObj) => {
     let beerId = commentObj.beerId.beerId;
     let newComment = commentObj.beerId.newComment;
 
-    console.log(commentObj, "controller");
+    // console.log(commentObj, "controller");
     // commentHelpers.delete(commentId);
     return Beer.find({_id: beerId}).exec().then((beer) => {
         for(var i = 0; i < beer[0].comments.length; i++) {
-            console.log((beer[0].comments[i]._id.toString() === commentId ))
+            // console.log((beer[0].comments[i]._id.toString() === commentId ))
             if(beer[0].comments[i]._id.toString() === (commentId)) {
-              console.log(beer[0].comments[i], "CCSDF", newComment.text)
+            //   console.log(beer[0].comments[i], "CCSDF", newComment.text)
               beer[0].comments[i].text = newComment.text; 
               return beer[0].save();
 

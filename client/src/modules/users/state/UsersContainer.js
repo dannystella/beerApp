@@ -1,7 +1,7 @@
 import CommentForm from '../../../components/commentForm.jsx';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signin, signup, signout, createComment, deleteComment, updateComment } from '../actions';
+import { signin, signup, signout, createComment, deleteComment, updateComment, fetchFeed } from '../actions';
 import BeerDetail from '../../../pages/beers/BeerDetail.jsx';
 
 const mapStateToProps = (state, props) => {
@@ -14,6 +14,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators ({
+    fetchFeed,
     signin,
     signout,
     signup, 

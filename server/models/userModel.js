@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
   password: String,
   summary: String,
   comments: [String],
-  beers: [String]
+  beers: [{}]
 });
 
 let User = mongoose.model('User', userSchema);

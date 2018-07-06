@@ -9,7 +9,7 @@ var beerSchema = mongoose.Schema({
   abv: Number,
   rank: Number,
   imageUrl: String,
-  comments: [{text: String, username: String}]
+  comments: [{text: String, username: String, streamData: {}}]
 });
 
 let Beer = mongoose.model('Beer', beerSchema);

@@ -67,7 +67,8 @@ class BeerDetail extends React.Component{
                   <Comment key = {i} comment = {comment} beerId = {beerId} reFetch = {this.reFetch} />
                   <div>
                   <button onClick = {((e) => {
-                    this.props.deleteComment(this.reFetch, comment._id, beerId, "comment");
+                    console.log(comment);
+                    this.props.deleteComment(this.reFetch, comment, beerId, "comment", this.props.userInfo);
                   })}>Delete</button>              
                   <button onClick = {((e) => {
                     this.updateCommentForm(comment);
