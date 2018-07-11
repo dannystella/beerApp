@@ -53,20 +53,21 @@ class CommentForm extends React.Component {
   
   onSubmit(values) {
     // console.log(" does form have comment", this.props.comment);
-    values.userid = this.props.userinfo._id;
-    values.username = this.props.userinfo.username;
+    values.userid = this.props.userInfo._id;
+    values.username = this.props.userInfo.username;
+    let beerReview = this.props.beerReview;
     if(!this.props.comment) {
       console.log("add");
-      this.props.createComment(values, this.props.reFetch, this.props.id, this.props.trigger);
+      this.props.createComment(values, this.props.reFetch, this.props.id, this.props.trigger, beerReview);
     } else if (this.props.comment) {
       console.log("update", this.props.comment._id);
-      this.props.updateComment(this.props.reFetch, this.props.comment, values, this.props.id, this.props.trigger);
+      this.props.updateComment(this.props.reFetch, this.props.comment, values, this.props.id, this.props.trigger, beerReview);
       this.props.makeCommentNull();
     }
   }
 
    render() {
-    const userinfo = (this.props.userinfo);
+    const userinfo = (this.props.userInfo);
     const username = userinfo.username
      const { handleSubmit } = this.props;
        return (  
@@ -74,14 +75,13 @@ class CommentForm extends React.Component {
           <form 
           onSubmit={handleSubmit(this.onSubmit.bind(this))} 
           >
-          <h3>{username}</h3>
             <Field
             label= "text"
             name = "text"
             value="comment"
             component={this.renderField}
             />
-            <button type = "submit" className = "btn btn-primary">Submit</button>
+            <button type = "submit" className = "btn btn-primary">Add Comment</button>
           </form>
         </div>
     )
@@ -100,6 +100,12 @@ const afterSubmit = (result, dispatch) =>
   dispatch(reset('commentForm'));
 
 const mapStateToProps = (state, ownProps) => {
+  let userInfo;
+  if(typeof state.userAuth.userinfo === 'string') {
+    userInfo = JSON.parse(state.userAuth.userinfo);
+  } else {
+    userInfo = state.userAuth.userinfo;
+  }
   let comment = '';
   if(ownProps.comment) {
     comment = ownProps.comment.text;
@@ -108,7 +114,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: {
       text: comment, 
-    }
+    },
+    userInfo
   }
 }
 

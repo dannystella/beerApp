@@ -6,9 +6,13 @@ import {fetchFeed,
   signup, 
   createComment,
   deleteComment,
-  updateComment } from '../../modules/users/actions';
+  updateComment,
+  addUserBeer,
+ } from '../../modules/users/actions';
 import { Link } from 'react-router-dom';
-
+import Loader from '../../components/loader.jsx';
+import Comment from '../../components/comment.jsx';
+import CommentForm from '../../components/commentForm.jsx';
 
 class UserFeed extends React.Component {
   constructor(props) {
@@ -27,21 +31,36 @@ this.renderFeed = this.renderFeed.bind(this);
 renderFeed() {
   if(this.props.userAuth.userFeed) {
     return this.props.userAuth.userFeed.map((item, i) => {
-      if(item.comment) {
-        return (<div key = {i}>
-          <h3>{item.actor}</h3>
-          <p>{item.comment}</p>
-          </div>)
-        } else if (item.beer) {
+      // if(item.comment) {
+      //   return (<div key = {i}>
+      //     <h3>{item.actor}</h3>
+      //     <p>{item.comment}</p>
+      //     </div>)
+      //   } 
+      console.log(item, "feed item");
+      if (item.beer) {
           return (<div key = {i}>
             <h3>{item.actor}</h3>
             <p>{item.beer.beername}</p>
+            <p>{item.review.rating}</p>
+            <p>{item.review.review}</p>
+            {item.comments.map((comment, i) => {
+              return (<div className = 'commentBox' key = {comment.text}>
+               <h6>{comment.username}</h6>
+               <p>{comment.text}</p>    
+              </div>  
+              )
+            })}
+            <div>
+              <CommentForm beerReview = {item}/>
+
+            </div>
             </div>)
         }
       })
     
   }
-  return (<div>loading...</div>)
+  return (<div><Loader/></div>)
 }
 
 
@@ -58,7 +77,7 @@ renderFeed() {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(state);
+  console.log(state, "feed state");
   return {
     userAuth: state.userAuth,
   }
@@ -71,4 +90,6 @@ export default connect(mapStateToProps, { fetchFeed,
   signup, 
   createComment,
   deleteComment,
-  updateComment})(UserFeed);
+  updateComment,
+  addUserBeer,
+})(UserFeed);

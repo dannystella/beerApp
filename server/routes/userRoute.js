@@ -23,8 +23,10 @@ router.post('/signup', authorization.signup);
 
 //POST route for adding user comment
 router.post('/addcomments', requireAuth, function(req, res) {
-  console.log("req", req.body);
   let commentObj = req.body;
+  let beerReview = req.body.beerReview;
+  beerReview.comments.push(req.body.values);
+  console.log(beerReview);
   let username = req.body.values.username;
   let text = req.body.values.text;
   let now = new Date();
@@ -37,10 +39,13 @@ router.post('/addcomments', requireAuth, function(req, res) {
     comment: text,
     foreign_id : 'comment:1',
   }).then((data) => {
-    commentObj.streamData = data;
-    helpers.commentHelpers.save(commentObj).then(() => {
-      res.sendStatus(200);
+    client.updateActivities([beerReview]).then((stuff) => {
+      console.log(stuff, "stream data");
     })
+    // commentObj.streamData = data;
+    // helpers.commentHelpers.save(commentObj).then(() => {
+    //   res.sendStatus(200);
+    //})
   })
 })
 
@@ -72,7 +77,6 @@ router.put('/updatecomments/:id', function(req, res) {
   streamData.comment = newText;
   // streamData.time = now.toISOString();
   // streamData.foreign_id = 'comment:1';
-  console.log("<<<<<<<<<<<<<<<<<<<<<",streamData, ">>>>>>>>>>>>>>>>>>>>>>>");
   client.updateActivities([streamData])
   .then((data) => {
     console.log("data is here" , data, "data is here");
@@ -89,20 +93,31 @@ router.put('/updatecomments/:id', function(req, res) {
 
 //POST route for adding user beers
 router.post('/addbeers', requireAuth, function(req, res) {
-  let username = req.body.values.username;
-  let beer = req.body.beer;
+  let review = req.body.values;
+  let username = req.body.userinfo.username;
+  let beerId = req.body.values.beerId;
+  let now = new Date();
   let userFeed = client.feed('user', username );
-  // helpers.commentHelpers.save(req.body).then(() => {
-  //   res.send(200);
-  // })
-  userFeed.addActivity({
-    actor: username,
-    beer: beer,
-    verb: 'addbeer',
-    object: 1
-  }).then((data) => {
-    res.send(data);
+  helpers.beerHelpers.grabOne(beerId)
+  .then((beer) => {
+    beer = beer[0];
+    // helpers.commentHelpers.save(req.body).then(() => {
+    //   res.send(200);
+    // })
+    userFeed.addActivity({
+      actor: username,
+      beer: beer,
+      comments: [],
+      review: review,
+      time: now.toISOString(),
+      verb: 'addbeer',
+      foreign_id : 'beer:1',
+      object: 1
+    }).then((data) => {
+      res.send(data);
+    })
   })
+
 })
 
 //DELETE route for deleting user beers
@@ -116,6 +131,20 @@ router.delete('/deletebeer/:id', requireAuth, function(req, res) {
   .then((data) => {
     res.send(data);
   })
+})
+
+//UPDATE route for deleting user beers
+router.put('/updatebeer/:id', requireAuth, function(req, res) {
+  console.log(req.params.id);
+  // let username = req.body.values.username;
+  // let userFeed = client.feed('user', username );
+  // // helpers.commentHelpers.save(req.body).then(() => {
+  // //   res.send(200);
+  // // })
+  // userFeed.removeActivity(req.params.id)
+  // .then((data) => {
+  //   res.send(data);
+  // })
 })
 
 //POST route for following otheruser feed

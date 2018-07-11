@@ -91,6 +91,9 @@ const NavBarDesktop = (props) => (
     <Menu.Item className = "navItems" >
     <NavLink className = "navItems" to="/Trends">Trends</NavLink> 
     </Menu.Item >
+    <Menu.Item className = "navItems" >
+    <NavLink className = "navItems" to="/addBeer">Add Beer To Database</NavLink> 
+    </Menu.Item >
     {/* <Menu.Item>
     <NavLink className = "navItems" to="/signin">Signin</NavLink> 
     </Menu.Item > */}
@@ -150,7 +153,10 @@ class NavBar extends Component {
     if (visible) this.setState({ visible: false });
   };
 
-  handleToggle(){this.setState({ visible: !this.state.visible });}
+  handleToggle() {
+    this.setState({ visible: !this.state.visible });
+  }
+
   componentDidMount() {
     // Responsive.onlyMobile.minWidth-=360;
     // Responsive.onlyTablet.minWidth-=150;    

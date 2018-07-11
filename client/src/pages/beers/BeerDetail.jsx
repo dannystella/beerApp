@@ -7,7 +7,7 @@ import { Image, Grid} from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
 import Comment from '../../components/comment.jsx';
 import UsersContainer from '../../modules/users/state/UsersContainer.js';
-
+import UserBeerForm from '../../components/checkUserBeerForm.jsx';
 
 class BeerDetail extends React.Component{
   constructor(props) {
@@ -22,8 +22,8 @@ class BeerDetail extends React.Component{
   this.reFetch = this.reFetch.bind(this);
   this.updateCommentForm = this.updateCommentForm.bind(this);
   this.makeCommentNull = this.makeCommentNull.bind(this);
+  this.navigateAway = this.navigateAway.bind(this);
 }
-
 
   updateCommentForm(comment) {
     this.setState({
@@ -32,6 +32,11 @@ class BeerDetail extends React.Component{
     })
   }
 
+   
+  navigateAway() {
+    this.props.history.push('/');
+  }
+ 
   makeCommentNull() {
     this.setState({
       comment: undefined
@@ -56,11 +61,9 @@ class BeerDetail extends React.Component{
 
   renderComments() {
     let beerId = this.props.match.params;
-    // console.log(this.props.userInfo, "user props");
     if(this.props.beer.comments && this.props.beer.comments.length > 0) {
       return (
         this.props.beer.comments.map((comment, i ) => {
-          // console.log("comment", comment);
           if (comment.username === this.props.userInfo.username) {
             return (
                 <div key = {comment.text}>
@@ -88,7 +91,6 @@ class BeerDetail extends React.Component{
     }
   }
 
-
   render() {
     const { beer } = this.props;
     if(!beer) {
@@ -114,7 +116,10 @@ class BeerDetail extends React.Component{
         </div>
         </Grid.Row>
         </Grid>
-        {this.props.userAuth ? <UsersContainer id = {this.props.match.params.id} trigger = {this.state.trigger} reFetch = {this.reFetch} updateCommentForm = {this.updateCommentForm} comment = {this.state.comment} makeCommentNull = {this.makeCommentNull} />
+        {/* {this.props.userAuth ? <UsersContainer id = {this.props.match.params.id} trigger = {this.state.trigger} reFetch = {this.reFetch} updateCommentForm = {this.updateCommentForm} comment = {this.state.comment} makeCommentNull = {this.makeCommentNull} />
+           : <div></div> 
+        } */}
+        {this.props.userAuth ? <UserBeerForm userInfo = {this.props.userInfo} id = {this.props.match.params.id} trigger = {this.state.trigger} reFetch = {this.reFetch} updateCommentForm = {this.updateCommentForm} comment = {this.state.comment} makeCommentNull = {this.makeCommentNull} />
            : <div></div> 
         }
 
@@ -125,9 +130,10 @@ class BeerDetail extends React.Component{
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log("map state", state);
+  console.log("map state", state);
   return {
     beer: state.beers[ownProps.match.params.id],
+    beerDetail: state.beers[ownProps.match.params.id],
     userInfo: state.userAuth.userinfo,
     userAuth: state.userAuth.authenticated
   }

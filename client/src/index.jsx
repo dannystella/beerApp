@@ -17,6 +17,7 @@ import BeerForm from './pages/Addbeerform.jsx';
 import BeerDetail from './pages/Beers/BeerDetail.jsx';
 import ArticleDetail from './pages/Home/ArticleDetail.jsx';
 import BeersContainer from './modules/beers/state/BeersContainer';
+import UserBeerForm from './components/checkUserBeerForm.jsx';
 import ArticlesContainer from './modules/articles/state/ArticlesContainer';
 import Signout from './pages/signupSignin/signout.jsx';
 import Signin from './pages/signupSignin/signin.jsx';
@@ -64,6 +65,7 @@ render() {
           <Route path="/" render={() => (
             <ArticlesContainer/>   
           )} />          
+               
           </Switch>
         </NavBar>
         </Grid>
