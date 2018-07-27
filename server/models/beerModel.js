@@ -7,6 +7,7 @@ var beerSchema = mongoose.Schema({
   type: String,
   description: String,
   abv: Number,
+  rating: Number,
   rank: Number,
   imageUrl: String,
   comments: [{text: String, username: String, streamData: {}}]

@@ -19,7 +19,6 @@ constructor(props) {
 
     
     componentDidMount() {
-        console.log("on mount", !isArray(this.props.beers))
         if(!this.props.beers || !isArray(this.props.beers)) {
             this.props.fetchBeers();            
         }
@@ -28,7 +27,7 @@ constructor(props) {
 
     onDeleteClick(id) {
       this.props.deleteBeer(id, () => {
-          this.props.history.push('/Beers');
+          this.props.history.push('/beers');
       });    
     }
 
@@ -39,7 +38,7 @@ constructor(props) {
         return this.props.beers.map((beer, i) => 
             <Grid.Row container = 'true' key = {i} columns = {5}>
             <Grid.Column width={4}>
-            <h5><Link to = {`/Beers/${beer._id}`}>{beer.beername}</Link></h5>
+            <h5><Link to = {`/beers/${beer._id}`}>{beer.beername}</Link></h5>
             </Grid.Column>
             <Grid.Column width={2}>
             <h5>{beer.breweryname}</h5>
@@ -97,7 +96,6 @@ constructor(props) {
                 </Grid.Column>
                 <Grid.Column width={1}>
                 <h5 onClick = {((e)=> {
-                    // console.log(this.props.sortByRank)
                 this.props.sortByRank(this.props.beers);
             })}>Rank</h5>
                 </Grid.Column>

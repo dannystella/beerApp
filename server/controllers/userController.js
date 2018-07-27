@@ -29,9 +29,26 @@ userHelpers.comparePassword = function(candidatePassword, hashedPassword, cb) {
 }
 
 userHelpers.save = (schema) => {
+  console.log(schema, "schema")
   return User.create(schema)
   .then((user) => {
+    console.log(user, "user")
     return user;
+  })
+}
+userHelpers.findAll = () => {
+  return User.find({}).exec();
+}
+
+userHelpers.getUser = (id) => {
+  return User.find({_id: id}).exec();
+}
+
+userHelpers.update = (id, specField, specChange) => {
+  userHelpers.getUser(id)
+  .then((user) => {
+    user.specField = user.specChange;
+    user.save();
   })
 }
 

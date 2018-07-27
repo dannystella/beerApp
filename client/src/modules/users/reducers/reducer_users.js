@@ -1,5 +1,5 @@
 // import { reducer as formReducer } from 'redux-form';
-import { AUTH_USER, AUTH_ERROR, CREATE_COMMENT, DELETE_COMMENT, UPDATE_COMMENT, ADD_USERBEER, FETCH_FEED } from '../actions';
+import { AUTH_USER, AUTH_ERROR, CREATE_COMMENT, DELETE_COMMENT, UPDATE_COMMENT, ADD_USERBEER, FETCH_FEED, CURRENT_COMMENT, ADD_DELETE_LIKE, FETCH_USERS, FETCH_USER, GET_USER, FOLLOW_USER  } from '../actions';
 
 const INITIAL_STATE = {
   authenticated: '',
@@ -21,8 +21,20 @@ export default function(state = INITIAL_STATE, action) {
     case ADD_USERBEER:
       return {...state, newUserBeer: action.payload}
     case FETCH_FEED:
-      console.log("hitting feed", action.payload.data.results);
       return {...state, userFeed: action.payload.data.results}
+    case ADD_DELETE_LIKE:
+      return {...state, currentLike: action.payload}
+    case CURRENT_COMMENT:
+      return {...state, currentEditingComment: action.payload}
+    case FETCH_USERS:
+      return {...state, allUsers: action.payload}
+    case FETCH_USER: 
+      return {...state, currentUser: action.payload}  
+    case FOLLOW_USER:
+      return {...state, follow: action.payload }
+    case GET_USER:
+    console.log(action.payload)
+      return {...state, userinfo: action.payload.data[0]}
     default: 
       return state;
   }

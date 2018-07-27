@@ -11,6 +11,25 @@ const app = express();
 const beerRoute = require('./routes/beerRoute');
 const articleRoute = require('./routes/articleRoute');
 const userRoute = require('./routes/userRoute');
+var RateLimit = require('express-rate-limit');
+
+var likeLimiter1 = new RateLimit({
+  windowMs: .01*60*1000, 
+  max: 1,
+  delayAfter: 1, // begin slowing down responses after the first request
+  delayMs:15 * 1000, // slow down subsequent responses by 3 seconds per request
+  message: "Too many requests"
+});
+
+var likeLimiter2 = new RateLimit({
+  windowMs: .1*60*1000, 
+  max: 3,
+  delayAfter: 1, 
+  delayMs: 10*5000, 
+  message: "Too many requests"
+});
+ 
+app.use('/users/likes', likeLimiter1);
 
 
 mongoose.connect(`mongodb://${dbUser}:${dbPassword}@ds253889.mlab.com:53889/beeroiseur`);

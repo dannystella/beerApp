@@ -7,7 +7,6 @@ export default function(state = {}, action) {
     case DELETE_BEER:
       return _.reject(state, beer => beer._id === action.payload);
     case FETCH_BEER:
-    console.log("the fetch")
       return {...state, [action.payload.data[0]._id]: action.payload.data[0]};
     case FETCH_BEERS: 
       return action.payload.data.sort(function(a, b) {
@@ -53,7 +52,6 @@ const sortByType = (arr) => {
   for(var item in ordered) {
       byType.push(newBeers[item]);
   }
-  console.log("here", byType);
   byType = _.flattenDeep(byType);
   return byType;
 }
@@ -69,7 +67,6 @@ const sortByBrewery = (arr) => {
   for(var item in ordered) {
       byBrewery.push(newBeers[item]);
   }
-  console.log("here", byBrewery);
   byBrewery = _.flattenDeep(byBrewery);
   return byBrewery;
 }

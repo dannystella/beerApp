@@ -7,74 +7,66 @@ import { connect, dispatch } from 'react-redux';
 import * as actions from '../modules/users/actions';
 import authMiddleware from './authMiddleware.jsx';
 import RatingStar from './rating.jsx';
+import * as utils from '../utils/utils.js';
 
 const ratingState = React.createContext(0);
 
 class UserBeerForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          rerender: false,
-          initialvalue: '',
-          rating: 0,
-          edit: false
-        }
-        this.renderField = this.renderField.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.handleRating = this.handleRating.bind(this);
-    }
+  constructor(props) {
+      super(props);
+      this.state = {
+        rerender: false,
+        initialvalue: '',
+        rating: 0,
+        edit: false
+      }
+      this.renderField = this.renderField.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
+      this.handleRating = this.handleRating.bind(this);
+  }
 
-    componentDidMount() {
-      // console.log(this.props);
-      // if(this.props.comment !== undefined) {
-      //   this.props.initialize({ text: this.props.comment.text })}
-    } 
+  componentDidMount() {
 
-    componentWillMount() {
+  } 
 
-    }
+  componentWillMount() {
 
-    componentWillReceiveProps(props) {
-      // console.log(props.comment);
-    }
+  }
 
-    handleRating(rating) {
-      // console.log(context)
-      this.setState({
-        rating
-      })
-    }
-    
-    renderField(field) {
-      const { meta: {touched, error } } = field;
-      const className = `form-group ${touched && error ? 'has-danger' : ''}`
-      return (
-        <div className = {className}>
-        <label>{field.label}</label>
-          <input
-            className= "form-control"
-            type = "text"
-            value = "value"
-            {...field.input}
-          />
-          <div className = "text-danger">
-          {touched ? error : ''}
-          </div>
+  componentWillReceiveProps(props) {
+
+  }
+
+  handleRating(rating) {
+    this.setState({
+      rating
+    })
+  }
+  
+  renderField(field) {
+    const { meta: {touched, error } } = field;
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`
+    return (
+      <div className = {className}>
+      <label>{field.label}</label>
+        <input
+          className= "form-control"
+          type = "text"
+          value = "value"
+          {...field.input}
+        />
+        <div className = "text-danger">
+        {touched ? error : ''}
         </div>
-      )
-    } 
+      </div>
+    )
+  } 
 
   onSubmit(values) {
     let userBeerValues = values;
     userBeerValues.beerId = this.props.id;
     userBeerValues.rating = this.state.rating;
-    let userInfo;
-    // console.log(typeof this.props.state.userAuth.userinfo);
-    if(typeof this.props.state.userAuth.userinfo === 'string') {
-      userInfo = JSON.parse(this.props.state.userAuth.userinfo);
-    } else {
-      userInfo = this.props.state.userAuth.userinfo;
-    }
+    let userInfo = utils.stringChecker(this.props.state.userAuth.userinfo);
     this.props.addUserBeer(values, userInfo, this.navigateAway);
   }
 
@@ -110,7 +102,6 @@ class UserBeerForm extends React.Component {
             value="image"
             component={this.renderField}
             />          
-
             <button type = "submit" className = "btn btn-primary">Drink Beer</button>
           </form>
         </div>

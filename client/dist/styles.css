@@ -13,6 +13,14 @@
     justify-content: space-around;
 }
 
+.fullContainer {
+    height: 100vh; width: 100vw;     
+}
+
+.realNav {
+  width: 100vw;     
+
+}
 .navbar {
 
 }
@@ -40,8 +48,8 @@ ul {
     padding-left: 20px
 }
 
-navImage {
-    float: left
+navIcon {
+    padding-bottom: 30px
 }
 
 .navHeaderMobile {
@@ -69,7 +77,7 @@ navImage {
 }
 
 .navbarDesktop {
-    height: 60px;
+    /* height: 60px; */
     /* margin-left: 30px; */
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1.5px 5px 0 rgba(0, 0, 0, 0.19) !important;
 }
@@ -156,4 +164,35 @@ form a {
 
 .commentBox {
     margin-left: 30px
+}
+
+.pushDown {
+    padding-top: 50px
+}
+
+.navbar-toggle {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggle:hover,
+.navbar-toggle:active,
+.navbar-toggle:focus
+{
+background:none !important;
+border-color:none !important;
+}
+
+.navToggleLeft {
+    float: left;
+    padding-left: 20px;
+}
+
+avatarIcon {
+    margin-left: 100px
+}
+
+smallImage {
+    width: 50px;
+    height: 50px
 }

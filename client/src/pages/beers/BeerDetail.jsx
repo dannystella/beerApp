@@ -46,10 +46,8 @@ class BeerDetail extends React.Component{
 
   componentDidMount() {
     const { id } = this.props.match.params;
-    // console.log(this.props.userAuth, "here")
-    this.props.fetchBeer(id).then(() => {
+      this.props.fetchBeer(id).then(() => {
     })
-
   }
 
   reFetch() {
@@ -60,35 +58,7 @@ class BeerDetail extends React.Component{
   }
 
   renderComments() {
-    let beerId = this.props.match.params;
-    if(this.props.beer.comments && this.props.beer.comments.length > 0) {
-      return (
-        this.props.beer.comments.map((comment, i ) => {
-          if (comment.username === this.props.userInfo.username) {
-            return (
-                <div key = {comment.text}>
-                  <Comment key = {i} comment = {comment} beerId = {beerId} reFetch = {this.reFetch} />
-                  <div>
-                  <button onClick = {((e) => {
-                    console.log(comment);
-                    this.props.deleteComment(this.reFetch, comment, beerId, "comment", this.props.userInfo);
-                  })}>Delete</button>              
-                  <button onClick = {((e) => {
-                    this.updateCommentForm(comment);
-                  })}>Edit</button>
-                  </div>
-                </div>  
-            )
-        } else {
-          return (
-            <div key = {comment.text}>
-              <Comment key = {i} comment = {comment} beerId = {beerId} reFetch = {this.reFetch} />
-            </div>
-          )
-        }
-        })
-      )
-    }
+
   }
 
   render() {
@@ -112,21 +82,15 @@ class BeerDetail extends React.Component{
 
         </div>
         <div className = "commentFeed" >
-        {this.renderComments()}
         </div>
         </Grid.Row>
         </Grid>
-        {/* {this.props.userAuth ? <UsersContainer id = {this.props.match.params.id} trigger = {this.state.trigger} reFetch = {this.reFetch} updateCommentForm = {this.updateCommentForm} comment = {this.state.comment} makeCommentNull = {this.makeCommentNull} />
-           : <div></div> 
-        } */}
         {this.props.userAuth ? <UserBeerForm userInfo = {this.props.userInfo} id = {this.props.match.params.id} trigger = {this.state.trigger} reFetch = {this.reFetch} updateCommentForm = {this.updateCommentForm} comment = {this.state.comment} makeCommentNull = {this.makeCommentNull} />
            : <div></div> 
         }
-
       </div>
     );
   }
-
 }
 
 function mapStateToProps(state, ownProps) {

@@ -1,129 +1,138 @@
 import React from 'react'
-import { Form, Input, TextArea, Button } from 'semantic-ui-react'
+import {  Input, TextArea, Button } from 'semantic-ui-react'
 import axios from  'axios';
-import { Field, reduxForm, reset } from 'redux-form';
+import { Field, Form, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect, dispatch } from 'react-redux';
 import * as actions from '../modules/users/actions';
 import authMiddleware from './authMiddleware.jsx';
+import * as utils from '../utils/utils.js';
 
 class CommentForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          rerender: false,
-          initialvalue: '',
-          edit: false
-        }
-        this.renderField = this.renderField.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    componentDidMount() {
-      // if(this.props.comment !== undefined) {
-      //   this.props.initialize({ text: this.props.comment.text })}
-    } 
-
-    componentWillMount() {
-
-    }
-
-    componentWillReceiveProps(props) {
-      // console.log(props.comment);
-    }
-
-    renderField(field) {
-      const { meta: {touched, error } } = field;
-      const className = `form-group ${touched && error ? 'has-danger' : ''}`
-      return (
-        <div className = {className}>
-        <label>{field.label}</label>
-          <input
-            className= "form-control"
-            type = "text"
-            value = "value"
-            {...field.input}
-          />
-          <div className = "text-danger">
-          {touched ? error : ''}
-          </div>
-        </div>
-      )
-    } 
-  
-  onSubmit(values) {
-    // console.log(" does form have comment", this.props.comment);
-    values.userid = this.props.userInfo._id;
-    values.username = this.props.userInfo.username;
-    let beerReview = this.props.beerReview;
-    if(!this.props.comment) {
-      console.log("add");
-      this.props.createComment(values, this.props.reFetch, this.props.id, this.props.trigger, beerReview);
-    } else if (this.props.comment) {
-      console.log("update", this.props.comment._id);
-      this.props.updateComment(this.props.reFetch, this.props.comment, values, this.props.id, this.props.trigger, beerReview);
-      this.props.makeCommentNull();
-    }
+  constructor(props) {
+      super(props);
+      this.state = {
+        commentValue: '',
+        isEditing: false,
+      }
+      this.renderField = this.renderField.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
+      this.handleChange = this.handleChange.bind(this);
   }
 
-   render() {
-    const userinfo = (this.props.userInfo);
-    const username = userinfo.username
-     const { handleSubmit } = this.props;
-       return (  
-         <div>
-          <form 
-          onSubmit={handleSubmit(this.onSubmit.bind(this))} 
-          >
-            <Field
-            label= "text"
-            name = "text"
-            value="comment"
-            component={this.renderField}
-            />
-            <button type = "submit" className = "btn btn-primary">Add Comment</button>
-          </form>
+  componentDidMount() {
+
+  }     
+
+  componentDidUpdate() {
+    if(this.state.isEditing) {
+      return;
+    }
+    if(this.props.currentCommentValue) {
+      if(this.props.item.id === this.props.currentCommentValue.beerObj.id) {
+        console.log("yes");
+        // if(this.props.currentCommentValue.commentObj.streamData.comment !== this.state.commentValue) {
+          // console.log(this.props.currentCommentValue.commentObj.streamData.comment);
+          this.setState({
+            commentValue: this.props.currentCommentValue.commentObj.streamData.comment,
+            isEditing: true
+          })
+        //}
+      }
+    }
+
+  }
+
+  componentWillReceiveProps(props) {
+    
+  }
+
+  handleChange(e) {
+    e.preventDefault();
+    this.setState({
+      commentValue: e.target.value
+    })
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    if(this.state.isEditing === false) {
+      let values = {};
+      values.text = this.state.commentValue;
+      values.userid = this.props.userInfo._id;
+      values.username = this.props.userInfo.username;
+      let beerReview = this.props.beerReview;
+      this.props.createComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, beerReview)   
+      e.target.reset();
+      this.setState({
+        commentValue: ''
+      })
+    }
+    if(this.state.isEditing) {
+      let values = {};
+      values.text = this.state.commentValue;
+      values.userid = this.props.userInfo._id;
+      values.username = this.props.userInfo.username;
+      let beerReview = this.props.beerReview; 
+      this.props.updateComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, this.props.currentCommentValue)       
+       console.log("bit")
+       this.setState({
+        commentValue: '',
+        isEditing: false
+      })    
+      this.props.currentComment(null);
+        // e.target.reset();
+    }
+  }
+  renderField(field) {
+    return (
+      <div>
+      <label>
+      </label>
+        <input
+          className= "form-control"
+          type = "text"
+          onChange = {this.handleChange}
+          value = {this.state.commentValue}
+        />
+        <div className = "text-danger">
         </div>
+      </div>
     )
-   } 
-}
+  } 
 
-function validate(values) {
-  const errors = {};
-  if(!values.comment) {
-    errors.comment = "Enter a comment"
-  }
-  return errors;
+  render() {
+    return (  
+      <div>
+      <form 
+      onSubmit = {this.onSubmit}
+      >
+      {this.renderField()}
+        <button type = "submit" className = "btn btn-primary">Add Comment</button>
+      </form>
+    </div>
+    )
+  } 
 }
-
-const afterSubmit = (result, dispatch) =>
-  dispatch(reset('commentForm'));
 
 const mapStateToProps = (state, ownProps) => {
-  let userInfo;
-  if(typeof state.userAuth.userinfo === 'string') {
-    userInfo = JSON.parse(state.userAuth.userinfo);
-  } else {
-    userInfo = state.userAuth.userinfo;
+  let currentCommentValue;
+  if(state.userAuth.currentEditingComment) {
+    currentCommentValue = state.userAuth.currentEditingComment;
   }
+
+  let userInfo = utils.stringChecker(state.userAuth.userinfo);
   let comment = '';
+
   if(ownProps.comment) {
     comment = ownProps.comment.text;
-    // console.log(comment, "important");
   }
+
   return {
-    initialValues: {
-      text: comment, 
-    },
-    userInfo
+    state: state,
+    userInfo,
+    currentCommentValue
   }
 }
-
-CommentForm = reduxForm({
-  validate,
-  form: 'commentForm',
-  enableReinitialize: true,
-  onSubmitSuccess: afterSubmit,
-})(CommentForm);
 
 export default connect(mapStateToProps, actions)(CommentForm);

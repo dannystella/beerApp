@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../modules/users/actions';
 
-
 class Signout extends Component {
   constructor(props) {
     super(props);
-
 
 }
   componentDidMount() {
@@ -17,7 +15,6 @@ class Signout extends Component {
     return <div>
       Sorry to see you go!
       </div>
-
   }
 }
 

@@ -3,7 +3,6 @@ import axios from 'axios';
 import Signup from './signupSignin/signup.jsx';
 import Signin from './signupSignin/signin.jsx';
 
-
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +20,6 @@ class Login extends Component {
         trigger: flag
       }, () => {console.log(this.state.trigger)})
     }
-
 
     render() {
         return (

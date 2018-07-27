@@ -15,7 +15,6 @@ export function fetchBeers() {
 }
 
 export function createBeer(values, callback) {
-  console.log(values);
   const request = axios.post('/beers/addbeers', values).then((res) => {
     if(callback) {
       callback();
@@ -31,7 +30,6 @@ export function createBeer(values, callback) {
 export function fetchBeer(id) {
   const request = axios.get(`/beers/${id}`)
   // .then((res) => {
-  //   console.log(res);
   //   return res;
   // });
   return {

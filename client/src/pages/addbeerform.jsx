@@ -7,48 +7,47 @@ import { connect, dispatch } from 'react-redux';
 import { createBeer } from '../modules/beers/actions';
 
 class BeerForm extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-          info : {
-            beerName: '',
-            brewery: '',
-            type: '',
-            abv: '',
-            rank: '',
-            description: '',
+  constructor(props){
+      super(props);
+      this.state = {
+        info : {
+          beerName: '',
+          brewery: '',
+          type: '',
+          abv: '',
+          rank: '',
+          description: '',
 
-          }
         }
-        this.renderField = this.renderField.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        // this.afterSubmit = this.afterSubmit.bind(this);
-    }
+      }
+      this.renderField = this.renderField.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
+  }
 
-    renderField(field) {
-      const { meta: {touched, error } } = field;
-  
-      const className = `form-group ${touched && error ? 'has-danger' : ''}`
-      return (
-        <div className = {className}>
-        <label>{field.label}</label>
-          <input
-          className= "form-control"
-            type = "text"
-            {...field.input}
-          />
-          <div className = "text-danger">
-          {touched ? error : ''}
-          </div>
+  renderField(field) {
+    const { meta: {touched, error } } = field;
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`
+    return (
+      <div className = {className}>
+      <label>{field.label}</label>
+        <input
+        className= "form-control"
+          type = "text"
+          {...field.input}
+        />
+        <div className = "text-danger">
+        {touched ? error : ''}
         </div>
-      )
-    } 
+      </div>
+    )
+  } 
+
   onSubmit(values) {
     this.props.createBeer(values);
 
   }
 
-   render() {
+  render() {
      const { handleSubmit } = this.props;
        return(  
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
@@ -90,7 +89,7 @@ class BeerForm extends React.Component {
           <button type = "submit" className = "btn btn-primary">Submit</button>
           <Link to="/Beers"  className = "btn btn-secondary">Go Back</Link>
         </form>
-    )
+   )
    } 
 
 }
@@ -117,21 +116,17 @@ function validate(values) {
   if(!values.description) {
     errors.description = "Enter a Description"
   }
-
-
   return errors;
-
-
 }
 
 const afterSubmit = (result, dispatch) =>
   dispatch(reset('newBeerForm'));
 
-export default reduxForm({
-  validate,
-  form: 'newBeerForm',
-  enableReinitialize: true,
-  onSubmitSuccess: afterSubmit,
-})(
+  export default reduxForm({
+    validate,
+    form: 'newBeerForm',
+    enableReinitialize: true,
+    onSubmitSuccess: afterSubmit,
+  })(
   connect(null, { createBeer })(BeerForm)
 );

@@ -1,61 +1,118 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {fetchFeed,
-  signin,
-  signout,
-  signup, 
-  createComment,
-  deleteComment,
-  updateComment,
-  addUserBeer,
- } from '../../modules/users/actions';
+import {fetchFeed, signin, signout, signup, createComment, deleteComment, updateComment, currentComment, addUserBeer, deleteUserBeer, addDeleteLike} from '../../modules/users/actions';
 import { Link } from 'react-router-dom';
+import { Feed, Icon } from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
 import Comment from '../../components/comment.jsx';
 import CommentForm from '../../components/commentForm.jsx';
+import Like from '../../components/like.jsx';
+import * as utils from '../../utils/utils.js';
+import Joe from '../../components/joe.jpg';
+import uniqueid from 'uniqid';
+
 
 class UserFeed extends React.Component {
   constructor(props) {
     super(props);
 
-this.renderFeed = this.renderFeed.bind(this);
+    this.state = {
+      isEditing: false,
+      currentBeerEdit: '',
+      currentCommentEdit: '',
+    }
+    
+  this.renderFeed = this.renderFeed.bind(this);
+  this.reFetchFeed = this.reFetchFeed.bind(this);
+  this.currentCommentCatcher = this.currentCommentCatcher.bind(this);
+  this.handleAddLike = this.handleAddLike.bind(this);
 }
 
-  componentWillMount() {
-     if(this.props.userAuth.authenticated) {
-      console.log("hit");
-      this.props.fetchFeed(this.props.userAuth.userinfo);
-    }
+componentWillMount() {
+  if(this.props.userAuth.authenticated) {
+    this.props.fetchFeed(this.props.userAuth.userinfo);
   }
+}
+
+componentDidMount() {
+
+}
+
+currentCommentCatcher(comment) {
+  // console.log(comment, "hereee")
+}
+
+reFetchFeed() {
+  if(this.props.userAuth.authenticated) {
+    this.props.fetchFeed(this.props.userAuth.userinfo);
+  }
+}
+
+handleAddLike(values, callback) {
+  return this.props.addLike(values, callback);
+}
 
 renderFeed() {
-  if(this.props.userAuth.userFeed) {
+  if(this.props.userAuth.userFeed && this.props.userAuth.authenticated ) {
     return this.props.userAuth.userFeed.map((item, i) => {
-      // if(item.comment) {
-      //   return (<div key = {i}>
-      //     <h3>{item.actor}</h3>
-      //     <p>{item.comment}</p>
-      //     </div>)
-      //   } 
-      console.log(item, "feed item");
       if (item.beer) {
-          return (<div key = {i}>
-            <h3>{item.actor}</h3>
-            <p>{item.beer.beername}</p>
-            <p>{item.review.rating}</p>
-            <p>{item.review.review}</p>
+        let userInfo = utils.stringChecker(this.props.userAuth.userinfo);
+        let deleteButton = (<div></div>)
+        if(item.actor === userInfo.username) {
+          deleteButton = (<button onClick = {((e) => {
+            this.props.deleteUserBeer( item, userInfo, this.reFetchFeed);
+          })}>delete </button>)
+        }
+          return (
+          <div key = {item.id + "D"}>
+          <Feed.Event>
+            <Feed.Label>
+            <img src = {Joe}/>
+            </Feed.Label>  
+            <Feed.Content>
+              <Feed.User key = {item.id + 'H'}>{item.actor}</Feed.User>
+              <p key = {item.id + "N"} >{item.beer.beername}</p>
+              <p key = {item.id + "RA"}>{item.review.rating}</p>
+              <p key = {item.id + "RE"}>{item.review.review}</p>
+              {deleteButton}
+              <Feed.Meta>
+                <Like item = {item} reFetchFeed = {this.reFetchFeed}/>
+              </Feed.Meta>
+            </Feed.Content>
+            </Feed.Event>
             {item.comments.map((comment, i) => {
-              return (<div className = 'commentBox' key = {comment.text}>
-               <h6>{comment.username}</h6>
-               <p>{comment.text}</p>    
-              </div>  
+              let userInfo = utils.stringChecker(this.props.userAuth.userinfo);
+              if (comment.streamData.actor === userInfo.username) {
+              return (
+                <div className = 'commentBox' key = {i}>
+                <h6 key = {uniqueid() + 'S'}>{comment.streamData.actor}</h6>
+                <p key = {uniqueid()}>{comment.streamData.comment}</p>    
+                <button key = {item.id + "BU"} onClick = {((e) => {
+                  this.props.deleteComment(comment.streamData, item, this.reFetchFeed);
+                })}>delete</button>
+                <button key = {item.id + "B"} onClick = {((e) => {
+                  let updateComment = {};
+                  updateComment.commentObj = comment;
+                  updateComment.beerObj = item;
+                  this.props.currentComment(updateComment);
+;                })}>update</button>
+                </div>  
               )
+            } else {
+              return (
+                <div className = 'commentBox' key = {comment.streamData.id + "COMMENT"}>
+                <h6 key = {comment.streamData.id + comment.streamData.actor}>{comment.streamData.actor}</h6>
+                <p key = {comment.streamData.id + comment.streamData.comment}>{comment.streamData.comment}</p>    
+               </div>  
+              )
+            }
             })}
-            <div>
-              <CommentForm beerReview = {item}/>
-
+            <div key = {item.time}  >
+              <CommentForm item = {item}  key = {item.id} currentCommentValue = {this.state.currentCommentEdit} reFetchFeed = {this.reFetchFeed} beerReview = {item} currentBeerEdit = {this.state.currentBeerEdit}/>
             </div>
-            </div>)
+            </div>
+            
+            )
         }
       })
     
@@ -63,33 +120,47 @@ renderFeed() {
   return (<div><Loader/></div>)
 }
 
-
   render() {
-
     return (
       <div>
-        {/* <Link to = "/" className ="btn btn-primary">Back to Home</Link> */}
         <p>Feed</p>
+        <Feed>
         {this.renderFeed()}
+        </Feed>
       </div>
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(state, "feed state");
+  let initialCommentValue = null;
+  // console.log(state);
+  let likeStatus;
+  if(!state.userAuth.likeStatus) {
+    likeStatus = null;
+  } else {
+    likeStatus = state.userAuth.likeStatus.likeStatus;
+  }
+  if(state.userAuth.currentEditComment) {
+    initialCommentValue = state.userAuth.currentEditComment;
+  }
+  // console.log(likeStatus)
   return {
     userAuth: state.userAuth,
+    initialCommentValue,
+    likeStatus
   }
 }
-
 
 export default connect(mapStateToProps, { fetchFeed,
   signin,
   signout,
   signup, 
+  currentComment,
   createComment,
   deleteComment,
   updateComment,
   addUserBeer,
+  deleteUserBeer,
+
 })(UserFeed);

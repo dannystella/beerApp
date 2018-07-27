@@ -10,17 +10,21 @@ function tokenForUser(user) {
 }
 
 exports.signin = function(req, res, next) {
-  console.log("auth", req.user)
+  // console.log("auth", req.user)
+  // console.log(req.user);
   res.send({token: tokenForUser(req.user), user: req.user})
 }
 
 exports.signup = function(req, res, next) {
+  // console.log(req.body);
   const email = req.body.email;
   const username = req.body.username;
   let password = req.body.password;
-  const summary = req.body.summary;
+  let likes = {};
+  let follows = {};
+  let followers = {};
+  const summary = '';
   const comments = req.body.comments;
-
 
   if(!email || !password) {
     return res.status(422).send({error: "You must provide an email and password"});
@@ -42,9 +46,15 @@ exports.signup = function(req, res, next) {
         username: username,
         password: hashedPassword,
         summary: summary,
-        comments: comments
+        comments: comments,
+        likes: likes,
+        follows: follows,
+        followers: followers
       })
         .then((user) => {
+          console.log("userinfo here", user);
+          user.markModified('likes');
+          user.markModified('follows');
           res.send({token: tokenForUser(user), user: user})
         });
       })

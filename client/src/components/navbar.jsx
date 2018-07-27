@@ -17,7 +17,7 @@ import {
   Grid,
   Input
 } from "semantic-ui-react";
-import Dinosaur from './dinosaur (1).png'
+import Dinosaur from './dinosaur.png'
 const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems, visible}) => (
   <div>
       <Sidebar
