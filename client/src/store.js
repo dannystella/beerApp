@@ -5,18 +5,14 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import BeerReducer from './modules/beers/reducers/reducer_beers';
 import ArticleReducer from './modules/articles/reducers/reducer_articles';
-import UserReducer from './modules/users/reducers/reducer_users';
-
-
+import * as userReducers from './modules/users/reducers/reducer_users';
 
 const rootReducer = combineReducers({
   beers: BeerReducer,
   articles: ArticleReducer,
   form: formReducer,
-  userAuth: UserReducer,
+  ...userReducers
 });
-
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

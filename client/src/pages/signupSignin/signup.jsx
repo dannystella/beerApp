@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../modules/users/actions';
+import { signup }from '../../modules/users/actions/userAuth_actions';
 
 class Signup extends Component {
   constructor(props) {
@@ -75,8 +75,7 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(compose(
-  
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps, {signup}),
   reduxForm({form: 'signup'})
 )(Signup));
 

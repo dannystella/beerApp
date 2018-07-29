@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {fetchFeed, signin, signout, signup, createComment, deleteComment, updateComment, currentComment, addUserBeer, deleteUserBeer, addDeleteLike} from '../../modules/users/actions';
+import {bindActionCreators} from 'redux';
+import {fetchFeed, fetchUser, fetchUsers}  from '../../modules/users/actions/general_actions';
+import {createComment, deleteComment, updateComment, currentComment}  from '../../modules/users/actions/comments_actions';
 import { Link } from 'react-router-dom';
 import { Feed, Icon } from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
@@ -15,7 +17,6 @@ import uniqueid from 'uniqid';
 class UserFeed extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isEditing: false,
       currentBeerEdit: '',
@@ -53,8 +54,8 @@ handleAddLike(values, callback) {
 }
 
 renderFeed() {
-  if(this.props.userAuth.userFeed && this.props.userAuth.authenticated ) {
-    return this.props.userAuth.userFeed.map((item, i) => {
+  if(this.props.userFeed && this.props.userAuth.authenticated ) {
+    return this.props.userFeed.map((item, i) => {
       if (item.beer) {
         let userInfo = utils.stringChecker(this.props.userAuth.userinfo);
         let deleteButton = (<div></div>)
@@ -133,8 +134,9 @@ renderFeed() {
 }
 
 function mapStateToProps(state, ownProps) {
+  let userFeed = state.generalActions.userFeed;
   let initialCommentValue = null;
-  // console.log(state);
+  console.log(state);
   let likeStatus;
   if(!state.userAuth.likeStatus) {
     likeStatus = null;
@@ -148,19 +150,15 @@ function mapStateToProps(state, ownProps) {
   return {
     userAuth: state.userAuth,
     initialCommentValue,
-    likeStatus
+    likeStatus,
+    userFeed
   }
 }
 
-export default connect(mapStateToProps, { fetchFeed,
-  signin,
-  signout,
-  signup, 
-  currentComment,
-  createComment,
-  deleteComment,
-  updateComment,
-  addUserBeer,
-  deleteUserBeer,
-
+export default connect(mapStateToProps, {
+fetchFeed,
+createComment,
+deleteComment,
+updateComment,
+currentComment
 })(UserFeed);

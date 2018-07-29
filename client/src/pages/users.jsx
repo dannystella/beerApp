@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { isArray } from 'util';
 import LoaderIcon from '../components/loader.jsx';
-import { fetchUsers } from '../modules/users/actions';
+import { fetchUsers } from '../modules/users/actions/general_actions';
 
 class Users extends React.Component {
     constructor(props) {
@@ -59,8 +59,8 @@ class Users extends React.Component {
 function mapStateToProps(state, ownProps) {
   console.log(state);
   let allUsers = null;
-  if(state.userAuth.allUsers) {
-    allUsers = state.userAuth.allUsers.data;
+  if(state.generalActions.allUsers) {
+    allUsers = state.generalActions.allUsers.data;
   }
 
     return {

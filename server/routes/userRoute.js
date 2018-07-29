@@ -157,6 +157,7 @@ router.put('/updatebeer/:id', requireAuth, function(req, res) {
 
 //POST route for following otheruser feed
 router.post('/follows', function(req, res) {
+  // console.log(req.body);
   const addFollow = (req) => {
     console.log("hit follow");
     let username = req.body.userInfo.username;
@@ -165,9 +166,10 @@ router.post('/follows', function(req, res) {
     // console.log(">>>>>>>>", req.body, "<<<<<<<<");
     userFeed.follow('user', otherUser)
     .then((data) => {
-      console.log(data);
-      res.send(data);
+      // console.log(data);
+      // res.send(data);
     })
+
   }
 
   const unFollow = (req) => {
@@ -177,8 +179,7 @@ router.post('/follows', function(req, res) {
     let userFeed = client.feed('user', username );
     userFeed.unfollow('user', otherUser, keep_history=true)
     .then((data) => {
-      console.log(data);
-      res.send(data);
+      // console.log(data);
     })
   }
   let user= req.body.userInfo;
@@ -198,7 +199,8 @@ router.post('/follows', function(req, res) {
       // console.log(user, "post")
       user.markModified('follows');
       return user.save().then((data) => {
-        // console.log(data, ":data")
+        console.log("hit response");
+        res.send(data);
         if(user.follows[otherUser._id] === true) {
          return addFollow(req);
         } else {

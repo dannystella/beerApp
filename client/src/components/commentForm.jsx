@@ -5,6 +5,7 @@ import { Field, Form, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect, dispatch } from 'react-redux';
 import * as actions from '../modules/users/actions';
+import {createComment, deleteComment, updateComment, currentComment}  from '../modules/users/actions/comments_actions';
 import authMiddleware from './authMiddleware.jsx';
 import * as utils from '../utils/utils.js';
 
@@ -30,9 +31,6 @@ class CommentForm extends React.Component {
     }
     if(this.props.currentCommentValue) {
       if(this.props.item.id === this.props.currentCommentValue.beerObj.id) {
-        console.log("yes");
-        // if(this.props.currentCommentValue.commentObj.streamData.comment !== this.state.commentValue) {
-          // console.log(this.props.currentCommentValue.commentObj.streamData.comment);
           this.setState({
             commentValue: this.props.currentCommentValue.commentObj.streamData.comment,
             isEditing: true
@@ -117,8 +115,9 @@ class CommentForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   let currentCommentValue;
-  if(state.userAuth.currentEditingComment) {
-    currentCommentValue = state.userAuth.currentEditingComment;
+  console.log(state);
+  if(state.Comments.currentEditingComment) {
+    currentCommentValue = state.Comments.currentEditingComment;
   }
 
   let userInfo = utils.stringChecker(state.userAuth.userinfo);
@@ -135,4 +134,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, actions)(CommentForm);
+export default connect(mapStateToProps, {createComment,
+  deleteComment,
+  updateComment,
+  currentComment})(CommentForm);

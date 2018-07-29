@@ -104,7 +104,9 @@ class Navigation extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  // console.log(state);
   let userinfo = utils.stringChecker(state.userAuth.userinfo);
+
   return { 
     auth: state.userAuth.authenticated,
     userinfo, 

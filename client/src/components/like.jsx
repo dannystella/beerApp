@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Grid, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import {fetchFeed, signin, signout, signup, createComment, deleteComment, updateComment, currentComment, addUserBeer, deleteUserBeer, addDeleteLike} from '../modules/users/actions';
+import { addDeleteLike, fetchFeed } from '../modules/users/actions/userActivities_actions';
 import * as actions from '../modules/users/actions';
 import { Feed, Icon } from 'semantic-ui-react';
 
@@ -40,14 +40,5 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, { fetchFeed,
-  signin,
-  signout,
-  signup, 
-  currentComment,
-  createComment,
-  deleteComment,
-  updateComment,
-  addUserBeer,
-  deleteUserBeer,
   addDeleteLike
 })(Like);
