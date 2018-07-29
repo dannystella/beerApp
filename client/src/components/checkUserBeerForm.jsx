@@ -4,7 +4,7 @@ import axios from  'axios';
 import { Field, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect, dispatch } from 'react-redux';
-import * as actions from '../modules/users/actions';
+import { addUserBeer } from '../modules/users/actions/userActivities_actions';
 import authMiddleware from './authMiddleware.jsx';
 import RatingStar from './rating.jsx';
 import * as utils from '../utils/utils.js';
@@ -134,4 +134,7 @@ UserBeerForm = reduxForm({
   onSubmitSuccess: afterSubmit,
 })(UserBeerForm);
 
-export default connect(mapStateToProps, actions)(UserBeerForm);
+export default connect(mapStateToProps,
+ {
+   addUserBeer
+ })(UserBeerForm);

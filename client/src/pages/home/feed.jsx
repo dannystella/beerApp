@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchFeed, fetchUser, fetchUsers}  from '../../modules/users/actions/general_actions';
-import {createComment, deleteComment, updateComment, currentComment}  from '../../modules/users/actions/comments_actions';
+import {createComment, deleteComment, updateComment, currentComment} from '../../modules/users/actions/comments_actions';
+import {deleteUserBeer} from '../../modules/users/actions/userActivities_actions';
 import { Link } from 'react-router-dom';
 import { Feed, Icon } from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
@@ -160,5 +161,6 @@ fetchFeed,
 createComment,
 deleteComment,
 updateComment,
-currentComment
+currentComment,
+deleteUserBeer
 })(UserFeed);
