@@ -17,5 +17,4 @@ function userAuth(state = INITIAL_STATE, action) {
 
 }
 
-
 export {userAuth};

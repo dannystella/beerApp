@@ -7,6 +7,7 @@ class Signout extends Component {
     super(props);
 
 }
+
   componentDidMount() {
     this.props.signout();
   }
@@ -16,6 +17,7 @@ class Signout extends Component {
       Sorry to see you go!
       </div>
   }
+
 }
 
 export default connect(null, {

@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchFeed, fetchUser, fetchUsers}  from '../../modules/users/actions/general_actions';
 import {createComment, deleteComment, updateComment, currentComment} from '../../modules/users/actions/comments_actions';
+import {signup, signin, signout } from '../../modules/users/actions/userAuth_actions';
 import {deleteUserBeer} from '../../modules/users/actions/userActivities_actions';
 import { Link } from 'react-router-dom';
-import { Feed, Icon } from 'semantic-ui-react';
+import { Feed, Icon, Image } from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
 import Comment from '../../components/comment.jsx';
 import CommentForm from '../../components/commentForm.jsx';
@@ -46,6 +47,7 @@ currentCommentCatcher(comment) {
 
 reFetchFeed() {
   if(this.props.userAuth.authenticated) {
+    console.log(this.props.userAuth.userinfo)
     this.props.fetchFeed(this.props.userAuth.userinfo);
   }
 }
@@ -57,6 +59,7 @@ handleAddLike(values, callback) {
 renderFeed() {
   if(this.props.userFeed && this.props.userAuth.authenticated ) {
     return this.props.userFeed.map((item, i) => {
+      console.log(item)
       if (item.beer) {
         let userInfo = utils.stringChecker(this.props.userAuth.userinfo);
         let deleteButton = (<div></div>)
@@ -65,6 +68,7 @@ renderFeed() {
             this.props.deleteUserBeer( item, userInfo, this.reFetchFeed);
           })}>delete </button>)
         }
+        // console.log(item);
           return (
           <div key = {item.id + "D"}>
           <Feed.Event>
@@ -72,8 +76,9 @@ renderFeed() {
             <img src = {Joe}/>
             </Feed.Label>  
             <Feed.Content>
-              <Feed.User key = {item.id + 'H'}>{item.actor}</Feed.User>
+              <Feed.User key = {item.id + 'H'}><Link to = {{ pathname: `/profile/${item.actorId}`, state: {currentUser: item.actor}}}>{item.actor}</Link></Feed.User>
               <p key = {item.id + "N"} >{item.beer.beername}</p>
+              <Image size = "mini" key = {item.id + "N"} src = {item.beer.imageUrl} />
               <p key = {item.id + "RA"}>{item.review.rating}</p>
               <p key = {item.id + "RE"}>{item.review.review}</p>
               {deleteButton}
@@ -113,8 +118,7 @@ renderFeed() {
               <CommentForm item = {item}  key = {item.id} currentCommentValue = {this.state.currentCommentEdit} reFetchFeed = {this.reFetchFeed} beerReview = {item} currentBeerEdit = {this.state.currentBeerEdit}/>
             </div>
             </div>
-            
-            )
+          )
         }
       })
     
@@ -147,7 +151,6 @@ function mapStateToProps(state, ownProps) {
   if(state.userAuth.currentEditComment) {
     initialCommentValue = state.userAuth.currentEditComment;
   }
-  // console.log(likeStatus)
   return {
     userAuth: state.userAuth,
     initialCommentValue,
@@ -157,10 +160,13 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-fetchFeed,
-createComment,
-deleteComment,
-updateComment,
-currentComment,
-deleteUserBeer
+  fetchFeed,
+  createComment,
+  deleteComment,
+  updateComment,
+  currentComment,
+  deleteUserBeer,
+  signup,
+  signin,
+  signout
 })(UserFeed);

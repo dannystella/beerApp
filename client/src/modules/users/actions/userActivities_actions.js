@@ -83,6 +83,8 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
   let token = localStorage.getItem('token');
   try {
     const request = await axios.post('/users/follows', values)
+    console.log(request.data);
+    localStorage.setItem('user', JSON.stringify(request.data));
     dispatch({
       type: FOLLOW_USER,
       payload: request.data

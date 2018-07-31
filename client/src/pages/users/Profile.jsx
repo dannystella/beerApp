@@ -6,14 +6,12 @@ import {fetchUser, fetchFeed}  from '../../modules/users/actions/general_actions
 import {followUser}  from '../../modules/users/actions/userActivities_actions';
 import * as utils from '../../utils/utils.js';
 
-
 class ProfilePage extends Component{
   constructor(props) {
     super(props);
     this.state = {
 
     }
-
 
   this.reFetchFeed = this.reFetchFeed.bind(this);
 
@@ -27,14 +25,12 @@ class ProfilePage extends Component{
   }
 
   reFetchFeed() {
-
       this.props.fetchFeed(this.props.userinfo);
   }
 
   render() {
     const { currentUser } = this.props;
-    const {userinfo} = this.props;
-    console.log(userinfo, currentUser, "HEROHs ")
+    const userinfo = utils.stringChecker(this.props.userinfo);
     if(!currentUser) {
       return <div><Loader/></div>
     }
@@ -52,23 +48,22 @@ class ProfilePage extends Component{
 }
 
 function mapStateToProps(state, ownProps) {
-console.log(state, "stateeeee");
-let currentUser;
-if(state.generalActions.currentUser) {
-  currentUser = state.generalActions.currentUser.data[0];
-  // console.log("hit")
-} else {
-  currentUser = null;
-}
-let userinfo = utils.stringChecker(state.userAuth.userinfo);
-if(state.userActivities.userinfo) {
-  userinfo = state.userActivities.userinfo;
-}
-console.log(userinfo, "useringo")
-  return {
-    userinfo,
-    currentUser
+  // console.log(state, "stateeeee");
+  let currentUser;
+  if(state.generalActions.currentUser) {
+    currentUser = state.generalActions.currentUser.data[0];
+  } else {
+    currentUser = null;
   }
+  let userinfo = utils.stringChecker(state.userAuth.userinfo);
+  if(state.userActivities.userinfo) {
+    userinfo = state.userActivities.userinfo;
+  }
+  console.log(userinfo, "useringo")
+    return {
+      userinfo,
+      currentUser
+    }
 }
 
 export default connect(mapStateToProps, { 

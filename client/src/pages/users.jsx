@@ -9,15 +9,12 @@ import { fetchUsers } from '../modules/users/actions/general_actions';
 class Users extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
 
         }
-
         this.renderUsers = this.renderUsers.bind(this);
     }
 
-    
     componentDidMount() {
       this.props.fetchUsers();
 
@@ -26,7 +23,6 @@ class Users extends React.Component {
    renderUsers() {
     if(this.props.allUsers) {
       return this.props.allUsers.map((user, i) => {
-            //   console.log(user)
             return (
                 <div key = {user._id + "div"}>
                 <Grid.Row container = 'true' key = {user._id + i} columns = {1}>
@@ -37,11 +33,9 @@ class Users extends React.Component {
           })
 
     } else {
-        return (<div>yo</div>)
+        return (<div>Loading...</div>)
     }
    }
-
-
 
     render() {
         return (
@@ -63,11 +57,12 @@ function mapStateToProps(state, ownProps) {
     allUsers = state.generalActions.allUsers.data;
   }
 
-    return {
-        // state
-        allUsers
-    }
+  return {
+
+  allUsers
+
   }
+}
   
   export default connect(mapStateToProps, {
     fetchUsers   

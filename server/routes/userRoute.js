@@ -4,6 +4,17 @@ const authorization = require('../controllers/authController');
 const passportService = require('../controllers/services/passport');
 const passport = require('passport');
 const config = require('../config.js');
+const cloudinary = require('cloudinary');
+
+
+//init cloudinary
+cloudinary.config({ 
+  cloud_name: config.cloud_name, 
+  api_key: config.api_key,
+  api_secret: config.api_secret
+});
+
+
 
 //init stream
 var stream = require('getstream');
@@ -88,7 +99,7 @@ router.put('/updatecomments/:id', function(req, res) {
   }
   client.updateActivities([streamData])
   .then((data) => {
-    console.log("data is here" , data, "data is here");
+    // console.log("data is here" , data, "data is here");
     res.sendStatus(200);
 })
   // let commentObj = {};
@@ -115,6 +126,7 @@ router.post('/addbeers', requireAuth, function(req, res) {
     beer = beer[0];
     userFeed.addActivity({
       actor: username,
+      actorId: userId,
       beer: beer,
       comments: [],
       likes: 0,
@@ -288,6 +300,13 @@ router.get('/getusers', function(req, res) {
   })
 
 })
+
+
+//POST route for adding a beerpicture 
+
+
+//POST route for adding a profile picture
+
 
 
 //GET router for userfeed

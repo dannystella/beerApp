@@ -115,7 +115,6 @@ class CommentForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   let currentCommentValue;
-  console.log(state);
   if(state.Comments.currentEditingComment) {
     currentCommentValue = state.Comments.currentEditingComment;
   }

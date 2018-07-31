@@ -13,7 +13,6 @@ function userActivities(state = INITIAL_STATE, action) {
     case ADD_DELETE_LIKE:
       return {...state, currentLike: action.payload}
     case FOLLOW_USER:
-    console.log(action.payload);
       return {...state, userinfo: action.payload }
     default: 
       return state;

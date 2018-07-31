@@ -25,23 +25,21 @@ class Navigation extends Component {
 
   renderLinks() {
     if(this.props.auth) {
-      
       return (
         <IndexLinkContainer activeClassName="" to="/signout">
           <NavItem eventKey={1.5}>Signout</NavItem>
         </IndexLinkContainer>
       )
-        } else {
-          return (
-          <IndexLinkContainer activeClassName="" to="/Login">
-            <NavItem eventKey={1.6}>Login</NavItem>
-          </IndexLinkContainer>
-          )
+    } else {
+        return (
+        <IndexLinkContainer activeClassName="" to="/Login">
+          <NavItem eventKey={1.6}>Login</NavItem>
+        </IndexLinkContainer>
+        )
     }
   }
   handlePusher() {
     const { visible } = this.state;
-  
     if (visible) this.setState({ visible: false });
   };
 
@@ -94,7 +92,6 @@ class Navigation extends Component {
         </IndexLinkContainer>
         {this.renderLinks()}
         {this.renderAvatar()}
-
         </Nav>
         </Navbar.Collapse>
         </Navbar>
@@ -106,7 +103,6 @@ class Navigation extends Component {
 function mapStateToProps(state, ownProps) {
   // console.log(state);
   let userinfo = utils.stringChecker(state.userAuth.userinfo);
-
   return { 
     auth: state.userAuth.authenticated,
     userinfo, 
