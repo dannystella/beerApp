@@ -71,14 +71,18 @@ renderFeed() {
         // console.log(item);
           return (
           <div key = {item.id + "D"}>
-          <Feed.Event>
-            <Feed.Label>
-            <img src = {Joe}/>
+          <Feed.Event key = {item.id + "event"}>
+            <Feed.Label key = {item.id + "label"}>
+            <img src = {Joe} key = {item.id + "avatar"}/>
             </Feed.Label>  
-            <Feed.Content>
-              <Feed.User key = {item.id + 'H'}><Link to = {{ pathname: `/profile/${item.actorId}`, state: {currentUser: item.actor}}}>{item.actor}</Link></Feed.User>
+            <Feed.Content key = {item.id + "content"}>
+              {/* <Feed.User key = {item.id + 'H'}> */}
+              <Link to = {{ pathname: `/profile/${item.actorId}`,
+               state: {currentUser: item.actor}}}>{item.actor}
+               </Link>
+              {/* </Feed.User> */}
               <p key = {item.id + "N"} >{item.beer.beername}</p>
-              <Image size = "mini" key = {item.id + "N"} src = {item.beer.imageUrl} />
+              <Image size = "mini" key = {item.id + "IMAGE"} src = {item.beer.imageUrl} />
               <p key = {item.id + "RA"}>{item.review.rating}</p>
               <p key = {item.id + "RE"}>{item.review.review}</p>
               {deleteButton}

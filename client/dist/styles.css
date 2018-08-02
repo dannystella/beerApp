@@ -1,10 +1,12 @@
 .main {
-    margin: auto
+    margin: auto;
+
 }
 .ui.segment {
     padding: 0px;
     background-color: black;
 }
+
 .item {
     list-style: none;
     margin: 0 2px;
@@ -14,7 +16,8 @@
 }
 
 .fullContainer {
-    height: 100vh; width: 100vw;     
+    height: 100vh;
+    width: 100vw;     
 }
 
 .realNav {
@@ -101,8 +104,9 @@ navIcon {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 200px
+    /* align-items: center; */
+    margin-top: 200px;
+    overflow:hidden;
 }
 
 .card {
@@ -167,7 +171,7 @@ form a {
 }
 
 .pushDown {
-    padding-top: 50px
+    padding-top: 50px;
 }
 
 .navbar-toggle {
@@ -206,4 +210,8 @@ beerThumbnail {
 
 beerThumbnail:hover {
     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+.sign-form {
+  margin-bottom: 500px;
 }

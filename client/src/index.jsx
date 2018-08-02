@@ -44,7 +44,7 @@ render() {
     <HashRouter>
       <div className = "fullContainer">
         <Navigation/>
-        <div className = "pushDown" >
+        <div   className = "pushDown" >
           <Switch>
           <Route path="/profile/:id" component = {ProfilePage}
           />
@@ -69,7 +69,7 @@ render() {
             <Trends/>   
           )} />
           <Route path="/Login" render={() => (
-            <Login/>   
+            <Login />   
           )} />
           <Route path="/addBeer" render={() => (
             <BeerForm handleForm = {this.handleForm}/> 

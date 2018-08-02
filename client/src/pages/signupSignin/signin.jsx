@@ -28,6 +28,8 @@ class Signin extends Component {
         <fieldset>
           <label>Email</label>
           <Field
+          style = {{marginLeft: "30px"}}
+          className = "form-item"
           name="email"
           type="text"
           component="input"
@@ -37,6 +39,7 @@ class Signin extends Component {
         <fieldset>
           <label>Username</label>
           <Field
+          className = "form-item"          
           name="username"
           type="text"
           component="input"
@@ -47,6 +50,7 @@ class Signin extends Component {
         <fieldset>
           <label>Password</label>
           <Field
+          className = "form-item"          
           name="password"
           type="password"
           component="input"
@@ -56,7 +60,7 @@ class Signin extends Component {
           <div>
             {this.props.errorMessage}
             </div>
-          <button>Sign In</button>
+          <button className = "form-submit">Sign In</button>
       </form>
     )
   }
