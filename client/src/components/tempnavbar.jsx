@@ -24,7 +24,7 @@ class Navigation extends Component {
   }
 
   renderLinks() {
-    if(this.props.auth) {
+    if (this.props.auth) {
       return (
         <IndexLinkContainer activeClassName="" to="/signout">
           <NavItem eventKey={1.5}>Signout</NavItem>

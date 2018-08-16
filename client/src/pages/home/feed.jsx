@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {fetchFeed, fetchUser, fetchUsers}  from '../../modules/users/actions/general_actions';
 import {createComment, deleteComment, updateComment, currentComment} from '../../modules/users/actions/comments_actions';
 import {signup, signin, signout } from '../../modules/users/actions/userAuth_actions';
@@ -32,7 +33,7 @@ class UserFeed extends React.Component {
 }
 
 componentWillMount() {
-  if(this.props.userAuth.authenticated) {
+  if (this.props.userAuth.authenticated) {
     this.props.fetchFeed(this.props.userAuth.userinfo);
   }
 }
@@ -46,7 +47,7 @@ currentCommentCatcher(comment) {
 }
 
 reFetchFeed() {
-  if(this.props.userAuth.authenticated) {
+  if (this.props.userAuth.authenticated) {
     console.log(this.props.userAuth.userinfo)
     this.props.fetchFeed(this.props.userAuth.userinfo);
   }
@@ -57,7 +58,7 @@ handleAddLike(values, callback) {
 }
 
 renderFeed() {
-  if(this.props.userFeed && this.props.userAuth.authenticated ) {
+  if (this.props.userFeed && this.props.userAuth.authenticated ) {
     return this.props.userFeed.map((item, i) => {
       console.log(item)
       if (item.beer) {
@@ -68,7 +69,6 @@ renderFeed() {
             this.props.deleteUserBeer( item, userInfo, this.reFetchFeed);
           })}>delete </button>)
         }
-        // console.log(item);
           return (
           <div key = {item.id + "D"}>
           <Feed.Event key = {item.id + "event"}>
@@ -76,11 +76,9 @@ renderFeed() {
             <img src = {Joe} key = {item.id + "avatar"}/>
             </Feed.Label>  
             <Feed.Content key = {item.id + "content"}>
-              {/* <Feed.User key = {item.id + 'H'}> */}
               <Link to = {{ pathname: `/profile/${item.actorId}`,
                state: {currentUser: item.actor}}}>{item.actor}
                </Link>
-              {/* </Feed.User> */}
               <p key = {item.id + "N"} >{item.beer.beername}</p>
               <Image size = "mini" key = {item.id + "IMAGE"} src = {item.beer.imageUrl} />
               <p key = {item.id + "RA"}>{item.review.rating}</p>
@@ -94,21 +92,21 @@ renderFeed() {
             {item.comments.map((comment, i) => {
               let userInfo = utils.stringChecker(this.props.userAuth.userinfo);
               if (comment.streamData.actor === userInfo.username) {
-              return (
-                <div className = 'commentBox' key = {i}>
-                <h6 key = {uniqueid() + 'S'}>{comment.streamData.actor}</h6>
-                <p key = {uniqueid()}>{comment.streamData.comment}</p>    
-                <button key = {item.id + "BU"} onClick = {((e) => {
-                  this.props.deleteComment(comment.streamData, item, this.reFetchFeed);
-                })}>delete</button>
-                <button key = {item.id + "B"} onClick = {((e) => {
-                  let updateComment = {};
-                  updateComment.commentObj = comment;
-                  updateComment.beerObj = item;
-                  this.props.currentComment(updateComment);
-;                })}>update</button>
-                </div>  
-              )
+                return (
+                  <div className = 'commentBox' key = {i + "DIV"}>
+                  <h6 key = {uniqueid() + 'S'}>{comment.streamData.actor}</h6>
+                  <p key = {uniqueid()}>{comment.streamData.comment}</p>    
+                  <button key = {item.id + "BU"} onClick = {((e) => {
+                    this.props.deleteComment(comment.streamData, item, this.reFetchFeed);
+                  })}>delete</button>
+                  <button key = {item.id + "B"} onClick = {((e) => {
+                    let updateComment = {};
+                    updateComment.commentObj = comment;
+                    updateComment.beerObj = item;
+                    this.props.currentComment(updateComment);
+                  })}>update</button>
+                  </div>  
+                )
             } else {
               return (
                 <div className = 'commentBox' key = {comment.streamData.id + "COMMENT"}>
@@ -131,11 +129,25 @@ renderFeed() {
 }
 
   render() {
+    const hope = [];
     return (
       <div>
         <p>Feed</p>
         <Feed>
+        <InfiniteScroll
+          dataLength={this.props.userFeed ? this.props.userFeed.length : hope.length} //This is important field to render the next data
+          next={((e) => {
+            return this.props.fetchFeed(this.props.userAuth.userinfo);
+          })}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{textAlign: 'center'}}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }>
         {this.renderFeed()}
+        </InfiniteScroll>
         </Feed>
       </div>
     );
@@ -145,14 +157,13 @@ renderFeed() {
 function mapStateToProps(state, ownProps) {
   let userFeed = state.generalActions.userFeed;
   let initialCommentValue = null;
-  console.log(state);
   let likeStatus;
-  if(!state.userAuth.likeStatus) {
+  if (!state.userAuth.likeStatus) {
     likeStatus = null;
   } else {
     likeStatus = state.userAuth.likeStatus.likeStatus;
   }
-  if(state.userAuth.currentEditComment) {
+  if (state.userAuth.currentEditComment) {
     initialCommentValue = state.userAuth.currentEditComment;
   }
   return {

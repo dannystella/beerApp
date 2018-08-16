@@ -21,7 +21,7 @@ class Users extends React.Component {
     }
 
    renderUsers() {
-    if(this.props.allUsers) {
+      if (this.props.allUsers) {
       return this.props.allUsers.map((user, i) => {
             return (
                 <div key = {user._id + "div"}>
@@ -32,7 +32,7 @@ class Users extends React.Component {
             )
           })
 
-    } else {
+      } else {
         return (<div>Loading...</div>)
     }
    }
@@ -53,19 +53,16 @@ class Users extends React.Component {
 function mapStateToProps(state, ownProps) {
   console.log(state);
   let allUsers = null;
-  if(state.generalActions.allUsers) {
+  if (state.generalActions.allUsers) {
     allUsers = state.generalActions.allUsers.data;
-  }
+  };
 
   return {
-
-  allUsers
-
+    allUsers
   }
 }
   
-  export default connect(mapStateToProps, {
-    fetchUsers   
-  
-  })(Users);
+export default connect(mapStateToProps, {
+  fetchUsers   
+})(Users);
 

@@ -50,7 +50,6 @@ render() {
           />
           <Route path="/beers/:id" component = {BeerDetail}
           />
-
           <Route path="/Articles/:id" component = {ArticleDetail}
           />          
           <Route path="/signout" render={() => (
