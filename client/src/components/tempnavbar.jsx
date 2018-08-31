@@ -6,35 +6,45 @@ import {
   NavLink,
   HashRouter
 } from "react-router-dom";
-import {Container,Icon, Menu,Sidebar,Responsive,Segment,Grid,Input} from "semantic-ui-react";
-import { Button, Nav, Navbar, NavDropdown, MenuItem, NavItem, Image, Thumbnail } from 'react-bootstrap';
+import styles from '../../dist/sidebar.css';
+import { Button, Nav, NavDropdown, MenuItem, Image, Thumbnail } from 'react-bootstrap';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
+import Sidebar from "react-sidebar";
 import Dinosaur from './dinosaur.png'
 import Joe from './joe.jpg';
 import * as utils from '../utils/utils.js';
+import {Navbar, NavItem, Icon } from "react-materialize";
 
 class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      sidebarOpen: true
     };
     this.renderLinks = this.renderLinks.bind(this);
     this.renderAvatar = this.renderAvatar.bind(this);
+    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+  }
+
+
+  onSetSidebarOpen(open) {
+    this.setState({ sidebarOpen: open });
   }
 
   renderLinks() {
     if (this.props.auth) {
       return (
-        <IndexLinkContainer activeClassName="" to="/signout">
-          <NavItem eventKey={1.5}>Signout</NavItem>
-        </IndexLinkContainer>
+        <div>
+        <NavItem>
+          <NavLink className = "navItems" to="/signout">Signout</NavLink> 
+        </NavItem>
+        </div>
       )
     } else {
         return (
-        <IndexLinkContainer activeClassName="" to="/Login">
-          <NavItem eventKey={1.6}>Login</NavItem>
-        </IndexLinkContainer>
+        <NavItem>          
+        <NavLink className = "navItems" to="/login">Login</NavLink> 
+        </NavItem>       
         )
     }
   }
@@ -52,50 +62,49 @@ class Navigation extends Component {
   renderAvatar() {
     if(this.props.auth && this.props.userinfo) {
       return (
-        <IndexLinkContainer activeClassName = "avatarIcon" to = {`/profile/${this.props.userinfo._id}`}>
-          <NavItem eventKey={1.4}><Image circle src= {Joe} style={{width: 30, marginLeft: 100,padding: "auto", height: 'auto'}}  /></NavItem>
-        </IndexLinkContainer> )
+          <NavLink className = "navItems" to={`/profile/${this.props.userinfo._id}`}>
+          <Image circle src= {Joe} style={{width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto'}}  />
+          </NavLink> 
+      )
     }
     return (<div></div>)
   }
 
   componentDidMount() {
-    // Responsive.onlyMobile.minWidth-=360;
-    // Responsive.onlyTablet.minWidth-=150;    
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.sidenav');
+      var instances = M.Sidenav.init(elems, options);
+    });
   }
+  
   render() {
+    var Img = <img className = "logo" src={Dinosaur}/>
     return (
-      <div className = "pushdown">
-      <Navbar className = "navbarDesktop" fixedTop = {true} className = "realNav" inverse collapseOnSelect>
-      <Navbar.Header style={{marginBottom: "10"}} className = "navIcon">
-      <Navbar.Toggle className = "navToggleLeft" />
-        <Navbar.Brand className= "navIcon" >
-          <a href="#brand">Beeraseiur</a>
-          </Navbar.Brand>
-      </Navbar.Header>
-      <Navbar.Collapse>
-      <Nav className = "mx-auto">
-        <IndexLinkContainer activeClassName="" to="/">
-          <NavItem  eventKey={1.1}>Home</NavItem>
-        </IndexLinkContainer>
-        <IndexLinkContainer activeClassName="" to="/beers">
-          <NavItem eventKey={1.2}>Beers</NavItem>
-        </IndexLinkContainer>
-        <IndexLinkContainer activeClassName="" to="/Trends">
-          <NavItem eventKey={1.3}>Trends</NavItem>
-        </IndexLinkContainer>
-        <IndexLinkContainer activeClassName="" to="/users">
-          <NavItem eventKey={1.3}>Users</NavItem>
-        </IndexLinkContainer>
-        <IndexLinkContainer activeClassName="" to="/addBeer">
-          <NavItem eventKey={1.4}>Add Beer To Database</NavItem>
-        </IndexLinkContainer>
-        {this.renderLinks()}
-        {this.renderAvatar()}
-        </Nav>
-        </Navbar.Collapse>
-        </Navbar>
-      </div>
+          <Navbar fixed right options = {{preventScrolling: false}} brand = {Img}>
+          <div className = "NavbarMaterial">
+          {/* <NavItem>
+          <NavLink className = "navItems labell" to="/">beeroisseur </NavLink> 
+          </NavItem> */}
+          <NavItem>
+          <NavLink className = "navItems" to="/">Home</NavLink> 
+          </NavItem>
+          <NavItem>          
+          <NavLink className = "navItems" to="/beers">Beers</NavLink> 
+          </NavItem>
+          <NavItem>          
+          <NavLink className = "navItems" to="/Trends">Trends</NavLink>
+          </NavItem>
+          <NavItem>
+          <NavLink className = "navItems" to="/users">Users</NavLink> 
+          </NavItem>          
+          <NavItem>
+          {this.renderLinks()}
+          </NavItem>
+          <NavItem>
+          {this.renderAvatar()}
+          </NavItem>
+          </div>
+          </Navbar>
     );
   }
 }

@@ -158,7 +158,7 @@ form a {
 }
 
 .navItems {
-    padding:15px;
+    padding-right:30px;
     /* margin-right:40px */
 }
 
@@ -214,4 +214,34 @@ beerThumbnail:hover {
 
 .sign-form {
   margin-bottom: 500px;
+}
+
+.navlist {
+    padding-right: 400px;
+}
+
+nav {
+    background-color:#151616;
+}
+
+.logo {
+    margin-left: 20px;
+}
+
+@media  (min-width: 900px) {
+    
+}
+
+.NavbarMaterial {
+    margin-right: 400px
+} 
+
+.navbar-fixed { z-index: 999; }
+
+
+
+@media only screen and (min-width: 900px) {
+    .labell {
+        padding-right: 30px
+    }  
 }

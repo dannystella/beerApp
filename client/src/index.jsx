@@ -44,7 +44,7 @@ render() {
     <HashRouter>
       <div className = "fullContainer">
         <Navigation/>
-        <div   className = "pushDown" >
+        <div className = "pushDown" >
           <Switch>
           <Route path="/profile/:id" component = {ProfilePage}
           />
