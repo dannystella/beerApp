@@ -35,16 +35,12 @@ class Navigation extends Component {
     if (this.props.auth) {
       return (
         <div>
-        <NavItem>
           <NavLink className = "navItems" to="/signout">Signout</NavLink> 
-        </NavItem>
         </div>
       )
     } else {
         return (
-        <NavItem>          
         <NavLink className = "navItems" to="/login">Login</NavLink> 
-        </NavItem>       
         )
     }
   }
@@ -85,24 +81,24 @@ class Navigation extends Component {
           {/* <NavItem>
           <NavLink className = "navItems labell" to="/">beeroisseur </NavLink> 
           </NavItem> */}
-          <NavItem>
+          <li>
           <NavLink className = "navItems" to="/">Home</NavLink> 
-          </NavItem>
-          <NavItem>          
+          </li>
+          <li>          
           <NavLink className = "navItems" to="/beers">Beers</NavLink> 
-          </NavItem>
-          <NavItem>          
+          </li>
+          <li>          
           <NavLink className = "navItems" to="/Trends">Trends</NavLink>
-          </NavItem>
-          <NavItem>
+          </li>
+          <li>
           <NavLink className = "navItems" to="/users">Users</NavLink> 
-          </NavItem>          
-          <NavItem>
+          </li>          
+          <li>
           {this.renderLinks()}
-          </NavItem>
-          <NavItem>
+          </li>
+          <li>
           {this.renderAvatar()}
-          </NavItem>
+          </li>
           </div>
           </Navbar>
     );
