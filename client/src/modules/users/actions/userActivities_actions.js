@@ -5,6 +5,8 @@ export const ADD_USERBEER = 'add_userbeer';
 export const DELETE_USERBEER = 'delete_userbeer';
 export const ADD_DELETE_LIKE = 'add_delete_like';
 export const FOLLOW_USER = 'follow_user';
+export const ADD_AVATAR = 'add_avatar';
+
 
 export const deleteUserBeer = (beerinfo, userinfo, callback) => async(dispatch) => {
   try {
@@ -97,4 +99,23 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
   catch (e) {
     console.log("error follow user");
   }
+}
+
+export const addAvatar = (image, creds, streamData) => async (dispatch) => {
+  let formData = new FormData();
+  let imagefile = document.querySelector('#file-input').files[0];
+  let postObj = {};
+  postObj.creds = creds;
+  formData.append("userinfo", JSON.stringify(postObj));
+  formData.append("image", imagefile);
+  console.log(creds);
+  axios.post('/users/addbeerpicture', formData, 
+  { 
+  // headers: {
+  //   'Content-Type': false,
+  // }
+}
+).then((res) => {
+    console.log(res);
+  })
 }

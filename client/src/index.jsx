@@ -30,14 +30,11 @@ import ProfilePage from './pages/users/Profile.jsx';
 
 import store from './store';
 
-
 export default class App extends React.Component {
   constructor(props) {
       super(props);
 
-
 }
-
 
 render() {
   return(

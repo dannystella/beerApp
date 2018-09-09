@@ -245,3 +245,8 @@ nav {
         padding-right: 30px
     }  
 }
+
+.image-upload > input
+{
+    display: none;
+}

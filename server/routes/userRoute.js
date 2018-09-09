@@ -5,16 +5,23 @@ const passportService = require('../controllers/services/passport');
 const passport = require('passport');
 const config = require('../config.js');
 const cloudinary = require('cloudinary');
+const knox = require('knox');
+const async = require('async');
+const waterfall = require('async-waterfall');
+const uuid = require('node-uuid');
+const read = require('file-reader');
+const multer  = require('multer');
+var path = require('path');
+let destination = path.join(__dirname, './filestorage');
+const upload = multer({ dest: destination, limits: {fileSize: 1000000000}});
 
-
+const joe = 
 //init cloudinary
 cloudinary.config({ 
   cloud_name: config.cloud_name, 
   api_key: config.api_key,
   api_secret: config.api_secret
 });
-
-
 
 //init stream
 var stream = require('getstream');
@@ -30,6 +37,14 @@ router.get('/', requireAuth, function(req, res) {
 
 router.post('/signin', requireSignin, authorization.signin);
 router.post('/signup', authorization.signup);
+
+
+//POST route for image uploads 
+router.post('/addimages', function(req, res) {
+
+
+})
+
 
 //POST route for adding user comment
 router.post('/addcomments', requireAuth, function(req, res) {
@@ -194,7 +209,7 @@ router.post('/follows', function(req, res) {
       // console.log(data);
     })
   }
-  let user= req.body.userInfo;
+  let user = req.body.userInfo;
   let otherUser = req.body.userFollow;
   helpers.userHelpers.getUser(user._id).then((user) => {
     user = user[0];
@@ -219,12 +234,7 @@ router.post('/follows', function(req, res) {
          return unFollow(req);
         }
       })
-
-
-    
   })
-  
-  
 })
 
 //POST route for adding likes 
@@ -277,9 +287,6 @@ const handleDeleteLikes = () => {
          return handleDeleteLikes(req);
         }
       })
-
-
-    
   })
 
   // console.log(newLikes);
@@ -303,7 +310,53 @@ router.get('/getusers', function(req, res) {
 
 
 //POST route for adding a beerpicture 
+router.post('/addbeerpicture', upload.any(), function(req, res) {
+  let file = req.files[0];
+  let creds = JSON.parse(req.body.userinfo);
+  console.log(creds.creds._id);
+  let userFeed = client.feed('user', creds.creds.username );
+  // console.log(file, creds);
 
+	// extract params from body and file from uploaded files
+	// var data = req.body.image || {},
+  //   file = req.files || {};
+	// // generate unique filename using uuid and assign to object
+	// data.filename = uuid.v4();
+  // data['created_at'] = new Date();
+  async.waterfall(
+    [
+        // upload file to amazon s3
+        function(cb) {
+            // initialize knox client
+            var knoxClient = knox.createClient({
+              key: config.s3.key,
+              secret: config.s3.secret,
+              bucket: config.s3.bucket
+            });
+
+            // send put via knox
+            knoxClient.putFile(
+                `${file.path}`,
+                'uploads/' + creds.creds._id + ".jpg",
+                {
+                    'Content-Type': 'jpg',
+                    'x-amz-acl': 'public-read',
+                    'CacheControl': "no-cache"
+                },
+                function(err, result) {
+                  // console.log(result);
+
+                    if (err || result.statusCode != 200) {
+                        console.log(err);
+                    } else {
+                        res.send(200);
+                    }
+                },
+            );
+        }
+      ]
+    )
+})
 
 //POST route for adding a profile picture
 

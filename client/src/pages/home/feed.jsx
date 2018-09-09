@@ -15,7 +15,7 @@ import Like from '../../components/like.jsx';
 import * as utils from '../../utils/utils.js';
 import Joe from '../../components/joe.jpg';
 import uniqueid from 'uniqid';
-
+import imgix from '../../config';
 
 class UserFeed extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ currentCommentCatcher(comment) {
 
 reFetchFeed() {
   if (this.props.userAuth.authenticated) {
-    console.log(this.props.userAuth.userinfo)
+    console.log(this.props.userAuth.userinfo);
     this.props.fetchFeed(this.props.userAuth.userinfo);
   }
 }
@@ -61,6 +61,7 @@ renderFeed() {
   if (this.props.userFeed && this.props.userAuth.authenticated ) {
     return this.props.userFeed.map((item, i) => {
       console.log(item)
+      let actorInfo = item;
       if (item.beer) {
         let userInfo = utils.stringChecker(this.props.userAuth.userinfo);
         let deleteButton = (<div></div>)
@@ -71,9 +72,10 @@ renderFeed() {
         }
           return (
           <div key = {item.id + "D"}>
+          {/* {console.log(item)} */}
           <Feed.Event key = {item.id + "event"}>
             <Feed.Label key = {item.id + "label"}>
-            <img src = {Joe} key = {item.id + "avatar"}/>
+            <img src = {imgix.baseUrl + `/${actorInfo.actorId}.jpg?versionId=null?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}} key = {item.id + "avatar"}/>
             </Feed.Label>  
             <Feed.Content key = {item.id + "content"}>
               <Link to = {{ pathname: `/profile/${item.actorId}`,
