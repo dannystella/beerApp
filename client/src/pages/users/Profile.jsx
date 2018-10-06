@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import Loader from '../../components/loader.jsx';
 import {fetchUser, fetchFeed}  from '../../modules/users/actions/general_actions';
 import {followUser, addAvatar}  from '../../modules/users/actions/userActivities_actions';
@@ -42,9 +43,9 @@ class ProfilePage extends Component{
         <p>Change Avatar</p>
           <div className="image-upload">
               <label htmlFor="file-input">
-                  <img src = {imgix.baseUrl + `/${this.props.currentUser._id}.jpg?versionId=null?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}}/>
+                  <img src = {imgix.baseUrl + `/${this.props.currentUser._id}.jpg?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}}/>
               </label>
-              <input onChange = {(async (e) =>  {
+              <input onChange = {(async (e) =>  {            
                 var input = document.getElementById("file-input");
                 var fReader = new FileReader();
                 fReader.readAsDataURL(input.files[0]);
@@ -55,7 +56,6 @@ class ProfilePage extends Component{
                         // var img = document.getElementById("yourImgTag");
                         return closure(event.target, props, stream);
                 }
-                
                 })} id="file-input" name = "image userinfo" type="file"/>
           </div>      
         <div>

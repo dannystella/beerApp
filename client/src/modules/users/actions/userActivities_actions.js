@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as utils from '../../../utils/utils.js';
-
+import imgix from '../../../config';
+// import request from 'request';
 export const ADD_USERBEER = 'add_userbeer';
 export const DELETE_USERBEER = 'delete_userbeer';
 export const ADD_DELETE_LIKE = 'add_delete_like';
@@ -102,6 +103,7 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
 }
 
 export const addAvatar = (image, creds, streamData) => async (dispatch) => {
+  console.log(creds)
   let formData = new FormData();
   let imagefile = document.querySelector('#file-input').files[0];
   let postObj = {};
@@ -116,6 +118,9 @@ export const addAvatar = (image, creds, streamData) => async (dispatch) => {
   // }
 }
 ).then((res) => {
-    console.log(res);
+  axios.get(imgix.baseUrl + `/${creds._id}.jpg`).then((data) => {
+    console.log(data);
+  })    
+    // console.log(res);
   })
 }

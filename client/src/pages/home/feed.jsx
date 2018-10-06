@@ -17,6 +17,7 @@ import Joe from '../../components/joe.jpg';
 import uniqueid from 'uniqid';
 import imgix from '../../config';
 
+
 class UserFeed extends React.Component {
   constructor(props) {
     super(props);
@@ -58,8 +59,10 @@ handleAddLike(values, callback) {
 }
 
 renderFeed() {
+
   if (this.props.userFeed && this.props.userAuth.authenticated ) {
     return this.props.userFeed.map((item, i) => {
+
       console.log(item)
       let actorInfo = item;
       if (item.beer) {
@@ -74,9 +77,11 @@ renderFeed() {
           <div key = {item.id + "D"}>
           {/* {console.log(item)} */}
           <Feed.Event key = {item.id + "event"}>
+          <div ref={el => this.mapContainer = el}></div>
             <Feed.Label key = {item.id + "label"}>
-            <img src = {imgix.baseUrl + `/${actorInfo.actorId}.jpg?versionId=null?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}} key = {item.id + "avatar"}/>
+            <img src = {imgix.baseUrl + `/${actorInfo.actorId}.jpg?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}} key = {item.id + "avatar"}/>
             </Feed.Label>  
+
             <Feed.Content key = {item.id + "content"}>
               <Link to = {{ pathname: `/profile/${item.actorId}`,
                state: {currentUser: item.actor}}}>{item.actor}

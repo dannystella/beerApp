@@ -2,4 +2,5 @@ server/creds.js
 server/controllers.js
 server/config.js
 server/stream.js
+sr/config.js
 node_modules

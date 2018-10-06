@@ -11,9 +11,13 @@ const waterfall = require('async-waterfall');
 const uuid = require('node-uuid');
 const read = require('file-reader');
 const multer  = require('multer');
+const btoa = require('btoa');
+const atob = require('atob');
+const urlencode = require('urlencode');
 var path = require('path');
 let destination = path.join(__dirname, './filestorage');
 const upload = multer({ dest: destination, limits: {fileSize: 1000000000}});
+var request = require("request");
 
 const joe = 
 //init cloudinary
@@ -313,7 +317,7 @@ router.get('/getusers', function(req, res) {
 router.post('/addbeerpicture', upload.any(), function(req, res) {
   let file = req.files[0];
   let creds = JSON.parse(req.body.userinfo);
-  console.log(creds.creds._id);
+  // console.log(creds.creds._id);
   let userFeed = client.feed('user', creds.creds.username );
   // console.log(file, creds);
 
@@ -344,12 +348,30 @@ router.post('/addbeerpicture', upload.any(), function(req, res) {
                     'CacheControl': "no-cache"
                 },
                 function(err, result) {
-                  // console.log(result);
-
+                  config.imgix.auth = config.imgix.auth;
+                  let oauth = btoa(config.imgix.auth);
+                  console.log(oauth);
+                  // oauth = oauth.replace(/(\r\n|\n|\r)/gm,"").replace(/\s+/g," ").replace(/\s+/g, '');
+                  // oauth = oauth.replace(/(^,)|(,$)/g, "")
+                  console.log(oauth, config.imgix.auth);
                     if (err || result.statusCode != 200) {
                         console.log(err);
                     } else {
-                        res.send(200);
+                      var options = { 
+                        method: 'POST',
+                        url: 'https://api.imgix.com/v2/image/purger',
+                        headers: {
+                            authorization: 'Basic ' + oauth + ':'
+                        },
+                        body: `url=${config.imgix.baseUrl}/${creds.creds._id}.jpg`
+                    };
+                      console.log(options.body);
+                      request(options, function (error, response, body) {
+                          if (error) throw new Error(error);
+                          console.log(body);
+                          res.send(response);
+                      });                      
+                        // res.send(200);
                     }
                 },
             );
