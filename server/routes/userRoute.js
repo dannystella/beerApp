@@ -133,7 +133,7 @@ router.put('/updatecomments/:id', function(req, res) {
 
 //POST route for adding user beers
 router.post('/addbeers', requireAuth, function(req, res) {
-  // console.log(req.body);
+  console.log(req.body, "add bobs");
   let review = req.body.values;
   let username = req.body.userinfo.username;
   let userId = req.body.userinfo._id
@@ -175,15 +175,6 @@ router.delete('/deletebeer/:id',  function(req, res) {
 //UPDATE route for deleting user beers
 router.put('/updatebeer/:id', requireAuth, function(req, res) {
   console.log(req.params.id);
-  // let username = req.body.values.username;
-  // let userFeed = client.feed('user', username );
-  // // helpers.commentHelpers.save(req.body).then(() => {
-  // //   res.send(200);
-  // // })
-  // userFeed.removeActivity(req.params.id)
-  // .then((data) => {
-  //   res.send(data);
-  // })
 })
 
 //POST route for following otheruser feed

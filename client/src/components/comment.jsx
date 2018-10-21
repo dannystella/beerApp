@@ -6,7 +6,6 @@ import * as actions from '../modules/users/actions';
 
 
 const deleteButton = (props) => {
-console.log(props);
   return (<button onClick = {((e) => {
     props.deleteComment(props.reFetch, props.comment._id, props.beerId, "comment");
   })}>Delete</button>)

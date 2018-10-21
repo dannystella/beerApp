@@ -31,7 +31,6 @@ class BeerDetail extends React.Component{
       comment: comment
     })
   }
-
    
   navigateAway() {
     this.props.history.push('/');
@@ -53,7 +52,6 @@ class BeerDetail extends React.Component{
   reFetch() {
     const { id } = this.props.match.params;
     this.props.fetchBeer(id).then(() => {
-      console.log("refetched")
     })
   }
 
@@ -94,7 +92,6 @@ class BeerDetail extends React.Component{
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log("map state", state);
   return {
     beer: state.beers[ownProps.match.params.id],
     beerDetail: state.beers[ownProps.match.params.id],

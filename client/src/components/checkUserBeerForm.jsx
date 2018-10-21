@@ -18,24 +18,17 @@ class UserBeerForm extends React.Component {
         rerender: false,
         initialvalue: '',
         rating: 0,
-        edit: false
+        edit: false,
+        position: {}
       }
       this.renderField = this.renderField.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.handleRating = this.handleRating.bind(this);
+      this._locateUser = this._locateUser.bind(this);
   }
 
   componentDidMount() {
-
   } 
-
-  componentWillMount() {
-
-  }
-
-  componentWillReceiveProps(props) {
-
-  }
 
   handleRating(rating) {
     this.setState({
@@ -43,6 +36,18 @@ class UserBeerForm extends React.Component {
     })
   }
   
+  _locateUser() {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(position => {
+      // this.setState({
+      //   position: position.coords
+      // }, () => {})
+      resolve(position.coords);
+      });
+    })
+  }
+
   renderField(field) {
     const { meta: {touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''}`
@@ -62,17 +67,23 @@ class UserBeerForm extends React.Component {
     )
   } 
 
-  onSubmit(values) {
+  async onSubmit(values) {
+    let result = await this._locateUser();
     let userBeerValues = values;
+    let latitude = result.latitude;
+    let longitude = result.longitude;
+    userBeerValues.position = {};
+    userBeerValues.position.latitude = latitude;
+    userBeerValues.position.longitude = longitude;
     userBeerValues.beerId = this.props.id;
     userBeerValues.rating = this.state.rating;
+    console.log("values here", userBeerValues);
     let userInfo = utils.stringChecker(this.props.state.userAuth.userinfo);
     this.props.addUserBeer(values, userInfo, this.navigateAway);
   }
 
    render() {
      let userInfo = this.props.userInfo;
-     console.log(userInfo);
      const { handleSubmit } = this.props;
        return (  
          <div>
@@ -121,7 +132,6 @@ const afterSubmit = (result, dispatch) =>
   dispatch(reset('UserBeerForm'));
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
   return {
     state,
   }

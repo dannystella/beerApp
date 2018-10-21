@@ -21,7 +21,7 @@ export const deleteUserBeer = (beerinfo, userinfo, callback) => async(dispatch) 
       if(callback) {
         callback();
       }
-    });ß
+    });
   }
   catch(e) {
     console.log(e);
@@ -29,6 +29,7 @@ export const deleteUserBeer = (beerinfo, userinfo, callback) => async(dispatch) 
 }
 
 export const addUserBeer = (values, userinfo, callback) => async (dispatch) => {
+  var newBeerInfo;
   try {
     const beerObj = {};
     beerObj.values = values;
@@ -38,7 +39,7 @@ export const addUserBeer = (values, userinfo, callback) => async (dispatch) => {
       headers: { Authorization: token }
     })
     .then((res) => {
-      var newBeerInfo = res;
+      newBeerInfo = res;
       if(callback) {
         callback();
       }
@@ -49,13 +50,11 @@ export const addUserBeer = (values, userinfo, callback) => async (dispatch) => {
   })
   }
   catch (e) {
-    console.log("error in add user beer");
+    console.log("error in add user beer", e);
   }
 }
 
 export const addDeleteLike = (values, callback, userAuth) => async (dispatch) => {
-  // console.log(values);
-  console.log("trigger")
   try {
     const beerObj = {};
     beerObj.values = values;
@@ -75,7 +74,7 @@ export const addDeleteLike = (values, callback, userAuth) => async (dispatch) =>
   })
   }
   catch (e) {
-    console.log("error in add user beer");
+    console.log("error in likes");
   }  
 }
 
@@ -86,7 +85,6 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
   let token = localStorage.getItem('token');
   try {
     const request = await axios.post('/users/follows', values)
-    console.log(request.data);
     localStorage.setItem('user', JSON.stringify(request.data));
     dispatch({
       type: FOLLOW_USER,
@@ -103,14 +101,12 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
 }
 
 export const addAvatar = (image, creds, streamData) => async (dispatch) => {
-  console.log(creds)
   let formData = new FormData();
   let imagefile = document.querySelector('#file-input').files[0];
   let postObj = {};
   postObj.creds = creds;
   formData.append("userinfo", JSON.stringify(postObj));
   formData.append("image", imagefile);
-  console.log(creds);
   axios.post('/users/addbeerpicture', formData, 
   { 
   // headers: {
