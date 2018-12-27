@@ -1,7 +1,7 @@
+client/src/config.js
 server/creds.js
 server/controllers.js
 server/config.js
 server/stream.js
 server/env.sh
-client/src/config.js
 node_modules

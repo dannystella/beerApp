@@ -1,3 +1,0 @@
-export STREAM_APP_ID=38490
-export STREAM_KEY=mudfge4hyvhm
-export STREAM_SECRET=eqjfxdm8fue25c35vd5k4b8xbums5dy2kpg38ct9yu4vbqh92dzpv5sufuuww83s
