@@ -1,4 +1,5 @@
 client/src/config.js
+client/src/mapConfig.js
 server/creds.js
 server/controllers.js
 server/config.js
