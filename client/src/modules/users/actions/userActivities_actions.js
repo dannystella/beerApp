@@ -89,9 +89,8 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
     dispatch({
       type: FOLLOW_USER,
       payload: request.data
-
     }) 
-    if(cb) {
+    if (cb) {
       cb();
     }
   }
@@ -112,11 +111,9 @@ export const addAvatar = (image, creds, streamData) => async (dispatch) => {
   // headers: {
   //   'Content-Type': false,
   // }
-}
-).then((res) => {
+}).then((res) => {
   axios.get(imgix.baseUrl + `/${creds._id}.jpg`).then((data) => {
     console.log(data);
   })    
-    // console.log(res);
   })
 }

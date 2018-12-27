@@ -7,9 +7,7 @@ export const FETCH_USER = 'fetch_user';
 export const AUTH_ERROR = 'auth_error';
 
 export function fetchFeed(userinfo) {
-  // console.log(userinfo);
   userinfo = utils.stringChecker(userinfo);
-  // console.log(userinfo);
   if(userinfo === null) {
     return {
       type: AUTH_ERROR,

@@ -53,17 +53,13 @@ class ProfilePage extends Component{
                 let props =  this.props.userinfo;
                 let stream = this.props.streamData;
                 fReader.onloadend = function(event) {
-                        // var img = document.getElementById("yourImgTag");
-                        return closure(event.target, props, stream);
+                  return closure(event.target, props, stream);
                 }
                 })} id="file-input" name = "image userinfo" type="file"/>
           </div>      
         <div>
           {currentUser.username}
           </div>
-          {/* <button onClick = {((e) => {
-            return this.props.followUser(currentUser, userinfo, this.reFetchFeed)
-          })}>{userinfo.follows[currentUser._id] === true ? "Unfollow User" : "Follow User"}</button> */}
         </div>
       )
     } else {

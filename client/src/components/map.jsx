@@ -17,29 +17,17 @@ class MapComp extends React.Component {
       position: {}
     }
     
-  this._locateUser = this._locateUser.bind(this);
   this.renderMap = this.renderMap.bind(this);
 }
   componentDidMount() {
-    console.log(this.props.position, "check");
+    // console.log(this.props.position, "check");
   }
 
   componentUnmount() {
   }
 
-  _locateUser() {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation
-    // navigator.geolocation.getCurrentPosition(position => {
-    //   console.log(position);
-    //   this.setState({
-    //     position: position.coords
-    //   }, () => {console.log(this.state.position.latitude, "here")})
-    // });
-  }
-
-
   renderMap() {
-    if(this.props.position.latitude) {
+    if(this.props.position && this.props.position.latitude) {
       return (
         <div>
         <Map

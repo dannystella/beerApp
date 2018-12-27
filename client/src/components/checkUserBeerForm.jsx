@@ -40,10 +40,7 @@ class UserBeerForm extends React.Component {
     // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(position => {
-      // this.setState({
-      //   position: position.coords
-      // }, () => {})
-      resolve(position.coords);
+        resolve(position.coords);
       });
     })
   }
@@ -87,31 +84,27 @@ class UserBeerForm extends React.Component {
      const { handleSubmit } = this.props;
        return (  
          <div>
-          <form 
-          onSubmit={handleSubmit(this.onSubmit.bind(this))} 
-          >
-          <h3>{userInfo.username}</h3>
-          <p>Rating: {this.state.rating} </p>
-          <RatingStar handleRating = {this.handleRating} />
-
-          <Field
-            label= "Review Title"
-            name = "review title"
-            value="review title"
-            component={this.renderField}
+          <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
+            <h3>{userInfo.username}</h3>
+            <p>Rating: {this.state.rating} </p>
+            <RatingStar handleRating = {this.handleRating} />
+            <Field
+              label= "Review Title"
+              name = "review title"
+              value="review title"
+              component={this.renderField}
             />
-
-          <Field
-            label= "Review"
-            name = "review"
-            value="review"
-            component={this.renderField}
-          />
-          <Field
-            label= "Image"
-            name = "image"
-            value="image"
-            component={this.renderField}
+            <Field
+              label= "Review"
+              name = "review"
+              value="review"
+              component={this.renderField}
+            />
+            <Field
+              label= "Image"
+              name = "image"
+              value="image"
+              component={this.renderField}
             />          
             <button type = "submit" className = "btn btn-primary">Drink Beer</button>
           </form>

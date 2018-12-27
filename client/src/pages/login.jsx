@@ -7,7 +7,6 @@ import Signin from './signupSignin/signin.jsx';
 class Login extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             trigger: false
         }

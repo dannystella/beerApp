@@ -26,6 +26,7 @@ class UserFeed extends React.Component {
       isEditing: false,
       currentBeerEdit: '',
       currentCommentEdit: '',
+      refetch: false
     }
     
   this.renderFeed = this.renderFeed.bind(this);
@@ -41,7 +42,7 @@ componentWillMount() {
 }
 
 componentDidMount() {
-
+  console.log(this.props.userFeed);
 }
 
 currentCommentCatcher(comment) {
@@ -59,7 +60,6 @@ handleAddLike(values, callback) {
 }
 
 renderFeed() {
-
   if (this.props.userFeed && this.props.userAuth.authenticated ) {
     return this.props.userFeed.map((item, i) => {
       let actorInfo = item;
@@ -81,7 +81,7 @@ renderFeed() {
             <Feed.Content key = {item.id + "content"}>
               <Link to = {{ pathname: `/profile/${item.actorId}`,
                state: {currentUser: item.actor}}}>{item.actor}
-               </Link>
+              </Link>
               <p key = {item.id + "N"} >{item.beer.beername}</p>
               <Image size = "mini" key = {item.id + "IMAGE"} src = {item.beer.imageUrl} />
               <p key = {item.id + "RA"}>{item.review.rating}</p>
@@ -127,7 +127,6 @@ renderFeed() {
           )
         }
       })
-    
   }
   return (<div><Loader/></div>)
 }
@@ -138,20 +137,7 @@ renderFeed() {
       <div>
         <p>Feed</p>
         <Feed>
-        <InfiniteScroll
-          dataLength={this.props.userFeed ? this.props.userFeed.length : hope.length} //This is important field to render the next data
-          next={((e) => {
-            return this.props.fetchFeed(this.props.userAuth.userinfo);
-          })}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-          endMessage={
-            <p style={{textAlign: 'center'}}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }>
         {this.renderFeed()}
-        </InfiniteScroll>
         </Feed>
       </div>
     );

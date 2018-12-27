@@ -17,12 +17,11 @@ class Users extends React.Component {
 
     componentDidMount() {
       this.props.fetchUsers();
-
     }
 
    renderUsers() {
       if (this.props.allUsers) {
-      return this.props.allUsers.map((user, i) => {
+        return this.props.allUsers.map((user, i) => {
             return (
                 <div key = {user._id + "div"}>
                 <Grid.Row container = 'true' key = {user._id + i} columns = {1}>
@@ -30,7 +29,7 @@ class Users extends React.Component {
                 </Grid.Row>
                 </div>
             )
-          })
+        })
 
       } else {
         return (<div>Loading...</div>)

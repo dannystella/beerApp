@@ -40,7 +40,7 @@ class Navigation extends Component {
       )
     } else {
         return (
-        <NavLink className = "navItems" to="/login">Login</NavLink> 
+          <NavLink className = "navItems" to="/login">Login</NavLink> 
         )
     }
   }
@@ -56,7 +56,7 @@ class Navigation extends Component {
   }
 
   renderAvatar() {
-    if(this.props.auth && this.props.userinfo) {
+    if (this.props.auth && this.props.userinfo) {
       return (
           <NavLink className = "navItems" to={`/profile/${this.props.userinfo._id}`}>
           <Image circle src= {Joe} style={{width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto'}}  />
@@ -78,9 +78,6 @@ class Navigation extends Component {
     return (
           <Navbar fixed right options = {{preventScrolling: false}} brand = {Img}>
           <div className = "NavbarMaterial">
-          {/* <NavItem>
-          <NavLink className = "navItems labell" to="/">beeroisseur </NavLink> 
-          </NavItem> */}
           <li>
           <NavLink className = "navItems" to="/">Home</NavLink> 
           </li>

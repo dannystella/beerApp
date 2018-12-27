@@ -42,7 +42,6 @@ router.get('/', requireAuth, function(req, res) {
 router.post('/signin', requireSignin, authorization.signin);
 router.post('/signup', authorization.signup);
 
-
 //POST route for image uploads 
 router.post('/addimages', function(req, res) {
 
@@ -52,7 +51,6 @@ router.post('/addimages', function(req, res) {
 
 //POST route for adding user comment
 router.post('/addcomments', requireAuth, function(req, res) {
-  // console.log(req.body.beerReview);
   let commentObj = req.body;
   let beerReview = req.body.beerReview;
   commentObj.values = req.body.values;
@@ -74,9 +72,7 @@ router.post('/addcomments', requireAuth, function(req, res) {
     client.updateActivities([beerReview]).then((stuff) => {
       res.sendStatus(200);
     })
-    // commentObj.streamData = data;
-    // helpers.commentHelpers.save(commentObj).then(() => {
-    //})
+    //handle database save here
   })
 })
 
@@ -118,17 +114,8 @@ router.put('/updatecomments/:id', function(req, res) {
   }
   client.updateActivities([streamData])
   .then((data) => {
-    // console.log("data is here" , data, "data is here");
     res.sendStatus(200);
-})
-  // let commentObj = {};
-  // commentObj.beerId = req.body.data.params;
-  // commentObj.commentId = req.params.id;
-  // helpers.beerHelpers.updateComment(commentObj)
-  // .then(() => {
-  //   console.log("hit resend")
-  //   res.sendStatus(200);
-  // })
+  })
 })
 
 //POST route for adding user beers
@@ -163,7 +150,6 @@ router.post('/addbeers', requireAuth, function(req, res) {
 
 //DELETE route for deleting user beers
 router.delete('/deletebeer/:id',  function(req, res) {
-  // console.log(req);
   let username = req.body.params.beerInfo.actor;
   let userFeed = client.feed('user', username );
   userFeed.removeActivity(req.params.id)
@@ -179,36 +165,31 @@ router.put('/updatebeer/:id', requireAuth, function(req, res) {
 
 //POST route for following otheruser feed
 router.post('/follows', function(req, res) {
-  // console.log(req.body);
   const addFollow = (req) => {
     console.log("hit follow");
     let username = req.body.userInfo.username;
     let otherUser = req.body.userFollow.username;
     let userFeed = client.feed('user', username );
-    // console.log(">>>>>>>>", req.body, "<<<<<<<<");
     userFeed.follow('user', otherUser)
     .then((data) => {
-      // console.log(data);
-      // res.send(data);
+      res.send(data);
     })
 
   }
 
   const unFollow = (req) => {
-    console.log("hit unfollow");
     let username = req.body.userInfo.username;
     let otherUser = req.body.userFollow.username;
     let userFeed = client.feed('user', username );
     userFeed.unfollow('user', otherUser, keep_history=true)
     .then((data) => {
-      // console.log(data);
+      res.send(data);
     })
   }
   let user = req.body.userInfo;
   let otherUser = req.body.userFollow;
   helpers.userHelpers.getUser(user._id).then((user) => {
     user = user[0];
-    // console.log(user, "pre")
     let bool = user.follows[otherUser._id];
       if(bool === undefined) {
         bool = false;
@@ -218,7 +199,6 @@ router.post('/follows', function(req, res) {
       } else if(bool === true ) {
         user.follows[otherUser._id] = false;
       }
-      // console.log(user, "post")
       user.markModified('follows');
       return user.save().then((data) => {
         console.log("hit response");
@@ -262,7 +242,6 @@ const handleDeleteLikes = () => {
 
   helpers.userHelpers.getUser(userinfo._id).then((user) => {
     user = user[0];
-    // console.log(user, "pre")
     let bool = user.likes[beerReviewId];
       if(bool === undefined) {
         bool = false;
@@ -272,10 +251,8 @@ const handleDeleteLikes = () => {
       } else if(bool === true ) {
         user.likes[beerReviewId] = false;
       }
-      // console.log(user, "post")
       user.markModified('likes');
       return user.save().then((data) => {
-        // console.log(data, ":data")
         if(user.likes[beerReviewId] === true) {
          return handleAddLikes(req);
         } else {
@@ -283,13 +260,10 @@ const handleDeleteLikes = () => {
         }
       })
   })
-
-  // console.log(newLikes);
 })
 
 //GET route for single user
 router.get('/getuser/:id', function(req, res) {
-  // console.log(req.params.id);
   helpers.userHelpers.getUser(req.params.id).then((user) => {
     res.send(user);
   })
@@ -308,16 +282,7 @@ router.get('/getusers', function(req, res) {
 router.post('/addbeerpicture', upload.any(), function(req, res) {
   let file = req.files[0];
   let creds = JSON.parse(req.body.userinfo);
-  // console.log(creds.creds._id);
   let userFeed = client.feed('user', creds.creds.username );
-  // console.log(file, creds);
-
-	// extract params from body and file from uploaded files
-	// var data = req.body.image || {},
-  //   file = req.files || {};
-	// // generate unique filename using uuid and assign to object
-	// data.filename = uuid.v4();
-  // data['created_at'] = new Date();
   async.waterfall(
     [
         // upload file to amazon s3
@@ -328,7 +293,6 @@ router.post('/addbeerpicture', upload.any(), function(req, res) {
               secret: config.s3.secret,
               bucket: config.s3.bucket
             });
-
             // send put via knox
             knoxClient.putFile(
                 `${file.path}`,
@@ -341,10 +305,6 @@ router.post('/addbeerpicture', upload.any(), function(req, res) {
                 function(err, result) {
                   config.imgix.auth = config.imgix.auth;
                   let oauth = btoa(config.imgix.auth);
-                  console.log(oauth);
-                  // oauth = oauth.replace(/(\r\n|\n|\r)/gm,"").replace(/\s+/g," ").replace(/\s+/g, '');
-                  // oauth = oauth.replace(/(^,)|(,$)/g, "")
-                  console.log(oauth, config.imgix.auth);
                     if (err || result.statusCode != 200) {
                         console.log(err);
                     } else {
@@ -362,7 +322,6 @@ router.post('/addbeerpicture', upload.any(), function(req, res) {
                           console.log(body);
                           res.send(response);
                       });                      
-                        // res.send(200);
                     }
                 },
             );
@@ -381,7 +340,6 @@ router.get('/getfeed', function(req, res) {
   let userFeed = client.feed('user', username );
   userFeed.get({'limit': 100})
   .then((data) => {
-    // console.log(data);
     res.send(data);
   })
 })

@@ -115,14 +115,14 @@ class CommentForm extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   let currentCommentValue;
-  if(state.Comments.currentEditingComment) {
+  if (state.Comments.currentEditingComment) {
     currentCommentValue = state.Comments.currentEditingComment;
   }
 
   let userInfo = utils.stringChecker(state.userAuth.userinfo);
   let comment = '';
 
-  if(ownProps.comment) {
+  if (ownProps.comment) {
     comment = ownProps.comment.text;
   }
 
