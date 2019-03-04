@@ -36,8 +36,8 @@ mongoose.connect(`mongodb://${dbUser}:${dbPassword}@ds253889.mlab.com:53889/beer
 
 app.use(express.static(__dirname + '/../client/dist'));
 // app.use(morgan('combined'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 
 app.use('/beers', beerRoute);
 app.use('/articles', articleRoute);

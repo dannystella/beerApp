@@ -16,7 +16,7 @@ import Like from '../../components/like.jsx';
 import * as utils from '../../utils/utils.js';
 import Joe from '../../components/joe.jpg';
 import uniqueid from 'uniqid';
-import imgix from '../../config';
+import s3 from '../../config';
 
 
 class UserFeed extends React.Component {
@@ -42,7 +42,6 @@ componentWillMount() {
 }
 
 componentDidMount() {
-  console.log(this.props.userFeed);
 }
 
 currentCommentCatcher(comment) {
@@ -76,7 +75,7 @@ renderFeed() {
           <Feed.Event key = {item.id + "event"}>
           <div ref={el => this.mapContainer = el}></div>
             <Feed.Label key = {item.id + "label"}>
-            <img src = {imgix.baseUrl + `/${actorInfo.actorId}.jpg?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}} key = {item.id + "avatar"}/>
+            <img className = "feedImage" src = {s3.baseUrl + `${actorInfo.actorId}.jpg`} onError={(e)=>{e.target.src= 's3.amazonaws.com/beerappworld/uploads/joejoe.jpg'}} key = {item.id + "avatar"}/>
             </Feed.Label>  
             <Feed.Content key = {item.id + "content"}>
               <Link to = {{ pathname: `/profile/${item.actorId}`,
@@ -98,7 +97,7 @@ renderFeed() {
               if (comment.streamData.actor === userInfo.username) {
                 return (
                   <div className = 'commentBox' key = {i + "DIV"}>
-                  <h6 key = {uniqueid() + 'S'}>{comment.streamData.actor}</h6>
+                  <h6 key = {uniqueid() + 'S'} style = {{fontWeight: "bold", fontSize: "18px"}}>{comment.streamData.actor}</h6>
                   <p key = {uniqueid()}>{comment.streamData.comment}</p>    
                   <button key = {item.id + "BU"} onClick = {((e) => {
                     this.props.deleteComment(comment.streamData, item, this.reFetchFeed);
@@ -114,7 +113,7 @@ renderFeed() {
             } else {
               return (
                 <div className = 'commentBox' key = {comment.streamData.id + "COMMENT"}>
-                <h6 key = {comment.streamData.id + comment.streamData.actor}>{comment.streamData.actor}</h6>
+                <h6 style = {{fontWeight: "bold", fontSize: "18px"}} key = {comment.streamData.id + comment.streamData.actor}>{comment.streamData.actor}</h6>
                 <p key = {comment.streamData.id + comment.streamData.comment}>{comment.streamData.comment}</p>    
                </div>  
               )

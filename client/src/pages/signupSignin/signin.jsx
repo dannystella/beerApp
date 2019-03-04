@@ -28,7 +28,6 @@ class Signin extends Component {
         <fieldset>
           <label>Email</label>
           <Field
-          style = {{marginLeft: "30px"}}
           className = "form-item"
           name="email"
           type="text"

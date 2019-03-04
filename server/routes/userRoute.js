@@ -10,7 +10,9 @@ const async = require('async');
 const waterfall = require('async-waterfall');
 const uuid = require('node-uuid');
 const read = require('file-reader');
-const multer  = require('multer');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 const btoa = require('btoa');
 const atob = require('atob');
 const urlencode = require('urlencode');
@@ -27,6 +29,39 @@ cloudinary.config({
   api_secret: config.api_secret
 });
 
+//init AWS
+aws.config.update({
+  // Your SECRET ACCESS KEY from AWS should go here,
+  // Never share it!
+  // Setup Env Variable, e.g: process.env.SECRET_ACCESS_KEY
+  secretAccessKey: config.s3.secret,
+  // Not working key, Your ACCESS KEY ID from AWS should go here,
+  // Never share it!
+  // Setup Env Variable, e.g: process.env.ACCESS_KEY_ID
+  accessKeyId: config.s3.key,
+  region: 'us-east-1' // region of your bucket
+});
+
+const s3 = new aws.S3();
+
+const uploadS3 = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'beerappworld/uploads',
+    acl: 'public-read',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    metadata: function (req, file, cb) {
+      console.log(file, "fuile")
+      cb(null, {fieldName: "tests"});
+    },
+    key: function (req, file, cb) {
+      console.log(JSON.parse(req.body.userinfo).creds._id, "reqbodys")
+      cb(null, JSON.parse(req.body.userinfo).creds._id + ".jpg")
+    }
+  })
+})
+
+const singleUpload = uploadS3.single('image')
 //init stream
 var stream = require('getstream');
 
@@ -279,55 +314,14 @@ router.get('/getusers', function(req, res) {
 
 
 //POST route for adding a beerpicture 
-router.post('/addbeerpicture', upload.any(), function(req, res) {
-  let file = req.files[0];
-  let creds = JSON.parse(req.body.userinfo);
-  let userFeed = client.feed('user', creds.creds.username );
-  async.waterfall(
-    [
-        // upload file to amazon s3
-        function(cb) {
-            // initialize knox client
-            var knoxClient = knox.createClient({
-              key: config.s3.key,
-              secret: config.s3.secret,
-              bucket: config.s3.bucket
-            });
-            // send put via knox
-            knoxClient.putFile(
-                `${file.path}`,
-                'uploads/' + creds.creds._id + ".jpg",
-                {
-                    'Content-Type': 'jpg',
-                    'x-amz-acl': 'public-read',
-                    'CacheControl': "no-cache"
-                },
-                function(err, result) {
-                  config.imgix.auth = config.imgix.auth;
-                  let oauth = btoa(config.imgix.auth);
-                    if (err || result.statusCode != 200) {
-                        console.log(err);
-                    } else {
-                      var options = { 
-                        method: 'POST',
-                        url: 'https://api.imgix.com/v2/image/purger',
-                        headers: {
-                            authorization: 'Basic ' + oauth + ':'
-                        },
-                        body: `url=${config.imgix.baseUrl}/${creds.creds._id}.jpg`
-                    };
-                      console.log(options.body);
-                      request(options, function (error, response, body) {
-                          if (error) throw new Error(error);
-                          console.log(body);
-                          res.send(response);
-                      });                      
-                    }
-                },
-            );
-        }
-      ]
-    )
+router.post('/addbeerpicture', function(req, res) {
+  singleUpload(req, res, function(err, some) {
+    console.log(err);
+    if (err) {
+      return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}] });
+    }
+    return res.json({'imageUrl': req.body});
+  });
 })
 
 //POST route for adding a profile picture

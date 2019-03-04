@@ -14,6 +14,7 @@ import Dinosaur from './dinosaur.png'
 import Joe from './joe.jpg';
 import * as utils from '../utils/utils.js';
 import {Navbar, NavItem, Icon } from "react-materialize";
+import s3 from '../config';
 
 class Navigation extends Component {
   constructor(props) {
@@ -57,9 +58,10 @@ class Navigation extends Component {
 
   renderAvatar() {
     if (this.props.auth && this.props.userinfo) {
+      console.log(this.props.userinfo)
       return (
           <NavLink className = "navItems" to={`/profile/${this.props.userinfo._id}`}>
-          <Image circle src= {Joe} style={{width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto'}}  />
+          <Image circle className = "feedImage" src = {s3.baseUrl + `${this.props.userinfo._id}.jpg`} onError={(e)=>{e.target.src= 's3.amazonaws.com/beerappworld/uploads/joejoe.jpg'}} style={{width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto'}}  />
           </NavLink> 
       )
     }
@@ -103,8 +105,8 @@ class Navigation extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  // console.log(state);
   let userinfo = utils.stringChecker(state.userAuth.userinfo);
+  console.log(userinfo);
   return { 
     auth: state.userAuth.authenticated,
     userinfo, 

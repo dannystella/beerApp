@@ -34,8 +34,8 @@ class MapComp extends React.Component {
           style="mapbox://styles/mapbox/streets-v9"
           center = {[this.props.position.longitude, this.props.position.latitude]}
           containerStyle={{
-            height: "50vh",
-            width: "50vw"
+            height: "25vh",
+            width: "25vw"
           }}
           >
         </Map>

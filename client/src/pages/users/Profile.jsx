@@ -6,7 +6,7 @@ import Loader from '../../components/loader.jsx';
 import {fetchUser, fetchFeed}  from '../../modules/users/actions/general_actions';
 import {followUser, addAvatar}  from '../../modules/users/actions/userActivities_actions';
 import * as utils from '../../utils/utils.js';
-import imgix from '../../config';
+import s3 from '../../config';
 
 class ProfilePage extends Component{
   constructor(props) {
@@ -43,7 +43,7 @@ class ProfilePage extends Component{
         <p>Change Avatar</p>
           <div className="image-upload">
               <label htmlFor="file-input">
-                  <img src = {imgix.baseUrl + `/${this.props.currentUser._id}.jpg?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}}/>
+                  <img className = "feedImage" src = {s3.baseUrl + `${this.props.currentUser._id}.jpg`} onError={(e)=>{e.target.src= e.target.src= 's3.amazonaws.com/beerappworld/uploads/joejoe.jpg'}}/>
               </label>
               <input onChange = {(async (e) =>  {            
                 var input = document.getElementById("file-input");
@@ -67,8 +67,7 @@ class ProfilePage extends Component{
         <div style = {{paddingTop: 30 }}>
           <div className="image-upload">
               <label htmlFor="file-input">
-                  <img src = {imgix.baseUrl + `/${this.props.currentUser._id}.jpg?versionId=null?auto=enhance`} onError={(e)=>{e.target.src= imgix.baseUrl + '/joejoe.jpg?auto=enhance'}}/>
-              </label>
+              <img className = "feedImage" src = {s3.baseUrl + `${this.props.currentUser._id}.jpg`} onError={(e)=>{e.target.src= e.target.src= 's3.amazonaws.com/beerappworld/uploads/joejoe.jpg'}}/>              </label>
           </div>      
         <div>
           {currentUser.username}

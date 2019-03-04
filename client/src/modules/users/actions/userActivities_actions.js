@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as utils from '../../../utils/utils.js';
-import imgix from '../../../config';
+import s3 from '../../../config';
 // import request from 'request';
 export const ADD_USERBEER = 'add_userbeer';
 export const DELETE_USERBEER = 'delete_userbeer';
@@ -106,14 +106,16 @@ export const addAvatar = (image, creds, streamData) => async (dispatch) => {
   postObj.creds = creds;
   formData.append("userinfo", JSON.stringify(postObj));
   formData.append("image", imagefile);
+  console.log(formData.image);
   axios.post('/users/addbeerpicture', formData, 
   { 
   // headers: {
   //   'Content-Type': false,
   // }
 }).then((res) => {
-  axios.get(imgix.baseUrl + `/${creds._id}.jpg`).then((data) => {
-    console.log(data);
-  })    
+  console.log(res);
+    // axios.get(s3.baseUrl + `${creds._id}.jpg`).then((data) => {
+    //   console.log(data);
+    // })    
   })
 }
