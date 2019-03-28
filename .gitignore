@@ -6,3 +6,4 @@ server/config.js
 server/stream.js
 server/env.sh
 node_modules
+filestorage
