@@ -3,7 +3,7 @@ import React from 'react';
 import mapBox from '../mapConfig';
 var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
- 
+
 
 const Map = ReactMapboxGl({
   accessToken: mapBox.key
@@ -16,9 +16,9 @@ class MapComp extends React.Component {
     this.state = {
       position: {}
     }
-    
-  this.renderMap = this.renderMap.bind(this);
-}
+
+    this.renderMap = this.renderMap.bind(this);
+  }
   componentDidMount() {
     // console.log(this.props.position, "check");
   }
@@ -27,28 +27,28 @@ class MapComp extends React.Component {
   }
 
   renderMap() {
-    if(this.props.position && this.props.position.latitude) {
+    if (this.props.position && this.props.position.latitude) {
       return (
         <div>
-        <Map
-          style="mapbox://styles/mapbox/streets-v9"
-          center = {[this.props.position.longitude, this.props.position.latitude]}
-          containerStyle={{
-            height: "25vh",
-            width: "25vw"
-          }}
+          <Map
+            style="mapbox://styles/mapbox/streets-v9"
+            center={[this.props.position.longitude, this.props.position.latitude]}
+            containerStyle={{
+              height: "25vh",
+              width: "25vw"
+            }}
           >
-        </Map>
+          </Map>
         </div>
-        )
+      )
     } else return (<div></div>)
   }
 
   render() {
     return (
-    <div>
-      {this.renderMap()}
-    </div>
+      <div>
+        {this.renderMap()}
+      </div>
     )
   }
 }

@@ -10,46 +10,42 @@ let userHelpers = {};
 userHelpers.hashPassword = (password, cb) => {
   // get access to the user model
   // generate a salt then run callback
-    // hash (encrypt) our password using the salt
-    bcrypt.hash(password, 10, function(err, hash) {
-      if (err) { return (err); }
-      // overwrite plain text password with encrypted password
-      password = hash;
-      cb(password);
-    });
+  // hash (encrypt) our password using the salt
+  bcrypt.hash(password, 10, function (err, hash) {
+    if (err) { return (err); }
+    // overwrite plain text password with encrypted password
+    password = hash;
+    cb(password);
+  });
 }
 
-userHelpers.comparePassword = function(candidatePassword, hashedPassword, cb) {
-  console.log('hap', hashedPassword);
-  bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
+userHelpers.comparePassword = function (candidatePassword, hashedPassword, cb) {
+  bcrypt.compare(candidatePassword, hashedPassword, function (err, isMatch) {
     if (err) { return cb(err); }
-
     cb(null, isMatch);
   });
 }
 
 userHelpers.save = (schema) => {
-  console.log(schema, "schema")
   return User.create(schema)
-  .then((user) => {
-    console.log(user, "user")
-    return user;
-  })
+    .then((user) => {
+      return user;
+    })
 }
 userHelpers.findAll = () => {
   return User.find({}).exec();
 }
 
 userHelpers.getUser = (id) => {
-  return User.find({_id: id}).exec();
+  return User.find({ _id: id }).exec();
 }
 
 userHelpers.update = (id, specField, specChange) => {
   userHelpers.getUser(id)
-  .then((user) => {
-    user.specField = user.specChange;
-    user.save();
-  })
+    .then((user) => {
+      user.specField = user.specChange;
+      user.save();
+    })
 }
 
 module.exports = userHelpers;

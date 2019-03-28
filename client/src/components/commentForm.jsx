@@ -1,40 +1,40 @@
 import React from 'react'
-import {  Input, TextArea, Button } from 'semantic-ui-react'
-import axios from  'axios';
+import { Input, TextArea, Button } from 'semantic-ui-react'
+import axios from 'axios';
 import { Field, Form, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect, dispatch } from 'react-redux';
 import * as actions from '../modules/users/actions';
-import {createComment, deleteComment, updateComment, currentComment}  from '../modules/users/actions/comments_actions';
+import { createComment, deleteComment, updateComment, currentComment } from '../modules/users/actions/comments_actions';
 import authMiddleware from './authMiddleware.jsx';
 import * as utils from '../utils/utils.js';
 
 class CommentForm extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = {
-        commentValue: '',
-        isEditing: false,
-      }
-      this.renderField = this.renderField.bind(this);
-      this.onSubmit = this.onSubmit.bind(this);
-      this.handleChange = this.handleChange.bind(this);
+    super(props);
+    this.state = {
+      commentValue: '',
+      isEditing: false,
+    }
+    this.renderField = this.renderField.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
 
-  }     
+  }
 
   componentDidUpdate() {
-    if(this.state.isEditing) {
+    if (this.state.isEditing) {
       return;
     }
-    if(this.props.currentCommentValue) {
-      if(this.props.item.id === this.props.currentCommentValue.beerObj.id) {
-          this.setState({
-            commentValue: this.props.currentCommentValue.commentObj.streamData.comment,
-            isEditing: true
-          })
+    if (this.props.currentCommentValue) {
+      if (this.props.item.id === this.props.currentCommentValue.beerObj.id) {
+        this.setState({
+          commentValue: this.props.currentCommentValue.commentObj.streamData.comment,
+          isEditing: true
+        })
         //}
       }
     }
@@ -42,7 +42,7 @@ class CommentForm extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    
+
   }
 
   handleChange(e) {
@@ -54,63 +54,63 @@ class CommentForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.state.isEditing === false) {
+    if (this.state.isEditing === false) {
       let values = {};
       values.text = this.state.commentValue;
       values.userid = this.props.userInfo._id;
       values.username = this.props.userInfo.username;
       let beerReview = this.props.beerReview;
-      this.props.createComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, beerReview)   
+      this.props.createComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, beerReview)
       e.target.reset();
       this.setState({
         commentValue: ''
       })
     }
-    if(this.state.isEditing) {
+    if (this.state.isEditing) {
       let values = {};
       values.text = this.state.commentValue;
       values.userid = this.props.userInfo._id;
       values.username = this.props.userInfo.username;
-      let beerReview = this.props.beerReview; 
-      this.props.updateComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, this.props.currentCommentValue)       
-       console.log("bit")
-       this.setState({
+      let beerReview = this.props.beerReview;
+      this.props.updateComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, this.props.currentCommentValue)
+      console.log("bit")
+      this.setState({
         commentValue: '',
         isEditing: false
-      })    
+      })
       this.props.currentComment(null);
-        // e.target.reset();
+      // e.target.reset();
     }
   }
   renderField(field) {
     return (
       <div>
-      <label>
-      </label>
+        <label>
+        </label>
         <input
-          className= "form-control"
-          type = "text"
-          onChange = {this.handleChange}
-          value = {this.state.commentValue}
+          className="form-control"
+          type="text"
+          onChange={this.handleChange}
+          value={this.state.commentValue}
         />
-        <div className = "text-danger">
+        <div className="text-danger">
         </div>
       </div>
     )
-  } 
+  }
 
   render() {
-    return (  
+    return (
       <div>
-      <form 
-      onSubmit = {this.onSubmit}
-      >
-      {this.renderField()}
-        <button type = "submit" className = "btn btn-primary">Add Comment</button>
-      </form>
-    </div>
+        <form
+          onSubmit={this.onSubmit}
+        >
+          {this.renderField()}
+          <button type="submit" className="btn btn-primary">Add Comment</button>
+        </form>
+      </div>
     )
-  } 
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -133,7 +133,9 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, {createComment,
+export default connect(mapStateToProps, {
+  createComment,
   deleteComment,
   updateComment,
-  currentComment})(CommentForm);
+  currentComment
+})(CommentForm);

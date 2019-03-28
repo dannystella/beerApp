@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import {signin} from '../../modules/users/actions/userAuth_actions';
+import { signin } from '../../modules/users/actions/userAuth_actions';
 
 class Signin extends Component {
   constructor(props) {
@@ -16,7 +16,6 @@ class Signin extends Component {
 
   onSubmit(formProps) {
     this.props.signin(formProps, () => {
-      console.log("hit redirect")
       this.props.history.push('/');
     });
   }
@@ -24,53 +23,53 @@ class Signin extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit = {handleSubmit(this.onSubmit)}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <fieldset>
           <label>Email</label>
           <Field
-          className = "form-item"
-          name="email"
-          type="text"
-          component="input"
-          autoComplete="none"
+            className="form-item"
+            name="email"
+            type="text"
+            component="input"
+            autoComplete="none"
           />
-          </fieldset>
+        </fieldset>
         <fieldset>
           <label>Username</label>
           <Field
-          className = "form-item"          
-          name="username"
-          type="text"
-          component="input"
-          autoComplete="none"
+            className="form-item"
+            name="username"
+            type="text"
+            component="input"
+            autoComplete="none"
 
           />
-          </fieldset>
+        </fieldset>
         <fieldset>
           <label>Password</label>
           <Field
-          className = "form-item"          
-          name="password"
-          type="password"
-          component="input"
-          autoComplete="none"
+            className="form-item"
+            name="password"
+            type="password"
+            component="input"
+            autoComplete="none"
           />
-          </fieldset>
-          <div>
-            {this.props.errorMessage}
-            </div>
-          <button className = "form-submit">Sign In</button>
+        </fieldset>
+        <div>
+          {this.props.errorMessage}
+        </div>
+        <button className="form-submit">Sign In</button>
       </form>
     )
   }
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.userAuth.errorMessage}
+  return { errorMessage: state.userAuth.errorMessage }
 }
 
 export default withRouter(compose(
-  connect(mapStateToProps, {signin}),
-  reduxForm({form: 'signin'})
+  connect(mapStateToProps, { signin }),
+  reduxForm({ form: 'signin' })
 )(Signin));
 

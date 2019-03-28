@@ -32,55 +32,55 @@ import store from './store';
 
 export default class App extends React.Component {
   constructor(props) {
-      super(props);
+    super(props);
 
-}
+  }
 
-render() {
-  return(
-    <HashRouter>
-      <div className = "fullContainer">
-        <Navigation/>
-        <div className = "pushDown" >
-          <Switch>
-          <Route path="/profile/:id" component = {ProfilePage}
-          />
-          <Route path="/beers/:id" component = {BeerDetail}
-          />
-          <Route path="/Articles/:id" component = {ArticleDetail}
-          />          
-          <Route path="/signout" render={() => (
-            <Signout/>   
-          )} />          
-          <Route path="/signin" render={() => (
-            <Signin/>   
-          )} />          
-          <Route path="/beers" render={() => (
-            <BeersContainer/>   
-          )} />
-          <Route path="/users" render={() => (
-            <Users/>   
-          )} />
-          <Route path="/Trends" render={() => (
-            <Trends/>   
-          )} />
-          <Route path="/Login" render={() => (
-            <Login />   
-          )} />
-          <Route path="/addBeer" render={() => (
-            <BeerForm handleForm = {this.handleForm}/> 
-          )} />
-          <Route path="/" render={() => (
-            <Main/>   
-          )} />          
-          </Switch>
+  render() {
+    return (
+      <HashRouter>
+        <div className="fullContainer">
+          <Navigation />
+          <div className="pushDown" >
+            <Switch>
+              <Route path="/profile/:id" component={ProfilePage}
+              />
+              <Route path="/beers/:id" component={BeerDetail}
+              />
+              <Route path="/Articles/:id" component={ArticleDetail}
+              />
+              <Route path="/signout" render={() => (
+                <Signout />
+              )} />
+              <Route path="/signin" render={() => (
+                <Signin />
+              )} />
+              <Route path="/beers" render={() => (
+                <BeersContainer />
+              )} />
+              <Route path="/users" render={() => (
+                <Users />
+              )} />
+              <Route path="/Trends" render={() => (
+                <Trends />
+              )} />
+              <Route path="/Login" render={() => (
+                <Login />
+              )} />
+              <Route path="/addBeer" render={() => (
+                <BeerForm handleForm={this.handleForm} />
+              )} />
+              <Route path="/" render={() => (
+                <Main />
+              )} />
+            </Switch>
           </div>
-      </div>
-    </HashRouter>
+        </div>
+      </HashRouter>
     );
   }
 }
 
 render(<Provider store={store}>
-  <App/>
+  <App />
 </Provider>, document.getElementById("app"));

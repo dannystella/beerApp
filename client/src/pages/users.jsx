@@ -16,33 +16,33 @@ class Users extends React.Component {
     }
 
     componentDidMount() {
-      this.props.fetchUsers();
+        this.props.fetchUsers();
     }
 
-   renderUsers() {
-      if (this.props.allUsers) {
-        return this.props.allUsers.map((user, i) => {
-            return (
-                <div key = {user._id + "div"}>
-                <Grid.Row container = 'true' key = {user._id + i} columns = {1}>
-                <h5 key ={user._id}><Link to = {{ pathname: `/profile/${user._id}`, state: {currentUser: user}}}>{user.username}</Link></h5>
-                </Grid.Row>
-                </div>
-            )
-        })
+    renderUsers() {
+        if (this.props.allUsers) {
+            return this.props.allUsers.map((user, i) => {
+                return (
+                    <div key={user._id + "div"}>
+                        <Grid.Row container='true' key={user._id + i} columns={1}>
+                            <h5 key={user._id}><Link to={{ pathname: `/profile/${user._id}`, state: { currentUser: user } }}>{user.username}</Link></h5>
+                        </Grid.Row>
+                    </div>
+                )
+            })
 
-      } else {
-        return (<div>Loading...</div>)
+        } else {
+            return (<div>Loading...</div>)
+        }
     }
-   }
 
     render() {
         return (
-            <div >   
+            <div >
                 <Grid stackable celled container >
-                <Grid.Column width={1}>
-                {this.renderUsers()}
-                </Grid.Column>
+                    <Grid.Column width={1}>
+                        {this.renderUsers()}
+                    </Grid.Column>
                 </Grid>
             </div>
         )
@@ -50,18 +50,17 @@ class Users extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log(state);
-  let allUsers = null;
-  if (state.generalActions.allUsers) {
-    allUsers = state.generalActions.allUsers.data;
-  };
+    let allUsers = null;
+    if (state.generalActions.allUsers) {
+        allUsers = state.generalActions.allUsers.data;
+    };
 
-  return {
-    allUsers
-  }
+    return {
+        allUsers
+    }
 }
-  
+
 export default connect(mapStateToProps, {
-  fetchUsers   
+    fetchUsers
 })(Users);
 

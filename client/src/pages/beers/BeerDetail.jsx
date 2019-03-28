@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { fetchBeer } from '../../modules/beers/actions';
 import { deleteComment } from '../../modules/users/actions';
 import { Link } from 'react-router-dom';
-import { Image, Grid} from 'semantic-ui-react';
+import { Image, Grid } from 'semantic-ui-react';
 import Loader from '../../components/loader.jsx';
 import Comment from '../../components/comment.jsx';
 import UsersContainer from '../../modules/users/state/UsersContainer.js';
 import UserBeerForm from '../../components/checkUserBeerForm.jsx';
 
-class BeerDetail extends React.Component{
+class BeerDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,12 +18,12 @@ class BeerDetail extends React.Component{
       comment: undefined
     }
 
-  this.renderComments = this.renderComments.bind(this);
-  this.reFetch = this.reFetch.bind(this);
-  this.updateCommentForm = this.updateCommentForm.bind(this);
-  this.makeCommentNull = this.makeCommentNull.bind(this);
-  this.navigateAway = this.navigateAway.bind(this);
-}
+    this.renderComments = this.renderComments.bind(this);
+    this.reFetch = this.reFetch.bind(this);
+    this.updateCommentForm = this.updateCommentForm.bind(this);
+    this.makeCommentNull = this.makeCommentNull.bind(this);
+    this.navigateAway = this.navigateAway.bind(this);
+  }
 
   updateCommentForm(comment) {
     this.setState({
@@ -31,11 +31,11 @@ class BeerDetail extends React.Component{
       comment: comment
     })
   }
-   
+
   navigateAway() {
     this.props.history.push('/');
   }
- 
+
   makeCommentNull() {
     this.setState({
       comment: undefined
@@ -45,7 +45,7 @@ class BeerDetail extends React.Component{
 
   componentDidMount() {
     const { id } = this.props.match.params;
-      this.props.fetchBeer(id).then(() => {
+    this.props.fetchBeer(id).then(() => {
     })
   }
 
@@ -61,12 +61,12 @@ class BeerDetail extends React.Component{
 
   render() {
     const { beer } = this.props;
-    if(!beer) {
-      return <div><Loader/></div>
+    if (!beer) {
+      return <div><Loader /></div>
     }
     return (
       <div>
-        <Link to = "/Beers" className ="btn btn-primary">Back to Beers</Link>
+        <Link to="/Beers" className="btn btn-primary">Back to Beers</Link>
         <h3>{beer.beername}</h3>
         <h3>{beer.breweryname}</h3>
         <h3>{beer.type}</h3>
@@ -75,16 +75,16 @@ class BeerDetail extends React.Component{
         <h3>{beer.description}</h3>
         <Image src={beer.imageUrl} fluid />
         <Grid>
-        <Grid.Row>
-        <div className = "commentForm" >
+          <Grid.Row>
+            <div className="commentForm" >
 
-        </div>
-        <div className = "commentFeed" >
-        </div>
-        </Grid.Row>
+            </div>
+            <div className="commentFeed" >
+            </div>
+          </Grid.Row>
         </Grid>
-        {this.props.userAuth ? <UserBeerForm userInfo = {this.props.userInfo} id = {this.props.match.params.id} trigger = {this.state.trigger} reFetch = {this.reFetch} updateCommentForm = {this.updateCommentForm} comment = {this.state.comment} makeCommentNull = {this.makeCommentNull} />
-           : <div></div> 
+        {this.props.userAuth ? <UserBeerForm userInfo={this.props.userInfo} id={this.props.match.params.id} trigger={this.state.trigger} reFetch={this.reFetch} updateCommentForm={this.updateCommentForm} comment={this.state.comment} makeCommentNull={this.makeCommentNull} />
+          : <div></div>
         }
       </div>
     );

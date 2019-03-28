@@ -11,6 +11,7 @@ function userActivities(state = INITIAL_STATE, action) {
     case ADD_USERBEER:
       return {...state, newUserBeer: action.payload}
     case ADD_DELETE_LIKE:
+    console.log(action.payload, "likedeletelioke");
       return {...state, currentLike: action.payload}
     case FOLLOW_USER:
       return {...state, userinfo: action.payload }

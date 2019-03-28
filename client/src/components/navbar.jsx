@@ -18,102 +18,102 @@ import {
   Input
 } from "semantic-ui-react";
 import Dinosaur from './dinosaur.png'
-const NavBarMobile = ({children, leftItems, onPusherClick, onToggle, rightItems, visible}) => (
+const NavBarMobile = ({ children, leftItems, onPusherClick, onToggle, rightItems, visible }) => (
   <div>
-      <Sidebar
+    <Sidebar
       as={Menu}
       animation="overlay"
       icon="labeled"
       inverted
       vertical
       visible={visible}
-      borderless ={true}
+      borderless={true}
       fixed="left"
-      className = "sidebar"
-      style={{ minHeight: "100vh", transitionDuration:".25s", width: 300}}
+      className="sidebar"
+      style={{ minHeight: "100vh", transitionDuration: ".25s", width: 300 }}
     >
-        <Menu.Item >
-        <NavLink to="/">Home</NavLink> 
-        </Menu.Item >
-        <Menu.Item >
-        <NavLink to="/Beers">Beers</NavLink> 
-        </Menu.Item >
-        <Menu.Item >
-        <NavLink to="/Trends">Trends</NavLink> 
-        </Menu.Item >
-        <Menu.Item >
-        <NavLink to="/Login">Login</NavLink> 
-        </Menu.Item >
-        <Menu.Item >
-        <NavLink to="/addBeer">AddBeer</NavLink> 
-        </Menu.Item >
-      </Sidebar>
-    <Sidebar.Pushable  className = "sidebar">
+      <Menu.Item >
+        <NavLink to="/">Home</NavLink>
+      </Menu.Item >
+      <Menu.Item >
+        <NavLink to="/Beers">Beers</NavLink>
+      </Menu.Item >
+      <Menu.Item >
+        <NavLink to="/Trends">Trends</NavLink>
+      </Menu.Item >
+      <Menu.Item >
+        <NavLink to="/Login">Login</NavLink>
+      </Menu.Item >
+      <Menu.Item >
+        <NavLink to="/addBeer">AddBeer</NavLink>
+      </Menu.Item >
+    </Sidebar>
+    <Sidebar.Pushable className="sidebar">
       <Sidebar.Pusher
         dimmed={visible}
         onClick={onPusherClick}
-        style={{ minHeight: "100vh", transitionDuration:".25s"}}
+        style={{ minHeight: "100vh", transitionDuration: ".25s" }}
       >
-      {children}
+        {children}
       </Sidebar.Pusher>
     </Sidebar.Pushable>
-      <Menu fixed="top" inverted borderless ={true} className = "navbarMobile">
-        <Menu.Item className = "burger" onClick={onToggle}>
-          <Icon link inverted  name="sidebar" size = "large" />
-        </Menu.Item>
-        <Menu.Item className = "navHeaderMobile">
-          {/* <Image size="mini" className= "navIcon" src={Dinosaur} />  */}
-          <Menu.Header className = "navHeaderMobile" >Beerasieur</Menu.Header>
-        </Menu.Item>
-        <Menu.Menu position="right">
-        
-        </Menu.Menu>
-      </Menu>
+    <Menu fixed="top" inverted borderless={true} className="navbarMobile">
+      <Menu.Item className="burger" onClick={onToggle}>
+        <Icon link inverted name="sidebar" size="large" />
+      </Menu.Item>
+      <Menu.Item className="navHeaderMobile">
+        {/* <Image size="mini" className= "navIcon" src={Dinosaur} />  */}
+        <Menu.Header className="navHeaderMobile" >Beerasieur</Menu.Header>
+      </Menu.Item>
+      <Menu.Menu position="right">
+
+      </Menu.Menu>
+    </Menu>
   </div>
 );
 
 const NavBarDesktop = (props) => (
   <Grid celled container>
-  <Grid.Row columns = {1}>
-  <Grid.Column width={16}>
- <Menu widths= "3" fixed="top" inverted borderless ={true} className = "navbarDesktop">
-    <Menu.Item >
-    <Image size="mini" className= "navIcon" src={Dinosaur} />
-      <Menu.Header className = "navHeader" >Beerasieur</Menu.Header>      
-    </Menu.Item>
-<Menu.Menu className = "yo">
-    <Menu.Item className = "navItems" >
-    <NavLink className = "navItems" to="/">Home</NavLink> 
-    </Menu.Item >
-    <Menu.Item className = "navItems" >
-    <NavLink className = "navItems" to="/Beers">Beers</NavLink> 
-    </Menu.Item>
-    <Menu.Item className = "navItems" >
-    <NavLink className = "navItems" to="/Trends">Trends</NavLink> 
-    </Menu.Item >
-    <Menu.Item className = "navItems" >
-    <NavLink className = "navItems" to="/addBeer">Add Beer To Database</NavLink> 
-    </Menu.Item >
-    {/* <Menu.Item>
+    <Grid.Row columns={1}>
+      <Grid.Column width={16}>
+        <Menu widths="3" fixed="top" inverted borderless={true} className="navbarDesktop">
+          <Menu.Item >
+            <Image size="mini" className="navIcon" src={Dinosaur} />
+            <Menu.Header className="navHeader" >Beerasieur</Menu.Header>
+          </Menu.Item>
+          <Menu.Menu className="yo">
+            <Menu.Item className="navItems" >
+              <NavLink className="navItems" to="/">Home</NavLink>
+            </Menu.Item >
+            <Menu.Item className="navItems" >
+              <NavLink className="navItems" to="/Beers">Beers</NavLink>
+            </Menu.Item>
+            <Menu.Item className="navItems" >
+              <NavLink className="navItems" to="/Trends">Trends</NavLink>
+            </Menu.Item >
+            <Menu.Item className="navItems" >
+              <NavLink className="navItems" to="/addBeer">Add Beer To Database</NavLink>
+            </Menu.Item >
+            {/* <Menu.Item>
     <NavLink className = "navItems" to="/signin">Signin</NavLink> 
     </Menu.Item > */}
-        {/* {console.log(props.userAuth.auth)} */}
-    {props.userAuth.auth ? (<Menu.Item  >
-          <NavLink className = "navItems" to="/signout">Signout</NavLink> 
-        </Menu.Item >) :
-        (<Menu.Item  >
-          <NavLink className = "navItems" to="/Login">Login</NavLink> 
-        </Menu.Item >)
-        } 
-    </Menu.Menu>
+            {/* {console.log(props.userAuth.auth)} */}
+            {props.userAuth.auth ? (<Menu.Item  >
+              <NavLink className="navItems" to="/signout">Signout</NavLink>
+            </Menu.Item >) :
+              (<Menu.Item  >
+                <NavLink className="navItems" to="/Login">Login</NavLink>
+              </Menu.Item >)
+            }
+          </Menu.Menu>
 
-    <Menu.Menu  className= "oy" position="left"> 
-      <Menu.Item className = 'search'>
-      </Menu.Item>
-    </Menu.Menu>
-  </Menu>
-  </Grid.Column >
-  </Grid.Row>
+          <Menu.Menu className="oy" position="left">
+            <Menu.Item className='search'>
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
+      </Grid.Column >
+    </Grid.Row>
   </Grid>
 );
 
@@ -133,23 +133,23 @@ class NavBar extends Component {
   }
 
   renderLinks() {
-    if(this.props.authenticated) {
+    if (this.props.authenticated) {
       return (
         <Menu.Item  >
-          <NavLink className = "navItems" to="/signout">Signout</NavLink> 
+          <NavLink className="navItems" to="/signout">Signout</NavLink>
         </Menu.Item >
       )
-        } else {
-          return (
-            <Menu.Item  >
-              <NavLink className = "navItems" to="/Login">Login</NavLink> 
-            </Menu.Item >
-          )
+    } else {
+      return (
+        <Menu.Item  >
+          <NavLink className="navItems" to="/Login">Login</NavLink>
+        </Menu.Item >
+      )
     }
   }
   handlePusher() {
     const { visible } = this.state;
-  
+
     if (visible) this.setState({ visible: false });
   };
 
@@ -166,7 +166,7 @@ class NavBar extends Component {
     const { visible } = this.state;
     return (
       <div>
-        <Responsive {...Responsive.onlyMobile} minWidth = {Responsive.onlyMobile.minWidth} >
+        <Responsive {...Responsive.onlyMobile} minWidth={Responsive.onlyMobile.minWidth} >
           <NavBarMobile
             // leftItems={leftItems}
             onPusherClick={this.handlePusher}
@@ -178,11 +178,11 @@ class NavBar extends Component {
           </NavBarMobile>
         </Responsive>
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <NavBarDesktop userAuth = {this.props} onToggle = {(e) => {
-            if(this.state.visible){
+          <NavBarDesktop userAuth={this.props} onToggle={(e) => {
+            if (this.state.visible) {
               this.handleToggle();
             }
-          }}/>
+          }} />
           <NavBarChildren>{children}</NavBarChildren>
         </Responsive>
       </div>
@@ -191,13 +191,13 @@ class NavBar extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return { 
+  return {
     auth: state.userAuth.authenticated,
     ...ownProps
-   };
+  };
 }
 
-export default connect(mapStateToProps, null, null, {pure: false})(NavBar);
+export default connect(mapStateToProps, null, null, { pure: false })(NavBar);
 
 const leftItems = [
   { as: "a", content: "Home", key: "Home" },

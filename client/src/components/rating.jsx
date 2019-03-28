@@ -6,14 +6,13 @@ import ReactStars from 'react-stars'
 //   props.handleRating(newRating);
 // }
 
-const RatingStar = (props) => 
-  
+const RatingStar = (props) =>
   <ReactStars
-  half={true}
-  count={5}
-  onChange={props.handleRating}
-  size={24}
-  color2={'#ffd700'}
+    half={true}
+    count={5}
+    onChange={props.handleRating}
+    size={24}
+    color2={'#ffd700'}
   />
 
 

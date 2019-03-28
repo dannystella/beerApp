@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -9,26 +9,25 @@ import { Feed, Icon } from 'semantic-ui-react';
 
 const Like = (props) => (
   <div>
-<Feed.Like>
-  {/* {  console.log(props.item) } */}
-<Icon name='like' onClick = {((e) => {
-    props.addDeleteLike(props.item, props.reFetchFeed, props.userAuth);
-})} />
-  {props.item.likes} Likes
-</Feed.Like>
-  </div>  
+    <Feed.Like>
+      <Icon name='like' onClick={((e) => {
+        props.addDeleteLike(props.item, props.reFetchFeed, props.userAuth);
+      })} />
+      {props.item.likes} Likes
+    </Feed.Like>
+  </div>
 );
 
 
 function mapStateToProps(state, ownProps) {
   let initialCommentValue = null;
   let likeStatus;
-  if(!state.userAuth.likeStatus) {
+  if (!state.userAuth.likeStatus) {
     likeStatus = null;
   } else {
     likeStatus = state.userAuth.likeStatus.likeStatus;
   }
-  if(state.userAuth.currentEditComment) {
+  if (state.userAuth.currentEditComment) {
     initialCommentValue = state.userAuth.currentEditComment;
   }
   // console.log(likeStatus)
@@ -39,6 +38,7 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps, { fetchFeed,
+export default connect(mapStateToProps, {
+  fetchFeed,
   addDeleteLike
 })(Like);

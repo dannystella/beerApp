@@ -4,7 +4,7 @@ import { Sparklines, SparklinesLine, SparklinesReferenceLine } from "react-spark
 import authMiddleware from '../components/authMiddleware.jsx';
 import { withRouter } from 'react-router';
 
-class Trends extends Component{
+class Trends extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,12 +12,12 @@ class Trends extends Component{
     }
 
   }
-  render(){
+  render() {
     return (
-      <div className = "chart">
+      <div className="chart">
         <Sparklines data={[5, 10, 5, 20, 8, 15]} limit={5} width={100} height={20} margin={5}>
-          <SparklinesLine color = "blue"/>
-          <SparklinesReferenceLine type = "mean"/>
+          <SparklinesLine color="blue" />
+          <SparklinesReferenceLine type="mean" />
         </Sparklines>
       </div>
     )

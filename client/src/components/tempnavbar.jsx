@@ -13,7 +13,7 @@ import Sidebar from "react-sidebar";
 import Dinosaur from './dinosaur.png'
 import Joe from './joe.jpg';
 import * as utils from '../utils/utils.js';
-import {Navbar, NavItem, Icon } from "react-materialize";
+import { Navbar, NavItem, Icon } from "react-materialize";
 import s3 from '../config';
 
 class Navigation extends Component {
@@ -36,13 +36,13 @@ class Navigation extends Component {
     if (this.props.auth) {
       return (
         <div>
-          <NavLink className = "navItems" to="/signout">Signout</NavLink> 
+          <NavLink className="navItems" to="/signout">Signout</NavLink>
         </div>
       )
     } else {
-        return (
-          <NavLink className = "navItems" to="/login">Login</NavLink> 
-        )
+      return (
+        <NavLink className="navItems" to="/login">Login</NavLink>
+      )
     }
   }
   handlePusher() {
@@ -52,7 +52,7 @@ class Navigation extends Component {
 
   handleToggle() {
     this.setState({
-       visible: !this.state.visible
+      visible: !this.state.visible
     });
   }
 
@@ -60,46 +60,43 @@ class Navigation extends Component {
     if (this.props.auth && this.props.userinfo) {
       console.log(this.props.userinfo)
       return (
-          <NavLink className = "navItems" to={`/profile/${this.props.userinfo._id}`}>
-          <Image circle className = "feedImage" src = {s3.baseUrl + `${this.props.userinfo._id}.jpg`} onError={(e)=>{e.target.src= 's3.amazonaws.com/beerappworld/uploads/joejoe.jpg'}} style={{width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto'}}  />
-          </NavLink> 
+        <NavLink className="navItems" to={`/profile/${this.props.userinfo._id}`}>
+          <Image circle className="feedImage" src={s3.baseUrl + `${this.props.userinfo._id}.jpg`} onError={(e) => { e.target.src = 'https://s3.amazonaws.com/beerappworld/uploads/joe.jpg' }} style={{ width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto' }} />
+        </NavLink>
       )
     }
     return (<div></div>)
   }
 
   componentDidMount() {
-    // document.addEventListener('DOMContentLoaded', function() {
-    //   var elems = document.querySelectorAll('.sidenav');
-    //   var instances = M.Sidenav.init(elems, options);
-    // });
+
   }
-  
+
   render() {
-    var Img = <img className = "logo" src={Dinosaur}/>
+    var Img = <img className="logo" src={Dinosaur} />
     return (
-          <Navbar fixed right options = {{preventScrolling: false}} brand = {Img}>
-          <div className = "NavbarMaterial">
+      <Navbar fixed right options={{ preventScrolling: false }} brand={Img}>
+        <div className="NavbarMaterial">
           <li>
-          <NavLink className = "navItems" to="/">Home</NavLink> 
-          </li>
-          <li>          
-          <NavLink className = "navItems" to="/beers">Beers</NavLink> 
-          </li>
-          <li>          
-          <NavLink className = "navItems" to="/Trends">Trends</NavLink>
+            <NavLink className="navItems" to="/">Home</NavLink>
           </li>
           <li>
-          <NavLink className = "navItems" to="/users">Users</NavLink> 
-          </li>          
-          <li>
-          {this.renderLinks()}
+            <NavLink className="navItems" to="/beers">Beers</NavLink>
           </li>
           <li>
-          {this.renderAvatar()}
+            <NavLink className="navItems" to="/Trends">Trends</NavLink>
           </li>
-          </div>
-          </Navbar>
+          <li>
+            <NavLink className="navItems" to="/users">Users</NavLink>
+          </li>
+          <li>
+            {this.renderLinks()}
+          </li>
+          <li>
+            {this.renderAvatar()}
+          </li>
+        </div>
+      </Navbar>
     );
   }
 }
@@ -107,11 +104,11 @@ class Navigation extends Component {
 function mapStateToProps(state, ownProps) {
   let userinfo = utils.stringChecker(state.userAuth.userinfo);
   console.log(userinfo);
-  return { 
+  return {
     auth: state.userAuth.authenticated,
-    userinfo, 
+    userinfo,
     ...ownProps
-   };
+  };
 }
 
 export default connect(mapStateToProps, null)(Navigation);

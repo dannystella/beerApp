@@ -15,9 +15,8 @@ const appReducer = combineReducers({
   ...userReducers
 });
 
-const rootReducer = ( state, action ) => {
-  if ( action.type === LOG_OUT ) {
-    console.log("hit logout");
+const rootReducer = (state, action) => {
+  if (action.type === LOG_OUT) {
     state = undefined;
   }
   return appReducer(state, action)
@@ -28,7 +27,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   {
-    userAuth: {authenticated: localStorage.getItem('token'), userinfo: JSON.parse(localStorage.getItem('user'))}
+    userAuth: { authenticated: localStorage.getItem('token'), userinfo: JSON.parse(localStorage.getItem('user')) }
   },
   composeEnhancers(applyMiddleware(promise, reduxThunk))
 )

@@ -7,103 +7,103 @@ import { isArray } from 'util';
 import LoaderIcon from '../components/loader.jsx';
 
 class Beers extends React.Component {
-constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-        beersTrigger: ''
+        this.state = {
+            beersTrigger: ''
+        }
+        this.onDeleteClick = this.onDeleteClick.bind(this);
+
     }
-      this.onDeleteClick = this.onDeleteClick.bind(this);
 
-    }
 
-    
     componentDidMount() {
-        if(!this.props.beers || !isArray(this.props.beers)) {
-            this.props.fetchBeers();            
+        if (!this.props.beers || !isArray(this.props.beers)) {
+            this.props.fetchBeers();
         }
 
     }
 
     onDeleteClick(id) {
-      this.props.deleteBeer(id, () => {
-          this.props.history.push('/beers');
-      });    
+        this.props.deleteBeer(id, () => {
+            this.props.history.push('/beers');
+        });
     }
 
-  
+
 
     renderBeer() {
-      if(this.props.beers && this.props.beers.length > 0 && isArray(this.props.beers)) {
-        return this.props.beers.map((beer, i) => 
-            <Grid.Row container = 'true' key = {i} columns = {5}>
-            <Grid.Column width={4}>
-            <h5><Link to = {`/beers/${beer._id}`}>{beer.beername}</Link></h5>
-            </Grid.Column>
-            <Grid.Column width={2}>
-            <h5>{beer.breweryname}</h5>
-            </Grid.Column>
-            <Grid.Column width={2}>
-            <h5>{beer.type}</h5>
-            </Grid.Column>
-            <Grid.Column width={2}>
-            <h5>{beer.abv}</h5>
-            </Grid.Column>
-            <Grid.Column width={1}>
-            <h5>{beer.rank}</h5>
-            </Grid.Column>
-            <Grid.Column width={1}>
-           <button
-            className = "btn btn-danger"
-            onClick={ ((e) => {
-                this.onDeleteClick(beer._id);
-            })}
-           >
-           Delete Beer
+        if (this.props.beers && this.props.beers.length > 0 && isArray(this.props.beers)) {
+            return this.props.beers.map((beer, i) =>
+                <Grid.Row container='true' key={i} columns={5}>
+                    <Grid.Column width={4}>
+                        <h5><Link to={`/beers/${beer._id}`}>{beer.beername}</Link></h5>
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                        <h5>{beer.breweryname}</h5>
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                        <h5>{beer.type}</h5>
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                        <h5>{beer.abv}</h5>
+                    </Grid.Column>
+                    <Grid.Column width={1}>
+                        <h5>{beer.rank}</h5>
+                    </Grid.Column>
+                    <Grid.Column width={1}>
+                        <button
+                            className="btn btn-danger"
+                            onClick={((e) => {
+                                this.onDeleteClick(beer._id);
+                            })}
+                        >
+                            Delete Beer
            </button>
-            </Grid.Column>
-            </Grid.Row>
+                    </Grid.Column>
+                </Grid.Row>
             )
         } else {
-            return <div><LoaderIcon/></div>
+            return <div><LoaderIcon /></div>
         }
     }
 
     render() {
         return (
-            <div >   
+            <div >
                 <Grid stackable celled container >
-                <Grid.Row columns = {5}>
-                <Grid.Column width={4}>
-                <h5 onClick = {((e)=> {
-                this.props.sortByBeerName(this.props.beers);
-            })}>Beer Name</h5>
-                </Grid.Column>
-                <Grid.Column width={2}>
-                <h5 onClick = {((e)=> {
-                this.props.sortByBrewery(this.props.beers);
-            })}>Brewery</h5>
-                </Grid.Column>
-                <Grid.Column width={2}>
-                <h5 onClick = {((e)=> {
-                this.props.sortByType(this.props.beers);
-            })}>Type</h5>
-                </Grid.Column>
-                <Grid.Column width={2}>
-                <h5 onClick = {((e)=> {
-                this.props.sortByAbv(this.props.beers);
-            })}>ABV</h5>
-                </Grid.Column>
-                <Grid.Column width={1}>
-                <h5 onClick = {((e)=> {
-                this.props.sortByRank(this.props.beers);
-            })}>Rank</h5>
-                </Grid.Column>
-                <Grid.Column width={1}>
-                <h5>Delete Beer</h5>
-                </Grid.Column>
-                </Grid.Row>
-                {this.renderBeer()}
+                    <Grid.Row columns={5}>
+                        <Grid.Column width={4}>
+                            <h5 onClick={((e) => {
+                                this.props.sortByBeerName(this.props.beers);
+                            })}>Beer Name</h5>
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                            <h5 onClick={((e) => {
+                                this.props.sortByBrewery(this.props.beers);
+                            })}>Brewery</h5>
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                            <h5 onClick={((e) => {
+                                this.props.sortByType(this.props.beers);
+                            })}>Type</h5>
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                            <h5 onClick={((e) => {
+                                this.props.sortByAbv(this.props.beers);
+                            })}>ABV</h5>
+                        </Grid.Column>
+                        <Grid.Column width={1}>
+                            <h5 onClick={((e) => {
+                                this.props.sortByRank(this.props.beers);
+                            })}>Rank</h5>
+                        </Grid.Column>
+                        <Grid.Column width={1}>
+                            <h5>Delete Beer</h5>
+                        </Grid.Column>
+                    </Grid.Row>
+                    {this.renderBeer()}
                 </Grid>
             </div>
         )
