@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dataBaseCreds = require('./creds.js');
-const dbUser = dataBaseCreds.dbUser;
-const dbPassword = dataBaseCreds.dbPassword;
+const url = dataBaseCreds.url;
 const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -32,7 +31,7 @@ var likeLimiter2 = new RateLimit({
 app.use('/users/likes', likeLimiter1);
 
 
-mongoose.connect(`mongodb://${dbUser}:${dbPassword}@ds253889.mlab.com:53889/beeroiseur`);
+mongoose.connect(url);
 
 app.use(express.static(__dirname + '/../client/dist'));
 // app.use(morgan('combined'));
