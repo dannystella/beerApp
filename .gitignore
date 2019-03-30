@@ -7,4 +7,4 @@ server/stream.js
 server/env.sh
 node_modules
 /filestorage
-server/routes/filestorage
+server/routes/filestorage/
