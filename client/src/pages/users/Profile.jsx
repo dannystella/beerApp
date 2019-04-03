@@ -45,8 +45,8 @@ class ProfilePage extends Component {
               <img className="feedImage" src={s3.baseUrl + `${this.props.currentUser._id}.jpg`} onError={(e) => { e.target.src = e.target.src = 's3.amazonaws.com/beerappworld/uploads/joejoe.jpg' }} />
             </label>
             <input onChange={(async (e) => {
-              var input = document.getElementById("file-input");
-              var fReader = new FileReader();
+              let input = document.getElementById("file-input");
+              let fReader = new FileReader();
               fReader.readAsDataURL(input.files[0]);
               let closure = this.props.addAvatar;
               let props = this.props.userinfo;
