@@ -9,21 +9,21 @@ export const FOLLOW_USER = 'follow_user';
 export const ADD_AVATAR = 'add_avatar';
 
 
-export const deleteUserBeer = (beerinfo, userinfo, callback) => async(dispatch) => {
+export const deleteUserBeer = (beerinfo, userinfo, callback) => async (dispatch) => {
   try {
     const params = {};
     params.beerInfo = beerinfo;
-    params.userInfo= userinfo;
+    params.userInfo = userinfo;
     let token = localStorage.getItem('token');
     const request = axios.delete(`/users/deletebeer/${beerinfo.id}`, {
       data: { Authorization: token, params: params }
     }).then((res) => {
-      if(callback) {
+      if (callback) {
         callback();
       }
     });
   }
-  catch(e) {
+  catch (e) {
     console.log(e);
   }
 }
@@ -38,16 +38,16 @@ export const addUserBeer = (values, userinfo, callback) => async (dispatch) => {
     const request = axios.post('/users/addbeers', beerObj, {
       headers: { Authorization: token }
     })
-    .then((res) => {
-      newBeerInfo = res;
-      if(callback) {
-        callback();
-      }
-    });
-  dispatch({
-    type: ADD_USERBEER,
-    payload: newBeerInfo
-  })
+      .then((res) => {
+        newBeerInfo = res;
+        if (callback) {
+          callback();
+        }
+      });
+    dispatch({
+      type: ADD_USERBEER,
+      payload: newBeerInfo
+    })
   }
   catch (e) {
     console.log("error in add user beer", e);
@@ -63,19 +63,19 @@ export const addDeleteLike = (values, callback, userAuth) => async (dispatch) =>
     const request = axios.post('/users/likes', beerObj, {
       headers: { Authorization: token }
     })
-    .then((res) => {
-      if(callback) {
-        callback();
-      }
-    });
-  dispatch({
-    type: ADD_DELETE_LIKE,
-    payload: request
-  })
+      .then((res) => {
+        if (callback) {
+          callback();
+        }
+      });
+    dispatch({
+      type: ADD_DELETE_LIKE,
+      payload: request
+    })
   }
   catch (e) {
     console.log("error in likes");
-  }  
+  }
 }
 
 export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
@@ -89,7 +89,7 @@ export const followUser = (userFollow, userInfo, cb) => async (dispatch) => {
     dispatch({
       type: FOLLOW_USER,
       payload: request.data
-    }) 
+    })
     if (cb) {
       cb();
     }
@@ -107,15 +107,15 @@ export const addAvatar = (image, creds, streamData) => async (dispatch) => {
   formData.append("userinfo", JSON.stringify(postObj));
   formData.append("image", imagefile);
   console.log(formData.image);
-  axios.post('/users/addbeerpicture', formData, 
-  { 
-  // headers: {
-  //   'Content-Type': false,
-  // }
-}).then((res) => {
-  console.log(res);
-    // axios.get(s3.baseUrl + `${creds._id}.jpg`).then((data) => {
-    //   console.log(data);
-    // })    
-  })
+  axios.post('/users/addbeerpicture', formData,
+    {
+      // headers: {
+      //   'Content-Type': false,
+      // }
+    }).then((res) => {
+      console.log(res);
+      // axios.get(s3.baseUrl + `${creds._id}.jpg`).then((data) => {
+      //   console.log(data);
+      // })    
+    })
 }

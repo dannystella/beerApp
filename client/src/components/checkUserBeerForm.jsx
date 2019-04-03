@@ -74,7 +74,6 @@ class UserBeerForm extends React.Component {
     userBeerValues.position.longitude = longitude;
     userBeerValues.beerId = this.props.id;
     userBeerValues.rating = this.state.rating;
-    console.log("values here", userBeerValues);
     let userInfo = utils.stringChecker(this.props.state.userAuth.userinfo);
     this.props.addUserBeer(values, userInfo, this.navigateAway);
   }

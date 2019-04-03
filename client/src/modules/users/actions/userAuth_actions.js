@@ -7,7 +7,6 @@ export const LOG_OUT = 'log_out';
 export const signup = (formProps, cb) => async (dispatch) => {
   try {
     const response = await axios.post('./users/signup', formProps)
-    // console.log(response.data);
     dispatch({
       type: AUTH_USER, payload: response.data
     })
@@ -15,10 +14,10 @@ export const signup = (formProps, cb) => async (dispatch) => {
     localStorage.setItem('user', response.data.user)
     cb();
   } catch (e) {
-      dispatch({
-        type: AUTH_ERROR,
-        payload: "Email or Username in use"
-      })
+    dispatch({
+      type: AUTH_ERROR,
+      payload: "Email or Username in use"
+    })
   }
 }
 
@@ -35,14 +34,14 @@ export const signin = (formProps, cb) => async (dispatch) => {
 
 
   } catch (e) {
-      dispatch({
-        type: AUTH_ERROR,
-        payload: "Invalid Login"
-      })
+    dispatch({
+      type: AUTH_ERROR,
+      payload: "Invalid Login"
+    })
   }
 }
 
-export const signout = () => async(dispatch) => {
+export const signout = () => async (dispatch) => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
   dispatch({

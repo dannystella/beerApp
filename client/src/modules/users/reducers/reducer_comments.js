@@ -8,17 +8,17 @@ const INITIAL_STATE = {
 function Comments(state = INITIAL_STATE, action) {
   switch (action.type) {
     case CREATE_COMMENT:
-      return {...state, createdComment: action.payload}
+      return { ...state, createdComment: action.payload }
     case DELETE_COMMENT:
-      return {...state, deletedComment: action.payload}
+      return { ...state, deletedComment: action.payload }
     case UPDATE_COMMENT:
-      return {...state, updatedComment: action.payload}
+      return { ...state, updatedComment: action.payload }
     case CURRENT_COMMENT:
-      return {...state, currentEditingComment: action.payload}
-    default: 
+      return { ...state, currentEditingComment: action.payload }
+    default:
       return state;
   }
 
 }
 
-export {Comments};
+export { Comments };

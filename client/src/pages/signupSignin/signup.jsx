@@ -14,7 +14,6 @@ class Signup extends Component {
     }
 
     this.onSubmit = this.onSubmit.bind(this);
-
   }
 
 
@@ -22,10 +21,6 @@ class Signup extends Component {
     this.props.signup(formProps, () => {
       this.props.history.push('/');
     })
-
-
-
-
   }
 
   render() {
@@ -50,7 +45,6 @@ class Signup extends Component {
             type="text"
             component="input"
             autoComplete="none"
-
           />
         </fieldset>
         <fieldset>

@@ -42,7 +42,6 @@ class Signin extends Component {
             type="text"
             component="input"
             autoComplete="none"
-
           />
         </fieldset>
         <fieldset>

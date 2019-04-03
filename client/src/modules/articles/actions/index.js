@@ -17,5 +17,5 @@ export function fetchArticle(id) {
   return {
     type: FETCH_ARTICLE,
     payload: request
-  }  
+  }
 }

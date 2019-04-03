@@ -35,7 +35,6 @@ class CommentForm extends React.Component {
           commentValue: this.props.currentCommentValue.commentObj.streamData.comment,
           isEditing: true
         })
-        //}
       }
     }
 
@@ -73,13 +72,11 @@ class CommentForm extends React.Component {
       values.username = this.props.userInfo.username;
       let beerReview = this.props.beerReview;
       this.props.updateComment(values, this.props.reFetchFeed, this.props.id, this.props.trigger, this.props.currentCommentValue)
-      console.log("bit")
       this.setState({
         commentValue: '',
         isEditing: false
       })
       this.props.currentComment(null);
-      // e.target.reset();
     }
   }
   renderField(field) {

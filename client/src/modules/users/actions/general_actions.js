@@ -8,14 +8,14 @@ export const AUTH_ERROR = 'auth_error';
 
 export function fetchFeed(userinfo) {
   userinfo = utils.stringChecker(userinfo);
-  if(userinfo === null) {
+  if (userinfo === null) {
     return {
       type: AUTH_ERROR,
       payload: 'auth error'
     };
   }
   let username = userinfo.username;
-  const request = axios.get('/users/getfeed', {headers: {username: username}})
+  const request = axios.get('/users/getfeed', { headers: { username: username } })
   return {
     type: FETCH_FEED,
     payload: request
@@ -37,5 +37,5 @@ export function fetchUser(id) {
   return {
     type: FETCH_USER,
     payload: request
-  }  
+  }
 }

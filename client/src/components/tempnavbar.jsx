@@ -58,7 +58,6 @@ class Navigation extends Component {
 
   renderAvatar() {
     if (this.props.auth && this.props.userinfo) {
-      console.log(this.props.userinfo)
       return (
         <NavLink className="navItems" to={`/profile/${this.props.userinfo._id}`}>
           <Image circle className="feedImage" src={s3.baseUrl + `${this.props.userinfo._id}.jpg`} onError={(e) => { e.target.src = 'https://s3.amazonaws.com/beerappworld/uploads/joe.jpg' }} style={{ width: 30, marginLeft: 50, marginTop: 20, padding: "auto", height: 'auto' }} />

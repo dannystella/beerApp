@@ -5,19 +5,17 @@ const INITIAL_STATE = {
   errorMessage: ''
 }
 
- function generalActions(state = INITIAL_STATE, action) {
+function generalActions(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_FEED:
-      return {...state, userFeed: action.payload.data.results}
+      return { ...state, userFeed: action.payload.data.results }
     case FETCH_USERS:
-      return {...state, allUsers: action.payload}
-    case FETCH_USER: 
-      return {...state, currentUser: action.payload}  
-    default: 
-      return state;    
+      return { ...state, allUsers: action.payload }
+    case FETCH_USER:
+      return { ...state, currentUser: action.payload }
+    default:
+      return state;
   }
-
 }
 
-
-export {generalActions};
+export { generalActions };

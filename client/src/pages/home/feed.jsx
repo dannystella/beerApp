@@ -157,7 +157,6 @@ function mapStateToProps(state, ownProps) {
   if (state.userAuth.currentEditComment) {
     initialCommentValue = state.userAuth.currentEditComment;
   }
-  console.log(userFeed, "userfeed");
   return {
     userAuth: state.userAuth,
     initialCommentValue,
