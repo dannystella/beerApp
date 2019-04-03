@@ -84,7 +84,6 @@ class ProfilePage extends Component {
 function mapStateToProps(state, ownProps) {
   let currentUser;
   let streamData;
-  console.log(state)
   if (state.generalActions.currentUser) {
     currentUser = state.generalActions.currentUser.data[0];
   } else {
@@ -95,7 +94,6 @@ function mapStateToProps(state, ownProps) {
     userinfo = state.userActivities.userinfo;
   }
   if (state.generalActions.currentUser) {
-    console.log(state.generalActions.currentUser.data[0])
     streamData = state.generalActions.currentUser.data[0];
   }
   return {
